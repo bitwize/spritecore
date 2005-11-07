@@ -1,0 +1,16 @@
+2005-11-07  Jeffrey T. Read  <jeff@Kelly.local>
+
+	* Added "sh" prefix to run mklib.* scripts in Makefile. Enables mklib.*
+	to be run without having +x set (as they may come out of the Darcs
+	repository).
+
+2005-09-26  Jeffrey T. Read  <bitwize@gmail.com>
+
+	* Rewrote blitters in Pre-Scheme. Rewrote Morpheus blitter to do
+	clipping.
+
+2005-07-27  Jeffrey T. Read  <bitwize@gmail.com>
+
+	* Initial 0.7 release. Complete retooling of previous Sprite32 codebase
+	for Objective-C.
+

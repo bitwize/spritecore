@@ -1,0 +1,9 @@
+/*!
+@framework SpriteCore
+@abstract The SpriteCore sprite animation library.
+@discussion SpriteCore is an Objective-C library which facilitates 2D,
+pixel-based sprite animation and image processing of the sort used in
+old-school computer and video games. It is a complete rewrite of the older C++
+Sprite32 library.
+@copyright 2005 Jeffrey T. Read
+*/

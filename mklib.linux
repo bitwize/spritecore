@@ -1,0 +1,31 @@
+#!/bin/sh
+
+# Make a Linux ELF shared library
+# Hacked from Mesa 5.0.1 mklib.linux by Jeff Read - 2003-07-29
+
+#--identification------------------------------------------------------
+
+# $Id: mklib.linux,v 1.9 2002/11/10 15:45:28 brianp Exp $
+
+#--common--------------------------------------------------------------
+
+LIBRARY=$1
+shift 1
+
+OBJECTS=$*
+
+#--platform------------------------------------------------------------
+
+LIBNAME=`basename $LIBRARY`
+ARNAME=`basename $LIBNAME .so`.a
+DIRNAME=`dirname $LIBRARY`
+
+# When making shared libraries, also link with any libraries we're
+# depenedant on.
+
+LINKER="g++"
+
+${LINKER} ${EXTRA_FLAGS} -shared -Wl,-soname,${LIBNAME} -o ${LIBRARY} ${OBJECTS} ${EXTRA_LIBS} 
+
+
+

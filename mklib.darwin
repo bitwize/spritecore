@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# Based on Mesa's mklib.darwin
+# Hacked by Jeff Read (bitwize@snet.net)
+
+
+LIBRARY=$1
+shift 1
+
+OBJECTS=$*
+
+
+cc ${EXTRA_FLAGS} -dynamiclib -multiply_defined suppress \
+        -o ${LIBRARY} ${OBJECTS} ${EXTRA_LIBS} 
+

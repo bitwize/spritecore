@@ -1,0 +1,31 @@
+This is SpriteCore, version 0.75, by Jeffrey T. Read <bitwize@gmail.com>.
+
+It is a 2D game development library written in Objective-C. Features include
+an extensible graphical back end architecture (with SDL back end included),
+key-color-based sprite blitters, one of which does affine matrix
+transformations, and small size.
+
+It is released under the terms of the GNU GPL (not LGPL). If you wish to write
+a proprietary game using SpriteCore, contact me and we can make licensing
+arrangements.
+
+It is the successor to the Sprite32 library which since its inception until
+version 0.6 was written in C++. Remember: C++ is to C as lung cancer is to
+lung.
+
+Documentation is in docs/. If you are checking out of the Darcs repository,
+then you need to build the docs by doing a "make doc" first (if you want them
+locally that is).
+
+Building is as follows:
+
+* edit config.mak
+* "make"
+* "make install"
+
+Pay special attention to the PLATFORM and RENDERER variables.
+
+"make doc" lets you rebuild the documentation; use it only if you have Apple's
+headerdoc toolset installed.
+
+Good luck!
