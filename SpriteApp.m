@@ -28,6 +28,7 @@
   io_del = createIODelegate(self,w,h,t);
   return self;
   clock = [io_del getTimeMillis];
+  oldclock = 0;
 }
 
 -(Sprite *)first {
@@ -142,6 +143,7 @@ return oldone;
   i = first;
   [io_del dispatchEvents];
   [io_del lockAndClearBuf];
+  oldclock = clock;
   clock = [io_del getTimeMillis];
   
   while(i != nil) {
@@ -179,4 +181,7 @@ return oldone;
   return clock;
 }
 
+-(unsigned int)lastFrameTime {
+  return clock - oldclock;
+}
 @end

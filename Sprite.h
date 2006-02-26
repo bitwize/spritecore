@@ -49,7 +49,6 @@
   unsigned int width,height;
   long key;
   id agent;
-  unsigned int oldtime;
 }
 
 /*!

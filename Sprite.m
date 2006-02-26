@@ -43,7 +43,6 @@ svec2 make_svec2(float x,float y) {
   [h add: self];
   [self setShape: si frames: mf];
   agent = nil;
-  oldtime = [h clock];
   return self;
 }
 
@@ -104,15 +103,13 @@ host=t; return t;
 }
 
 -(void)step {
-  unsigned int nt = [host clock];
-  unsigned int t = nt - oldtime;
+  unsigned int t = [host lastFrameTime];
   float nj = (float)t / 20.0;
   pos.x += vel.x * nj;
   pos.y += vel.y * nj;
   if(agent != nil && [agent respondsTo: @selector(step)]) {
     [agent step];
   }
-  oldtime = nt;
 }
 
 -(void)renderOn: (SpriteImage *)si {

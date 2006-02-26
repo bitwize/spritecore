@@ -175,6 +175,8 @@
 
 -free;
 @end
+
+
 /*!
   @class SpriteApp
   The SpriteApp class represents a SpriteCore application. It provides a
@@ -191,6 +193,7 @@
     char *title;
     unsigned int width,height;
     unsigned int clock;
+    unsigned int oldclock;
     SpriteImage back,buf;
     id <IODelegate> io_del;
 }
@@ -336,6 +339,14 @@
  */
 
 -(unsigned int)clock;
+
+/*!
+  Returns the number of milliseconds between the last frame update and the
+  one before that. It is used internally by Sprite's -step to calculate
+  the total distance to move by.
+ */
+
+-(unsigned int)lastFrameTime;
 
 @end
 
