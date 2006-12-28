@@ -17,24 +17,6 @@
 *  along with SpriteCore; if not, write to the Free Software
 *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-/* Sprite32 - small, cross-platform sprite library
- * Copyright (c) 1996-2003 Jeffrey T. Read
- * Some functions copyright (c) 2000 Gerd Knorr
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
- */
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -42,7 +24,8 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include <stdio.h>
-#include "svppm.h"
+#include <string.h>
+#include <SpriteCore/svppm.h>
 
 #define RED8(x) ((x >> 5) << 5)
 #define GRN8(x) ((x >> 5) << 2)
@@ -60,6 +43,15 @@
 #define GRN32(x) (x << 8)
 #define BLU32(x) (x)
 
+unsigned char *ppm_next_line(unsigned char *p,size_t s) {
+  unsigned char *ep = p + s - 1;
+  while(*p != '\n' || *(p+1) == '#') {
+    p++;
+    if(p >= ep) {return NULL;}
+  }
+  return (p+1);
+}
+
 void ReadPpmAsRgba(char *ppmname,int *wret,int *hret,unsigned char **rgbret) {
   FILE *fp;
   char *ppmbuf,*p,*r;
@@ -76,8 +68,8 @@ error:
   }
   ppmbuf = (char *)malloc(st.st_size);
   fgets(ppmbuf,st.st_size,fp);
-  if(sscanf(ppmbuf,"P%d",&t) < 1) goto error;
-  if(t < 5) goto error;
+  if(sscanf(ppmbuf,"P%d",&t) < 1) {free(ppmbuf); goto error;}
+  if(t < 5) {free(ppmbuf); goto error;}
   for(;;) {
     fgets(ppmbuf,st.st_size,fp);
     if(ppmbuf[0] == '#' || ppmbuf[0] == '\n') continue;
@@ -125,8 +117,8 @@ error:
   }
   ppmbuf = (char *)malloc(st.st_size);
   fgets(ppmbuf,st.st_size,fp);
-  if(sscanf(ppmbuf,"P%d",&t) < 1) goto error;
-  if(t < 5) goto error;
+  if(sscanf(ppmbuf,"P%d",&t) < 1) {free(ppmbuf); goto error;}
+  if(t < 5) {free(ppmbuf); goto error;}
   for(;;) {
     fgets(ppmbuf,st.st_size,fp);
     if(ppmbuf[0] == '#' || ppmbuf[0] == '\n') continue;
@@ -155,10 +147,56 @@ error:
   free(ppmbuf);
 }
 
+void ReadPpmRgbFromMemory(unsigned char *data,size_t sz,int *wret,int *hret,unsigned char **imgret) {
+  unsigned char *data2,*r,*p;
+  int clr,cx,cy,i,t;
+  if(!data) {
+error:
+    *wret = 0;
+    *hret = 0;
+    *imgret = NULL;
+    return;
+  }
+  if(sscanf(data,"P%d",&t) < 1) goto error;
+  if(t < 5) goto error;
+  data2 = ppm_next_line(data,sz);
+  if(data2 == NULL) goto error;
+  sz -= (data2 - data);
+  data = data2;
+  sscanf(data,"%d%d",wret,hret);
+  cx = *wret; cy = *hret;
+  data2 = ppm_next_line(data,sz);
+  if(data2 == NULL) goto error;
+  sz -= (data2 - data);
+  data = data2;
+  sscanf(data,"%d",&clr);
+  if(clr != 255) goto error;
+  data2 = ppm_next_line(data,sz);
+  if(data2 == NULL) goto error;
+  sz -= (data2 - data);
+  p = data2;
+  r = (unsigned char *)malloc(cx * cy * 3);
+  *imgret = (unsigned char *)r;
+  for(i=0;i < sz;i++) {
+    *r = *p;
+    r++; p++;
+  }
+}
+
 void ReadPpmRgbConverted(char *ppmname,int *wret,int *hret,unsigned char **imgret,int bpp) {
   unsigned char *rgb;
   int cx,cy;
   ReadPpmAsRgb(ppmname,wret,hret,&rgb);
+  cx = *wret;
+  cy = *hret;
+  *imgret = ConvertBpp(rgb,cx,cy,bpp);
+  free(rgb);
+}
+
+void ReadPpmRgbFromMemoryConverted(unsigned char *data,size_t sz,int *wret,int *hret,unsigned char **imgret,int bpp) {
+  unsigned char *rgb;
+  int cx,cy;
+  ReadPpmRgbFromMemory(data,sz,wret,hret,&rgb);
   cx = *wret;
   cy = *hret;
   *imgret = ConvertBpp(rgb,cx,cy,bpp);
@@ -193,7 +231,8 @@ unsigned char *ConvertBpp(unsigned char *rgb,int cx,int cy,int bpp) {
 	image[3*i+2] = rgb[3*i+2];
 	break;
       case 32:
-	image4[i]=RED32(rgb[3*i]) | GRN32(rgb[3*i+1]) | BLU32(rgb[3*i+2]);
+	image[4*i]=rgb[3*i]; image[4*i+1] = rgb[3*i+1];
+	image[4*i+2] = rgb[3*i+2]; image[4*i+3] = 0;
 	break;
       }
   }

@@ -18,7 +18,8 @@
 *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 #include <stdlib.h>
-#import "Sprite.h"
+#import <SpriteCore/SpriteNode.h>
+#import <SpriteCore/Sprite.h>
 
 svec2 make_svec2(float x,float y) {
   svec2 v;
@@ -33,46 +34,16 @@ svec2 make_svec2(float x,float y) {
      frames: (unsigned int)mf
 {
   self = [super init];
-  host = h;
+  node = [[SpriteNode alloc] initOn: h withElement: self];
   simg = si;
   maxframes = mf;
   frame = 0;
-  next=nil; prev=nil;
   pos.x = 0; pos.y = 0; vel.x = 0; vel.y = 0;
   hotspot.x = 0; hotspot.y = 0;
-  [h add: self];
   [self setShape: si frames: mf];
-  agent = nil;
   return self;
 }
 
--(Sprite *)next {
-return next;
-}
-
--(Sprite *)prev {
-return prev;
-}
-
--(SpriteApp *)host {
-return host;
-}
-
--(Sprite *)setNext:(Sprite *)t {
-next=t; return t;
-}
-
--(Sprite *)setPrev:(Sprite *)t {
-prev=t; return t;
-}
-
--(SpriteApp *)setHost:(SpriteApp *)t {
-host=t; return t;
-}
-
--(void)goBehind: (Sprite *)s {
-  [host place: self behind: s];
-}
 
 -(SpriteImage *)setShape: (SpriteImage *)sh frames: (unsigned int)f {
   simg = sh;
@@ -103,13 +74,10 @@ host=t; return t;
 }
 
 -(void)step {
-  unsigned int t = [host lastFrameTime];
+  unsigned int t = [[node host] lastFrameTime];
   float nj = (float)t / 20.0;
   pos.x += vel.x * nj;
   pos.y += vel.y * nj;
-  if(agent != nil && [agent respondsTo: @selector(step)]) {
-    [agent step];
-  }
 }
 
 -(void)renderOn: (SpriteImage *)si {
@@ -123,6 +91,10 @@ host=t; return t;
 		,width,height,SIMG_USE_KEY,key);
     }
   }
+}
+
+-(void)renderToApp: (SpriteApp *)a {
+  [self renderOn: [a surface]];
 }
 
 -(void)moveTo: (svec2)p {
@@ -152,8 +124,6 @@ host=t; return t;
 -(unsigned int)height {return height;}
 -(svec2)size {return make_svec2(width,height);}
 
--(id)agent {return agent;}
--(void)setAgent: (id)a {agent = a;}
 
 -(int)isTouching: (Sprite *)s {
   int step1,step2; //Intermediate x and y proximity values.
@@ -179,6 +149,18 @@ host=t; return t;
   }
   //Return true if we are overlapping horizontally AND vertically.
   return(step1 && step2);
+}
+
+-(SpriteNode *)node {
+  return node;
+}
+
+-(void)goBehind: (Sprite *)s {
+  [[self node] goBehind: [s node]];
+}
+
+-(void)delete {
+  [[node host] delete: node];
 }
 
 @end

@@ -2,8 +2,8 @@ include ./config.mak
 include ./rend-$(RENDERER).mak
 
 
-SOURCES=SpriteApp.m Sprite.m $(IODEL_CLASS).m spriteimage.c svppm.c matfunc.c
-OBJECTS=SpriteApp.o Sprite.o $(IODEL_CLASS).o spriteimage.o svppm.o matfunc.o
+SOURCES=SpriteApp.m SpriteNode.m Sprite.m SpriteResLoader.m $(IODEL_CLASS).m spriteimage.c svppm.c matfunc.c 
+OBJECTS=SpriteApp.o SpriteNode.o Sprite.o SpriteResLoader.o $(IODEL_CLASS).o spriteimage.o svppm.o matfunc.o
 TOOLDIR=.
 
 .SUFFIXES: .m
@@ -11,10 +11,10 @@ TOOLDIR=.
 default: $(PLATFORM)
 
 .c.o:
-	$(CC) -c $(CPPFLAGS) $(CFLAGS) -I. $(ALLINCLUDES) $< -o $@
+	$(CC) -c $(CPPFLAGS) $(CFLAGS) -I./include $(ALLINCLUDES) $< -o $@
 
 .m.o:
-	$(OBJCC) -c $(CPPFLAGS) $(OBJCFLAGS) -I. $(ALLINCLUDES) $< -o $@
+	$(OBJCC) -c $(CPPFLAGS) $(OBJCFLAGS) -I./include $(ALLINCLUDES) $< -o $@
 
 blitter.psc: blitter.scm
 	sh ./compile-blitter.sh

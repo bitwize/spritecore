@@ -17,9 +17,9 @@
 *  along with SpriteCore; if not, write to the Free Software
 *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-#import "SpriteApp.h"
-#import "Sprite.h"
-
+#import <SpriteCore/SpriteApp.h>
+#import <SpriteCore/SpriteNode.h>
+#import <SpriteCore/SpriteResLoader.h>
 @implementation SpriteApp
 -(id)initWithTitle: (char *)t width: (unsigned int)w height: (unsigned int)h {
   self = [super init];
@@ -27,16 +27,17 @@
   title = t; width = w; height = h;
   io_del = createIODelegate(self,w,h,t);
   return self;
+  oldclock = [io_del getTimeMillis];
   clock = [io_del getTimeMillis];
-  oldclock = 0;
+  quitting = 0;
 }
 
--(Sprite *)first {
+-(SpriteNode *)first {
 return first;
 }
 
--(Sprite *)last {
-Sprite *i,*j;
+-(SpriteNode *)last {
+SpriteNode *i,*j;
 i = first;
 if(i == nil) {return i;}
 while((j=[i next]) != nil) {
@@ -46,8 +47,8 @@ return i;
 
 }
 
--(Sprite *)add: (Sprite *)newone {
-Sprite *r = [self last];
+-(SpriteNode *)add: (SpriteNode *)newone {
+SpriteNode *r = [self last];
 if(r == nil) {
   first = newone;
   [newone setPrev: nil];
@@ -65,8 +66,8 @@ else {
 
 }
 
--(Sprite *)remove: (Sprite *)oldone {
-Sprite *n,*p;
+-(SpriteNode *)remove: (SpriteNode *)oldone {
+SpriteNode *n,*p;
 if([oldone host] != self) {
   return nil;
 }
@@ -84,12 +85,12 @@ return oldone;
 
 }
 
--(Sprite *)delete: (Sprite *)oldone {
+-(SpriteNode *)delete: (SpriteNode *)oldone {
 [self remove: oldone]; [self addDeleted: oldone]; return oldone;
 }
 
--(Sprite *)place: (Sprite *) aSprite behind: (Sprite *)anotherSprite {
-  Sprite *b;
+-(SpriteNode *)place: (SpriteNode *) aSprite behind: (SpriteNode *)anotherSprite {
+  SpriteNode *b;
   [self remove: aSprite];
   if(anotherSprite == nil) {
     [self add: aSprite];
@@ -109,12 +110,12 @@ return oldone;
   return aSprite;
 }
 
--(Sprite *)addDeleted: (Sprite *)newone {
+-(SpriteNode *)addDeleted: (SpriteNode *)newone {
 [newone setPrev: nil]; [newone setNext: deleted]; deleted=newone; return newone;
 }
 
 -(void)freeClients {
-  Sprite *i,*j;
+  SpriteNode *i,*j;
   i = first;
   while(i != nil) {
     j=[i next];
@@ -127,7 +128,7 @@ return oldone;
 
 
 -(void)freeDeleted {
-  Sprite *i,*j;
+  SpriteNode *i,*j;
   i = deleted;
   while(i != nil) {
     j=[i next];
@@ -139,7 +140,7 @@ return oldone;
 }
 
 -(void)step {
-  Sprite *i,*j;
+  SpriteNode *i,*j;
   i = first;
   [io_del dispatchEvents];
   [io_del lockAndClearBuf];
@@ -149,7 +150,7 @@ return oldone;
   while(i != nil) {
     j=[i next];
     [i step];
-    [i renderOn: (SpriteImage *)[io_del bufImage]];
+    [i render];
     i=j;
   }
   [self freeDeleted];
@@ -183,5 +184,44 @@ return oldone;
 
 -(unsigned int)lastFrameTime {
   return clock - oldclock;
+}
+-(char *)resourcePath {
+  return res_path;
+}
+
+-(void)setResourcePath: (char *)aPath {
+  res_path = aPath;
+}
+
+-(SpriteImage *)background {
+  return [io_del backImage];
+}
+
+-(SpriteImage *)surface {
+  return [io_del bufImage];
+}
+
+-(int)loader: (SpriteResLoader *)aLoader loadResPPM: (char *)aResName 
+     toImage: (SpriteImage *)si {
+  unsigned char *data;
+  int i;
+  int sz = [aLoader fetchResource: aResName to: (void **)&data];
+  if(data == NULL) {
+    return -1;
+  }
+  i = [io_del convertMemPPM: data size: sz toImage: si];
+  free(data);
+  return i;
+}
+
+-(void)run {
+  while(!quitting) {
+    [self step];
+    [io_del sleepMillis: 10];
+  }
+}
+
+-(void)quit {
+  quitting = 1;
 }
 @end

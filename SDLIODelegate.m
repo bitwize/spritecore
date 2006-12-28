@@ -17,8 +17,10 @@
 *  along with SpriteCore; if not, write to the Free Software
 *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-#import "SDLIODelegate.h"
-#import "svppm.h"
+#import <SpriteCore/SpriteApp.h>
+#import <SpriteCore/SDLIODelegate.h>
+#import <SpriteCore/svppm.h>
+#include <stdlib.h>
 
 #define IMAGE(x) ((SDL_Surface *)x)
 int sdl_inited = 0;
@@ -111,12 +113,12 @@ void BuildSI(SpriteImage *si) {
 - (SpriteImage *)bufImage {return &buf;}
 - (void)refreshScreen {SDL_Flip(IMAGE(buf.img));}
 - (int)loadPPMFile: (char *)fn toImage: (SpriteImage *)si {
-  int i;
   int _cx,_cy;
   unsigned char *ptr;
 
   ReadPpmRgbConverted(fn,&_cx,&_cy,&ptr,32);
-  IMAGE(si->img) = SDL_CreateRGBSurfaceFrom(ptr,_cx,_cy,32,_cx * 4,0xff0000,0x00ff00,0x0000ff,0x0);
+  if(ptr == NULL) { return -1;}
+  si->img = (void *)SDL_CreateRGBSurfaceFrom(ptr,_cx,_cy,32,_cx * 4,0xff0000,0x00ff00,0x0000ff,0x0);
   si->cx = IMAGE(si->img)->w;
   si->cy = IMAGE(si->img)->h;
   si->depth = IMAGE(si->img)->format->BitsPerPixel;
@@ -124,7 +126,25 @@ void BuildSI(SpriteImage *si) {
   si->endian = (SDL_BYTEORDER == SDL_LIL_ENDIAN ? SIMG_LITTLE_ENDIAN : SIMG_BIG_ENDIAN);
   si->bits = IMAGE(si->img)->pixels;
   si->auto_free = 1;
-  return i;
+  return 0;
+
+}
+- (int)convertMemPPM: (unsigned char *)ppm size: (unsigned int) sz
+	     toImage: (SpriteImage *)si {
+  int _cx,_cy;
+  unsigned char *ptr;
+
+  ReadPpmRgbFromMemoryConverted(ppm,sz,&_cx,&_cy,&ptr,32);
+  if(ptr == NULL) {return -1;}
+  si->img = (void *)SDL_CreateRGBSurfaceFrom(ptr,_cx,_cy,32,_cx * 4,0xff0000,0x00ff00,0x0000ff,0x0);
+  si->cx = IMAGE(si->img)->w;
+  si->cy = IMAGE(si->img)->h;
+  si->depth = IMAGE(si->img)->format->BitsPerPixel;
+  si->scan_length = IMAGE(si->img)->pitch;
+  si->endian = (SDL_BYTEORDER == SDL_LIL_ENDIAN ? SIMG_LITTLE_ENDIAN : SIMG_BIG_ENDIAN);
+  si->bits = IMAGE(si->img)->pixels;
+  si->auto_free = 1;
+  return 0;
 
 }
 
@@ -184,7 +204,12 @@ void BuildSI(SpriteImage *si) {
 -(unsigned int)getTimeMillis {
   return SDL_GetTicks();
 }
-
+-(void)sleepMillis: (unsigned int) ms {
+  SDL_Delay(ms);
+}
+-free {
+  return [super free];
+}
 @end
 
 id createIODelegate(SpriteApp *ha,unsigned int w,unsigned int h,char *t) {

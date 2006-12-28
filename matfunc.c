@@ -17,7 +17,7 @@
 *  along with SpriteCore; if not, write to the Free Software
 *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
-#include "matfunc.h"
+#include <SpriteCore/matfunc.h>
 
 void mat_mul(s_matp mat1,s_matp mat2,s_matp mdest) {
   mdest[0] =
