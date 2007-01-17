@@ -7,6 +7,7 @@
 -(void)step;
 -(void)renderToApp: (SpriteApp *)a;
 -(SpriteNode *)node;
+-(SpriteApp *)host;
 @end
 
 #endif

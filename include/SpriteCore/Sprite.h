@@ -176,7 +176,7 @@
 -(svec2)size;
 
 -(SpriteNode *)node;
-
+-(SpriteApp *)host;
 
 /*!
   Returns a Boolean value corresponding to whether the sprite's bounding

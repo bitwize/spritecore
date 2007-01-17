@@ -233,60 +233,117 @@
    
    ))
 
-(define (set-keyed-pixel! addr1 off1 addr2 off2 key bpp)
-  (cond
-   ((= bpp 8)
+(define (set-keyed-pxl-8! addr1 off1 addr2 off2 key)
     (if (not (pxl-8=? addr2 off2 key))
 	(set-pxl-8! addr1 off1 addr2 off2)))
-   ((= bpp 15)
+
+(define (set-keyed-pxl-16! addr1 off1 addr2 off2 key)
     (if (not (pxl-16=? addr2 off2 key))
 	(set-pxl-16! addr1 off1 addr2 off2)))
-   ((= bpp 16)
-    (if (not (pxl-16=? addr2 off2 key))
-	(set-pxl-16! addr1 off1 addr2 off2)))
-   ((= bpp 24)
+
+(define (set-keyed-pxl-24! addr1 off1 addr2 off2 key)
     (if (not (pxl-24=? addr2 off2 key))
 	(set-pxl-24! addr1 off1 addr2 off2)))
-   ((= bpp 32)
+
+(define (set-keyed-pxl-32! addr1 off1 addr2 off2 key)
     (if (not (pxl-32=? addr2 off2 key))
 	(set-pxl-32! addr1 off1 addr2 off2)))
-   
-   ))
 
-(define (xfer-scanline! addr1 dx addr2 sx ex bpp)
+(define (set-keyed-pixel! addr1 off1 addr2 off2 key bpp)
+  ((case bpp
+     ((8) set-keyed-pxl-8!)
+     ((15 16) set-keyed-pxl-16!)
+     ((24) set-keyed-pxl-24!)
+     (else set-keyed-pxl-32!))
+   addr1 off1 addr2 off2 key))
+
+(define-syntax xfer-scanline!-maker
+  (syntax-rules ()
+    ((xfer-scanline!-maker set-pixel!)
+     (lambda (addr1 dx addr2 sx ex)
+       (let loop ((i sx))
+	 (if (< i ex)
+	     (begin (set-pixel! addr1  (+ dx (- i sx))
+				addr2 i)
+		    (loop (+ i 1)))))))))
+
+(define xfer-scanline-8!
+  (xfer-scanline!-maker set-pxl-8!))
+(define xfer-scanline-16!
+  (xfer-scanline!-maker set-pxl-16!))
+(define xfer-scanline-24!
+  (xfer-scanline!-maker set-pxl-24!))
+(define xfer-scanline-32!
+  (xfer-scanline!-maker set-pxl-32!))
+
+(define-syntax xfer-keyed-scanline!-maker
+  (syntax-rules ()
+    ((xfer-keyed-scanline!-maker set-keyed-pixel!)
+     (lambda (addr1 dx addr2 sx ex key)
+       (let loop ((i sx))
+	 (if (< i ex)
+	     (begin (set-keyed-pixel! addr1 (+ dx (- i sx))
+				      addr2 i key)
+		    (loop (+ i 1)))))))))
+
+(define xfer-keyed-scanline-8!
+  (xfer-keyed-scanline!-maker set-keyed-pxl-8!))
+(define xfer-keyed-scanline-16!
+  (xfer-keyed-scanline!-maker set-keyed-pxl-16!))
+(define xfer-keyed-scanline-24!
+  (xfer-keyed-scanline!-maker set-keyed-pxl-24!))
+(define xfer-keyed-scanline-32!
+  (xfer-keyed-scanline!-maker set-keyed-pxl-32!))
+
+(define-syntax blitter-select 
+  (syntax-rules ()
+  ((blitter-select bpp b8 b16 b24 b32)
+   (case bpp
+     ((8) b8)
+     ((15 16) b16)
+     ((24) b24)
+     (else b32)))))
+
+(define-syntax
+  xfer-keyed-rect!-maker
+  (syntax-rules ()
+    ((xfer-keyed-rect!-maker xfer-keyed-scanline!)
+     (lambda (addr1 dx dy sl1 addr2 sx sy ex ey sl2 key)
+       (let loop ((i sy))
+	 (if (< i ey)
+	     (begin (xfer-keyed-scanline! (address+ addr1
+						    (* sl1 (+ dy (- i sy))))
+					  dx  (address+ addr2 (* sl2 i))
+					  sx ex key)
+		    (loop (+ i 1)))))))))
   
-  (let loop ((i sx))
-    (if (< i ex)
-	(begin (set-pixel! addr1  (+ dx (- i sx))
-			   addr2 i bpp)
-	       (loop (+ i 1))))))
-
-(define (xfer-keyed-scanline! addr1 dx addr2 sx ex key bpp)
-  
-  (let loop ((i sx))
-    (if (< i ex)
-	(begin (set-keyed-pixel! addr1  (+ dx (- i sx))
-			   addr2 i key bpp)
-	       (loop (+ i 1))))))
-
-
-(define (xfer-keyed-rect! addr1 dx dy sl1 addr2 sx sy ex ey sl2 key bpp)
-  (let loop ((i sy))
-    (if (< i ey)
-	(begin (xfer-keyed-scanline! (address+ addr1
-					       (* sl1 (+ dy (- i sy))))
-				     dx  (address+ addr2 (* sl2 i))
-				     sx ex key bpp)
-	       (loop (+ i 1))))))
+(define-syntax xfer-rect!-maker
+  (syntax-rules ()
+    ((xfer-rect!-maker xfer-scanline!)
+     (lambda (addr1 dx dy sl1 addr2 sx sy ex ey sl2)
+       (let loop ((i sy))
+	 (if (< i ey)
+	     (begin (xfer-scanline! (address+ addr1
+					      (* sl1 (+ dy (- i sy))))
+				    dx (address+ addr2 (* sl2 i))
+				    sx ex)
+		    (loop (+ i 1)))))))))
 
 (define (xfer-rect! addr1 dx dy sl1 addr2 sx sy ex ey sl2 bpp)
-  (let loop ((i sy))
-    (if (< i ey)
-	(begin (xfer-scanline! (address+ addr1
-					 (* sl1 (+ dy (- i sy))))
-			       dx (address+ addr2 (* sl2 i))
-			       sx ex bpp)
-	       (loop (+ i 1))))))
+  ((blitter-select bpp
+		   (xfer-rect!-maker xfer-scanline-8!)
+		   (xfer-rect!-maker xfer-scanline-16!)
+		   (xfer-rect!-maker xfer-scanline-24!)
+		   (xfer-rect!-maker xfer-scanline-32!))
+   addr1 dx dy sl1 addr2 sx sy ex ey sl2))
+
+(define (xfer-keyed-rect! addr1 dx dy sl1 addr2 sx sy ex ey sl2 key bpp)
+  ((blitter-select bpp
+		   (xfer-keyed-rect!-maker xfer-keyed-scanline-8!)
+		   (xfer-keyed-rect!-maker xfer-keyed-scanline-16!)
+		   (xfer-keyed-rect!-maker xfer-keyed-scanline-24!)
+		   (xfer-keyed-rect!-maker xfer-keyed-scanline-32!))
+   addr1 dx dy sl1 addr2 sx sy ex ey sl2 key))
 
 (define (flabs x)
   (if (fl< x 0.0)
@@ -335,41 +392,48 @@
 
 
 
+(define-syntax xfer-xformed-keyed-rect!-maker
+  (syntax-rules ()
+    ((xfer-xformed-keyed-rect! set-keyed-pixel!)
+     (lambda (addr1 sl1 addr2 sx sy ex ey sl2 mat r key)
+       (let* ((fsy (n->float sy))
+	      (fey (n->float ey))
+	      (fsx (n->float sx))
+	      (fex (n->float ex))
+	      (sclx (flabs (vector-ref mat 0)))
+	      
+	      (scly (flabs (vector-ref mat 4)))
+	      (incx (if (fl< sclx 1.)
+			0.5
+			(fl/ 0.5 sclx)))
+	      (incy (if (fl< scly 1.)
+			0.5
+			(fl/ 0.5 scly)))
+	      
+	      )
+	 
+	 (let loop1 ((j fsy))
+	   (if (fl< j fey)
+	       (begin
+		 (let loop ((i fsx))
+		   (if (fl< i fex)
+		       (let ((u (n->integer (xform-x mat i j)))
+			     (v (n->integer (xform-y mat i j))))
+			 (if
+			  (pt-in-rect u v r)
+			  (set-keyed-pixel! (address+ addr1 (* v sl1))
+					    u
+					    (address+ addr2 (* (n->integer j)
+							       sl2))
+					    (n->integer i)
+					    key))
+			 (loop (fl+ i incx)))))
+		 (loop1 (fl+ j incy))))))))))
+
 (define (xfer-xformed-keyed-rect! addr1 sl1 addr2 sx sy ex ey sl2 mat r key bpp)
-  (let* ((fsy (n->float sy))
-	 (fey (n->float ey))
-	 (fsx (n->float sx))
-	 (fex (n->float ex))
-	 (sclx (flabs (vector-ref mat 0)))
-	 
-	 (scly (flabs (vector-ref mat 4)))
-	 (incx (if (fl< sclx 1.)
-		   0.5
-		   (fl/ 0.5 sclx)))
-	 (incy (if (fl< scly 1.)
-		   0.5
-		   (fl/ 0.5 scly)))
-	 
-	 )
-    
-   (let loop1 ((j fsy))
-     (if (fl< j fey)
-	 (begin
-	   (let loop ((i fsx))
-	     (if (fl< i fex)
-		 (let ((u (n->integer (xform-x mat i j)))
-		       (v (n->integer (xform-y mat i j))))
-		   (if
-		    (pt-in-rect u v r)
-		    (set-keyed-pixel! (address+ addr1 (* v sl1))
-				u
-				(address+ addr2 (* (n->integer j)
-						   sl2))
-				(n->integer i)
-				key
-				bpp))
-		   (loop (fl+ i incx)))))
-	   (loop1 (fl+ j incy)))))))
-
-
-
+  ((blitter-select bpp
+		   (xfer-xformed-keyed-rect!-maker set-keyed-pxl-8!)
+		   (xfer-xformed-keyed-rect!-maker set-keyed-pxl-16!)
+		   (xfer-xformed-keyed-rect!-maker set-keyed-pxl-24!)
+		   (xfer-xformed-keyed-rect!-maker set-keyed-pxl-32!))
+   addr1 sl1 addr2 sx sy ex ey sl2 mat r key))

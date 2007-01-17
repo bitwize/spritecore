@@ -155,6 +155,10 @@ svec2 make_svec2(float x,float y) {
   return node;
 }
 
+-(SpriteApp *)host {
+  return [node host];
+}
+
 -(void)goBehind: (Sprite *)s {
   [[self node] goBehind: [s node]];
 }

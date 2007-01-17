@@ -1,1 +1,1 @@
-(define-structures ((blitter (export rect-intersect xfer-rect! xfer-keyed-rect! bound-xform-rect! xform-clip! xfer-xformed-rect! xfer-xformed-keyed-rect!))) (open prescheme ps-record-types ps-memory ps-flonums) (files blitter))
+(define-structures ((blitter (export rect-intersect! xfer-rect! xfer-keyed-rect! bound-xform-rect! xform-clip! xfer-xformed-rect! xfer-xformed-keyed-rect!))) (open prescheme ps-record-types ps-memory ps-flonums) (files blitter))
