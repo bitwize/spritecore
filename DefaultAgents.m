@@ -36,7 +36,6 @@
 
 -(void)act: (Sprite *)s
 {
-  
 }
 
 @end

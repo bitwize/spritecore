@@ -28,7 +28,6 @@
 #import <objc/Object.h>
 
 #import <SpriteCore/SpriteApp.h>
-#import <SpriteCore/SpriteElement.h>
 #include <SpriteCore/svec.h>
 #import <SpriteCore/SpriteNode.h>
 #import <SpriteCore/SpriteAgent.h>

@@ -44,9 +44,9 @@ svec2 make_svec2(float x,float y) {
   pos.x = 0; pos.y = 0; vel.x = 0; vel.y = 0;
   hotspot.x = 0; hotspot.y = 0;
   [self setShape: si frames: mf];
-  return self;
   aagent = dra;
   bagent = dba;
+  return self;
 }
 
 
