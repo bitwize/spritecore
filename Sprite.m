@@ -20,6 +20,10 @@
 #include <stdlib.h>
 #import <SpriteCore/SpriteNode.h>
 #import <SpriteCore/Sprite.h>
+#import <SpriteCore/DefaultAgents.h>
+
+DefaultRendererAgent *dra;
+DefaultBehaviorAgent *dba;
 
 svec2 make_svec2(float x,float y) {
   svec2 v;
@@ -33,8 +37,7 @@ svec2 make_svec2(float x,float y) {
       shape: (SpriteImage *)si
      frames: (unsigned int)mf
 {
-  self = [super init];
-  node = [[SpriteNode alloc] initOn: h withElement: self];
+  self = [super initOn: h];
   simg = si;
   maxframes = mf;
   frame = 0;
@@ -42,6 +45,8 @@ svec2 make_svec2(float x,float y) {
   hotspot.x = 0; hotspot.y = 0;
   [self setShape: si frames: mf];
   return self;
+  aagent = dra;
+  bagent = dba;
 }
 
 
@@ -53,7 +58,6 @@ svec2 make_svec2(float x,float y) {
     height = simg->cy / f;
   }
   else {width=0; height=0;}
-  key = get_key(sh);
   return sh;
 }
 
@@ -69,32 +73,24 @@ svec2 make_svec2(float x,float y) {
   return frame;
 }
 
+- (unsigned int)numberFrames {
+  return maxframes;
+}
+
 - (void)setFrame: (unsigned int)f {
   frame = f % maxframes;
 }
 
 -(void)step {
-  unsigned int t = [[node host] lastFrameTime];
+  unsigned int t = [host lastFrameTime];
   float nj = (float)t / 20.0;
   pos.x += vel.x * nj;
   pos.y += vel.y * nj;
+  [bagent act: self];
 }
 
--(void)renderOn: (SpriteImage *)si {
-  if(simg != NULL) {
-    if(maxframes < 2) {
-      ImageCopy(simg,si,0,0,pos.x-hotspot.x,pos.y-hotspot.y,
-		width,height,SIMG_USE_KEY,key);
-    }
-    else {
-      ImageCopy(simg,si,0,height * frame,pos.x-hotspot.x,pos.y-hotspot.y
-		,width,height,SIMG_USE_KEY,key);
-    }
-  }
-}
-
--(void)renderToApp: (SpriteApp *)a {
-  [self renderOn: [a surface]];
+-(void)render {
+  [aagent act: self];
 }
 
 -(void)moveTo: (svec2)p {
@@ -151,20 +147,35 @@ svec2 make_svec2(float x,float y) {
   return(step1 && step2);
 }
 
--(SpriteNode *)node {
-  return node;
+-(void)setAppearanceAgent: (id<SpriteAgent>) a
+{
+  aagent = a;
 }
 
--(SpriteApp *)host {
-  return [node host];
+-(id<SpriteAgent>)appearanceAgent
+{
+  return aagent;
 }
 
--(void)goBehind: (Sprite *)s {
-  [[self node] goBehind: [s node]];
+-(void)setBehaviorAgent: (id<SpriteAgent>) a
+{
+  bagent = a;
 }
 
--(void)delete {
-  [[node host] delete: node];
+-(id<SpriteAgent>)behaviorAgent
+{
+  return bagent;
 }
 
++(void)initialize
+{
+  static int initialized = 0;
+  if(!initialized)
+    {
+      dba = [[DefaultBehaviorAgent alloc] init];
+      dra = [[DefaultRendererAgent alloc] init];
+      initialized = 1;
+    }
+}
+ 
 @end

@@ -2,15 +2,13 @@
 #define __SPRITENODE_H
 
 #import <SpriteCore/SpriteApp.h>
-#import <SpriteCore/SpriteElement.h>
 
 @interface SpriteNode : Object {
   SpriteNode *next;
   SpriteNode *prev;
   SpriteApp *host;
-  id <SpriteElement> el;
 }
--(id)initOn: (SpriteApp *)h withElement: (id <SpriteElement>) e;
+-(id)initOn: (SpriteApp *)h;
 /*!
   Returns the next node after this one in the node list.
 */

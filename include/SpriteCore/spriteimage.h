@@ -79,16 +79,16 @@ typedef struct tagSpriteImage {
   @param key   Key color to use in compositing.
 */
 
-void ImageCopy(SpriteImage *si1,SpriteImage *si2,int sx,int sy,int x,int y,int cx,int cy,int flags, long key);
+void ImageCopy(SpriteImage *si1,SpriteImage *si2,int sx,int sy,int x,int y,int cx,int cy,int flags, char *key);
 
 /*!
   @function get_key
   @discussion Gets the key color of the upper-left-hand corner of a SpriteImage
-  and stores it in a long int value, regardless of depth or endianness.
+  and stores it in a char array of size 4, regardless of depth or endianness.
   @param si The SpriteImage whose key color we want
 */
 
-long get_key(SpriteImage *si);
+void get_key(SpriteImage *si,char *k);
 
 /*!
   @function MorpheusImageCopy
@@ -109,6 +109,6 @@ long get_key(SpriteImage *si);
   @param key   Key color to use in compositing.
 */
 
-void MorpheusImageCopy(SpriteImage *si1,SpriteImage *si2,int sx,int sy,int cx,int cy,s_matp mat,int flags,long key);
+void MorpheusImageCopy(SpriteImage *si1,SpriteImage *si2,int sx,int sy,int cx,int cy,s_matp mat,int flags,char *key);
 
 #endif

@@ -1,9 +1,8 @@
 #import <SpriteCore/SpriteNode.h>
 
 @implementation SpriteNode
--(id)initOn: (SpriteApp *)h withElement: (id <SpriteElement>) e {
+-(id)initOn: (SpriteApp *)h {
   self = [super init];
-  el = e;
   [h add: self];
   return self;
 }
@@ -36,14 +35,11 @@ host=t; return t;
 }
 
 -(void)step {
-  [el step];
 }
 -(void)render {
-  [el renderToApp: host];
 }
 
 -free {
-  [el free];
   return [super free];
 }
 

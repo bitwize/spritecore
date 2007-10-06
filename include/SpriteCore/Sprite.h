@@ -31,6 +31,7 @@
 #import <SpriteCore/SpriteElement.h>
 #include <SpriteCore/svec.h>
 #import <SpriteCore/SpriteNode.h>
+#import <SpriteCore/SpriteAgent.h>
 
 /*!
   @class Sprite
@@ -41,7 +42,7 @@
   processing.
 */
 
-@interface Sprite : Object <SpriteElement> {
+@interface Sprite : SpriteNode {
   SpriteImage *simg;
   unsigned int frame;
   unsigned int maxframes;
@@ -50,7 +51,8 @@
   svec2 hotspot;
   unsigned int width,height;
   long key;
-  SpriteNode *node;
+  id <SpriteAgent> aagent;
+  id <SpriteAgent> bagent;
 }
 
 /*!
@@ -82,6 +84,8 @@
 
 -(unsigned int)frame;
 
+-(unsigned int)numberFrames;
+
 /*! Changes the current frame number to f. The frame count cannot exceed the
   maximum number of frames for the image; it will have a modulus operation
   applied so that it doesn't (i.e., a frame number of 30 on a 4-frame image
@@ -99,16 +103,11 @@
 -(void)step;
 
 /*!
-  Draws the sprite on anImage. May be overrided.
+  Draws the sprite. May be overrided.
 */
 
--(void)renderOn: (SpriteImage *)anImage;
+-(void)render;
 
-/*!
-  Draws the sprite on anApp's display. May be overrided.
-*/
-
--(void)renderToApp: (SpriteApp *)anApp;
 
 /*!
   Moves the sprite to the coordinates specified in the svec2 struct given as
@@ -175,9 +174,6 @@
 
 -(svec2)size;
 
--(SpriteNode *)node;
--(SpriteApp *)host;
-
 /*!
   Returns a Boolean value corresponding to whether the sprite's bounding
   rectangle overlaps with that of another sprite. Useful for simple collision
@@ -186,6 +182,11 @@
 
 -(int)isTouching: (Sprite *)s;
 
+-(void)setAppearanceAgent: (id<SpriteAgent>) a;
+-(id<SpriteAgent>)appearanceAgent;
+-(void)setBehaviorAgent: (id<SpriteAgent>) a;
+-(id<SpriteAgent>)behaviorAgent;
++(void)initialize;
 @end
 
 #endif
