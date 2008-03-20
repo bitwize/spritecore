@@ -213,6 +213,7 @@ void BuildSI(SpriteImage *si) {
   SDL_Delay(ms);
 }
 -free {
+  SDL_Quit();
   return [super free];
 }
 @end
