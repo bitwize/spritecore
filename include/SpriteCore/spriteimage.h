@@ -39,6 +39,8 @@
 #define SIMG_USE_KEY 4
 #define SIMG_USE_ALPHA 8
 
+#define MAX_PIXEL_WIDTH 4
+
 /*!
   @typedef SpriteImage
   @discussion Platform independent representation of a bitmap image

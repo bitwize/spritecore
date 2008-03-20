@@ -62,6 +62,7 @@ svec2 make_svec2(float x,float y) {
     height = simg->cy / f;
   }
   else {width=0; height=0;}
+  get_key(sh,key);
   return sh;
 }
 
@@ -123,7 +124,7 @@ svec2 make_svec2(float x,float y) {
 -(unsigned int)width {return width;}
 -(unsigned int)height {return height;}
 -(svec2)size {return make_svec2(width,height);}
-
+-(char *)keyPtr {return key;}
 
 -(int)isTouching: (Sprite *)s {
   int step1,step2; //Intermediate x and y proximity values.
@@ -169,6 +170,17 @@ svec2 make_svec2(float x,float y) {
 -(id<SpriteAgent>)behaviorAgent
 {
   return bagent;
+}
+-(void)fillRenderData: (struct sprite_render_data *)d
+{
+  d->simg = simg;
+  d->pos = pos;
+  d->hotspot = hotspot;
+  d->key = key;
+  d->frame = frame;
+  d->maxframes = maxframes;
+  d->width = width;
+  d->height = height;
 }
 
 +(void)initialize

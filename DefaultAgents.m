@@ -28,23 +28,16 @@
 @implementation DefaultRendererAgent
 -(void)renderSprite: (Sprite *)s on: (SpriteImage *)si
 {
-  SpriteImage *simg = [s shape];
-  svec2 pos = [s pos];
-  svec2 hotspot = [s hotspot];
-  char key[4];
-  unsigned int frame = [s frame];
-  unsigned int maxframes = [s numberFrames];
-  unsigned int width = [s width];
-  unsigned int height = [s height];
-  if(simg != NULL) {
-    get_key(simg,key);
-    if(maxframes < 2) {
-      ImageCopy(simg,si,0,0,pos.x-hotspot.x,pos.y-hotspot.y,
-		width,height,SIMG_USE_KEY,key);
+  struct sprite_render_data d;
+  [s fillRenderData: &d];
+  if(d.simg != NULL) {
+    if(d.maxframes < 2) {
+      ImageCopy(d.simg,si,0,0,d.pos.x-d.hotspot.x,d.pos.y-d.hotspot.y,
+		d.width,d.height,SIMG_USE_KEY,d.key);
     }
     else {
-      ImageCopy(simg,si,0,height * frame,pos.x-hotspot.x,pos.y-hotspot.y
-		,width,height,SIMG_USE_KEY,key);
+      ImageCopy(d.simg,si,0,d.height * d.frame,d.pos.x-d.hotspot.x,
+		d.pos.y-d.hotspot.y,d.width,d.height,SIMG_USE_KEY,d.key);
     }
   }
 }

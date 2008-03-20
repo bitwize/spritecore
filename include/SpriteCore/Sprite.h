@@ -35,7 +35,16 @@
 #include <SpriteCore/svec.h>
 #import <SpriteCore/SpriteNode.h>
 #import <SpriteCore/SpriteAgent.h>
-
+struct sprite_render_data {
+  SpriteImage *simg;
+  svec2 pos;
+  svec2 hotspot;
+  char *key;
+  unsigned int frame;
+  unsigned int maxframes;
+  unsigned int width;
+  unsigned int height;
+};
 /*!
   @class Sprite
   The Sprite class represents a sprite, or an on-screen graphical object.
@@ -53,7 +62,7 @@
   svec2 vel;
   svec2 hotspot;
   unsigned int width,height;
-  long key;
+  char key[MAX_PIXEL_WIDTH];
   id <SpriteAgent> aagent;
   id <SpriteAgent> bagent;
 }
@@ -177,6 +186,8 @@
 
 -(svec2)size;
 
+			  -(char *)keyPtr;
+
 /*!
   Returns a Boolean value corresponding to whether the sprite's bounding
   rectangle overlaps with that of another sprite. Useful for simple collision
@@ -189,6 +200,7 @@
 -(id<SpriteAgent>)appearanceAgent;
 -(void)setBehaviorAgent: (id<SpriteAgent>) a;
 -(id<SpriteAgent>)behaviorAgent;
+-(void)fillRenderData: (struct sprite_render_data *)d;
 +(void)initialize;
 @end
 
