@@ -23,4 +23,5 @@
 
 #import <SpriteCore/SpriteApp.h>
 #import <SpriteCore/Sprite.h>
+#import <SpriteCore/DefaultAgents.h>
 #import <SpriteCore/SpriteResLoader.h>

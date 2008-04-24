@@ -51,6 +51,18 @@ typedef double s_mat2[4];
 
 typedef double *s_matp;
 /*!
+  @function mat_zero
+  @discussion Zeroes a 3x3 matrix.
+  @param mat The matrix
+*/
+void mat_zero(s_matp mat);
+/*!
+  @function mat_ident
+  @discussion Replaces a 3x3 matrix with an identity matrix.
+  @param mat The matrix
+*/
+void mat_ident(s_matp mat);
+/*!
   @function mat_mul
   @discussion Multiplies two 3x3 matrices.
   @param mat1 First matrix

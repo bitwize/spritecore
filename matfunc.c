@@ -22,6 +22,29 @@
  */
 #include <SpriteCore/matfunc.h>
 
+void mat_zero(s_matp mat)
+{
+
+#ifdef MAT_ZERO_MEMSET
+  memset(mat,0,sizeof(s_mat3))
+#else
+  int i;
+  for(i=0;i<9;i++)
+    {
+      mat[i] = 0;
+    }
+
+#endif
+}
+
+void mat_ident(s_matp mat)
+{
+  mat_zero(mat);
+  mat[0] = 1.0;
+  mat[4] = 1.0;
+  mat[8] = 1.0;
+}
+
 void mat_mul(s_matp mat1,s_matp mat2,s_matp mdest) {
   mdest[0] =
     mat1[0] * mat2[0] +
