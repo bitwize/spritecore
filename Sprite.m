@@ -124,6 +124,13 @@ svec2 make_svec2(float x,float y) {
 -(unsigned int)width {return width;}
 -(unsigned int)height {return height;}
 -(svec2)size {return make_svec2(width,height);}
+-(srect2)boundingBox
+{
+  srect2 bb;
+  bb.pos = pos;
+  bb.size = make_svec2(width,height);
+  return bb;
+}
 -(char *)keyPtr {return key;}
 
 -(int)isTouching: (Sprite *)s {

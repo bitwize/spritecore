@@ -43,7 +43,7 @@ DESTINCDIR=/usr/local/include
 LIBBASENAME=libSpriteCore
 VERMAJOR=0
 VERMINOR=7
-CFLAGS=-pg
+CFLAGS=-g
 OBJCFLAGS=$(CFLAGS) -Wno-import
 
 # Set to your current platform (currently available: linux, darwin)

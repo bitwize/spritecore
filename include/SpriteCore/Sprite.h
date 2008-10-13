@@ -186,7 +186,9 @@ struct sprite_render_data {
 
 -(svec2)size;
 
-			  -(char *)keyPtr;
+-(char *)keyPtr;
+
+-(srect2)boundingBox;
 
 /*!
   Returns a Boolean value corresponding to whether the sprite's bounding

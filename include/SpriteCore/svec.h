@@ -35,6 +35,11 @@ typedef struct __svec2 {
   float y;
 } svec2;
 
+typedef struct __srect2 {
+  svec2 pos;
+  svec2 size;
+} srect2;
+
 /*!
   @function make_svec2
   Returns an svec2 structure containing the x and y coordinates given.

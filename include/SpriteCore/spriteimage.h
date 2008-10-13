@@ -52,6 +52,7 @@
   @field bits Pointer to actual image pixels
   @field img Pointer to window-system-dependent representation of image
   @field auto_free Reserved for future use.
+  @field use_alpha Image contains alpha-channel information.
 */
 
 typedef struct tagSpriteImage {
@@ -63,6 +64,7 @@ typedef struct tagSpriteImage {
   void *bits;
   void *img;
   int auto_free;
+  int use_alpha;
 } SpriteImage;
 
 /*!
