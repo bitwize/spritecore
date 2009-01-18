@@ -31,3 +31,21 @@
 				(blitter set-keyed-pixel!)
 				(blitter xfer-scanline!)
 				(blitter xfer-keyed-scanline!)))))
+
+(in 'prescheme-compiler
+    '(run (prescheme-compiler 'generic-blitter '("packs.scm")
+			      'blitter-init
+			      "generic-blitter.psc"
+			      '(header "#define TO_INTEGER(x) (long)(x)")
+			      '(header "#define TO_FLOAT(x) (double)(x)")
+ 			      '(copy
+				(generic-blitter pixel-ref-8)
+				(generic-blitter pixel-ref-16)
+				(generic-blitter pixel-ref-24)
+				(generic-blitter pixel-ref-32)
+				(generic-blitter pixel-set-8!)
+				(generic-blitter pixel-set-16!)
+				(generic-blitter pixel-set-24!)
+				(generic-blitter pixel-set-32!))
+				
+)))
