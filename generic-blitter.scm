@@ -77,16 +77,14 @@
 (define-syntax make-blitter
   (syntax-rules
       ()
-    ((make-blitter rop)
+    ((make-blitter bpp-in bpp-out rop)
      (lambda (dest-image
 	      dest-x
 	      dest-y
-	      dest-pixel-size
 	      dest-scan-length
 	      src-image
 	      src-x
 	      src-y
-	      src-pixel-size
 	      src-scan-length
 	      size-x
 	      size-y)
@@ -96,20 +94,32 @@
 	    ((>= y size-y) (unspecific))
 	    ((>= x size-x) (loop1 (+ y 1)))
 	    (else
-	     (let ((srcp-x (+ src-x x))
+	     (let* ((srcp-x (+ src-x x))
 		   (srcp-y (+ src-y y))
+		   (srcp-address
+		    (image-location->address 
+		     src-image srcp-x srcp-y
+		     (logical-shift-right bpp-in 8)
+		     src-scan-length))
 		   (destp-x (+ dest-x x))
-		   (destp-y (+ dest-y y)))
-	       (rop destp-x
-		    destp-y
-		    (image-location->address dest-image destp-x destp-y
-					     dest-pixel-size
-					     dest-scan-length)
-		    srcp-x
-		    srcp-y 
-		    (image-location->address src-image srcp-x srcp-y
-					     src-pixel-size
-					     src-scan-length))
+		   (destp-y (+ dest-y y))
+		   (destp-address
+		    (image-location->address 
+		     dest-image destp-x destp-y
+		     (logical-shift-right bpp-out 8)
+		     dest-scan-length)))
+	       (pixel-set! bpp-out 
+			   destp-address
+			   (rop destp-x
+				destp-y
+				(pixel-ref 
+				 bpp-in
+				 destp-address)
+				srcp-x
+				srcp-y 
+				(pixel-ref
+				 bpp-in
+				 srcp-address)))
 	       (loop2 (+ x 1)))))))))))
 
 
@@ -122,98 +132,51 @@
 	       (dp (pixel-ref bpp-in da)))
 	   (pixel-set! bpp-out da expr))))))
 
-(define-syntax make-pixel-copy
+(define-syntax make-xfer-rect
   (syntax-rules ()
-    ((make-pixel-copy bpp)
-     (make-rop bpp bpp (dx dy dp sx sy sp) sp))))
+    ((make-xfer-rect bpp)
+     (make-blitter bpp bpp
+		   (lambda (dx dy dp sx sy sp) sp)))))
 
 
+(define xfer-rect-32! (make-xfer-rect 32))
+(define xfer-rect-24! (make-xfer-rect 24))
+(define xfer-rect-16! (make-xfer-rect 16))
+(define xfer-rect-8! (make-xfer-rect 8))
 
-(define xfer-rect-32! (make-blitter (make-pixel-copy 32)))
-(define xfer-rect-24! (make-blitter (make-pixel-copy 24)))
-(define xfer-rect-16! (make-blitter (make-pixel-copy 16)))
-(define xfer-rect-8! (make-blitter (make-pixel-copy 8)))
-(define xfer-rect-32-24-be! (make-blitter
-			     (make-rop 32 24 (dx dy dp sx sy sp)
-				       (logical-shift-right sp 8))))
-(define xfer-rect-32-24-le! (make-blitter
-			     (make-rop 32 24 (dx dy dp sx sy sp)
-				       (bitwise-and sp 16777215))))
+(define xfer-rect-32-24-be! (make-blitter 32 24 
+					  (lambda (dx dy dp sx sy sp)
+					    (logical-shift-right sp 8))))
+(define xfer-rect-32-24-le! (make-blitter 32 24
+					  (lambda (dx dy dp sx sy sp)
+						   (bitwise-and sp 16777215))))
 
-(define-syntax make-pixel-keyed-copy
+(define-syntax 
+  make-xfer-keyed-rect
   (syntax-rules ()
-    ((make-pixel-keyed-copy bpp key-address)
-     (make-rop bpp bpp  (dx dy dp sx sy sp)
-	       (let ((kp (pixel-ref bpp key-address)))
-		 (if (= sp kp) dp sp))))))
+    ((make-xfer-keyed-rect bpp)
+     (lambda  (dest-image
+	       dest-x
+	       dest-y
+	       dest-scan-length
+	       src-image
+	       src-x
+	       src-y
+	       src-scan-length
+	       size-x
+	       size-y
+	       key-address)
+       (let ((kp (pixel-ref bpp key-address)))
+	 (let ((blt (make-blitter bpp bpp
+				  (lambda (dx dy dp sx sy sp)
+				    (if (= sp kp) dp sp)))))
+	   (blt dest-image dest-x dest-y dest-scan-length
+		src-image src-x src-y src-scan-length
+		size-x size-y)))))))
 
-(define (xfer-keyed-rect-32! dest-image
-			     dest-x
-			     dest-y
-			     dest-pixel-size
-			     dest-scan-length
-			     src-image
-			     src-x
-			     src-y
-			     src-pixel-size
-			     src-scan-length
-			     size-x
-			     size-y
-			     key-address)
-  (let ((blt (make-blitter (make-pixel-keyed-copy 32 key-address))))
-    (blt dest-image dest-x dest-y dest-pixel-size dest-scan-length
-	 src-image src-x src-y src-pixel-size src-scan-length
-	 size-x size-y)))
-(define (xfer-keyed-rect-24! dest-image
-			     dest-x
-			     dest-y
-			     dest-pixel-size
-			     dest-scan-length
-			     src-image
-			     src-x
-			     src-y
-			     src-pixel-size
-			     src-scan-length
-			     size-x
-			     size-y
-			     key-address)
-  (let ((blt (make-blitter (make-pixel-keyed-copy 24 key-address))))
-    (blt dest-image dest-x dest-y dest-pixel-size dest-scan-length
-	 src-image src-x src-y src-pixel-size src-scan-length
-	 size-x size-y)))
-(define (xfer-keyed-rect-16! dest-image
-			     dest-x
-			     dest-y
-			     dest-pixel-size
-			     dest-scan-length
-			     src-image
-			     src-x
-			     src-y
-			     src-pixel-size
-			     src-scan-length
-			     size-x
-			     size-y
-			     key-address)
-  (let ((blt (make-blitter (make-pixel-keyed-copy 16 key-address))))
-    (blt dest-image dest-x dest-y dest-pixel-size dest-scan-length
-	 src-image src-x src-y src-pixel-size src-scan-length
-	 size-x size-y)))
 
-(define (xfer-keyed-rect-8! dest-image
-			     dest-x
-			     dest-y
-			     dest-pixel-size
-			     dest-scan-length
-			     src-image
-			     src-x
-			     src-y
-			     src-pixel-size
-			     src-scan-length
-			     size-x
-			     size-y
-			     key-address)
-  (let ((blt (make-blitter (make-pixel-keyed-copy 8 key-address))))
-    (blt dest-image dest-x dest-y dest-pixel-size dest-scan-length
-	 src-image src-x src-y src-pixel-size src-scan-length
-	 size-x size-y)))
+(define xfer-keyed-rect-32! (make-xfer-keyed-rect 32))
+(define xfer-keyed-rect-24! (make-xfer-keyed-rect 24))
+(define xfer-keyed-rect-16! (make-xfer-keyed-rect 16))
+(define xfer-keyed-rect-8! (make-xfer-keyed-rect 8))
 
