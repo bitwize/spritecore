@@ -1,3 +1,5 @@
+/* -*- objc -*- */
+
 /*
  *  Copyright 1995-2008 Jeffrey T. Read
  *
@@ -26,9 +28,9 @@
 #import <SpriteCore/SpriteApp.h>
 
 @interface SpriteNode : Object {
-  SpriteNode *next;
-  SpriteNode *prev;
-  SpriteApp *host;
+	SpriteNode *next;
+	SpriteNode *prev;
+	SpriteApp *host;
 }
 -(id)initOn: (SpriteApp *)h;
 /*!
@@ -50,17 +52,17 @@
 -(SpriteApp *)host;
 
 /*! Sets the next node in the list to the node t. Used only by SpriteApp
- methods to maintain the list. Don't use it yourself! */
+  methods to maintain the list. Don't use it yourself! */
 
 -(SpriteNode *)setNext:(SpriteNode *)t;
 
 /*! Sets the previous node in the list to the node t. Used only by
- SpriteApp methods to maintain the list. Don't use it yourself! */
+  SpriteApp methods to maintain the list. Don't use it yourself! */
 
 -(SpriteNode *)setPrev:(SpriteNode *)t;
 
 /*! Sets the host SpriteApp for this node to t. Used only by SpriteApp.
- Don't use it! */
+  Don't use it! */
 
 
 -(SpriteApp *)setHost:(SpriteApp *)t;

@@ -1,3 +1,5 @@
+/* -*- objc -*- */
+
 /*
  *  Copyright 1995-2008 Jeffrey T. Read
  *
@@ -25,10 +27,10 @@
 #import <SpriteCore/SpriteApp.h>
 
 @interface SDLIODelegate : Object <SpriteIODelegate> {
-  SpriteApp *host;
-  SpriteImage back;
-  SpriteImage buf;
-  SDL_Surface *screen;
+	SpriteApp *host;
+	SpriteImage back;
+	SpriteImage buf;
+	SDL_Surface *screen;
 }
 
 - (SDLIODelegate *)initForHost: (SpriteApp *)ha

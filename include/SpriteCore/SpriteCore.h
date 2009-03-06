@@ -1,3 +1,5 @@
+/* -*- objc -*- */
+
 /*
  *  Copyright 1995-2008 Jeffrey T. Read
  *

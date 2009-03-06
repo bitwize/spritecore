@@ -1,3 +1,5 @@
+/* -*- objc -*- */
+
 /*
  *  Copyright 1995-2008 Jeffrey T. Read
  *
@@ -36,14 +38,14 @@
 #import <SpriteCore/SpriteNode.h>
 #import <SpriteCore/SpriteAgent.h>
 struct sprite_render_data {
-  SpriteImage *simg;
-  svec2 pos;
-  svec2 hotspot;
-  char *key;
-  unsigned int frame;
-  unsigned int maxframes;
-  unsigned int width;
-  unsigned int height;
+	SpriteImage *simg;
+	svec2 pos;
+	svec2 hotspot;
+	char *key;
+	unsigned int frame;
+	unsigned int maxframes;
+	unsigned int width;
+	unsigned int height;
 };
 /*!
   @class Sprite
@@ -55,16 +57,16 @@ struct sprite_render_data {
 */
 
 @interface Sprite : SpriteNode {
-  SpriteImage *simg;
-  unsigned int frame;
-  unsigned int maxframes;
-  svec2 pos;
-  svec2 vel;
-  svec2 hotspot;
-  unsigned int width,height;
-  char key[MAX_PIXEL_WIDTH];
-  id <SpriteAgent> aagent;
-  id <SpriteAgent> bagent;
+	SpriteImage *simg;
+	unsigned int frame;
+	unsigned int maxframes;
+	svec2 pos;
+	svec2 vel;
+	svec2 hotspot;
+	unsigned int width,height;
+	char key[MAX_PIXEL_WIDTH];
+	id <SpriteAgent> aagent;
+	id <SpriteAgent> bagent;
 }
 
 /*!
@@ -197,7 +199,7 @@ struct sprite_render_data {
 */
 
 -(int)isTouching: (Sprite *)s;
-
+			  
 -(void)setAppearanceAgent: (id<SpriteAgent>) a;
 -(id<SpriteAgent>)appearanceAgent;
 -(void)setBehaviorAgent: (id<SpriteAgent>) a;

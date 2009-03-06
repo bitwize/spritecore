@@ -1,3 +1,5 @@
+/* -*- objc -*- */
+
 #ifndef __SPRITECOLLISIONNODE_H
 #define __SPRITECOLLISIONNODE_H
 #import <SpriteCore/SpriteNode.h>
@@ -15,8 +17,8 @@ struct SpriteCollisionNode;
 
 @interface SpriteCollisionList : Object
 {
-  struct SpriteCollisionNode *head;
-  int (*collision_check)(SpriteNode *,SpriteNode *);
+	struct SpriteCollisionNode *head;
+	int (*collision_check)(SpriteNode *,SpriteNode *);
 }
 
 -(void)add: (SpriteNode <HandlesCollisions> *)s;

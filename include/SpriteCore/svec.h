@@ -31,13 +31,13 @@
 */
 
 typedef struct __svec2 {
-  float x;
-  float y;
+	float x;
+	float y;
 } svec2;
 
 typedef struct __srect2 {
-  svec2 pos;
-  svec2 size;
+	svec2 pos;
+	svec2 size;
 } srect2;
 
 /*!

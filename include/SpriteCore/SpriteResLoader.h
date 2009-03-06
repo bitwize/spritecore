@@ -1,3 +1,5 @@
+/* -*- objc -*- */
+
 /*
  *  Copyright 1995-2008 Jeffrey T. Read
  *
@@ -25,8 +27,8 @@
 #import <SpriteCore/SpriteApp.h>
 @interface SpriteResLoader : Object
 {
-  char *name;
-  SpriteApp *parent;
+	char *name;
+	SpriteApp *parent;
 }
 
 -initOn: (SpriteApp *)anApp named: (char *)aName;

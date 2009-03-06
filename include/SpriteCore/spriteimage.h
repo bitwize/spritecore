@@ -56,15 +56,15 @@
 */
 
 typedef struct tagSpriteImage {
-  unsigned int cx;
-  unsigned int cy;
-  unsigned int depth;
-  unsigned int scan_length;
-  unsigned int endian;
-  void *bits;
-  void *img;
-  int auto_free;
-  int use_alpha;
+	unsigned int cx;
+	unsigned int cy;
+	unsigned int depth;
+	unsigned int scan_length;
+	unsigned int endian;
+	void *bits;
+	void *img;
+	int auto_free;
+	int use_alpha;
 } SpriteImage;
 
 /*!

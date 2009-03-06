@@ -28,22 +28,26 @@
 @implementation DefaultRendererAgent
 -(void)renderSprite: (Sprite *)s on: (SpriteImage *)si
 {
-  struct sprite_render_data d;
-  [s fillRenderData: &d];
-  if(d.simg != NULL) {
-    if(d.maxframes < 2) {
-      ImageCopy(d.simg,si,0,0,d.pos.x-d.hotspot.x,d.pos.y-d.hotspot.y,
-		d.width,d.height,SIMG_USE_KEY,d.key);
-    }
-    else {
-      ImageCopy(d.simg,si,0,d.height * d.frame,d.pos.x-d.hotspot.x,
-		d.pos.y-d.hotspot.y,d.width,d.height,SIMG_USE_KEY,d.key);
-    }
-  }
+	struct sprite_render_data d;
+	[s fillRenderData: &d];
+	if(d.simg != NULL) {
+		if(d.maxframes < 2) {
+			ImageCopy(d.simg,si,0,0,
+				  d.pos.x-d.hotspot.x,
+				  d.pos.y-d.hotspot.y,
+				  d.width,d.height,SIMG_USE_KEY,d.key);
+		}
+		else {
+			ImageCopy(d.simg,si,0,d.height * d.frame,
+				  d.pos.x-d.hotspot.x,
+				  d.pos.y-d.hotspot.y,
+				  d.width,d.height,SIMG_USE_KEY,d.key);
+		}
+	}
 }
 
 -(void)act: (Sprite *)s {
-  [self renderSprite: s on: [[s host] surface]];
+	[self renderSprite: s on: [[s host] surface]];
 }
 
 @end
@@ -59,14 +63,14 @@
 @implementation WrapperAgent
 -(WrapperAgent *)initWrapping: (void (*)(Sprite *)) f
 {
-  self = [super init];
-  func = f;
-  return self;
+	self = [super init];
+	func = f;
+	return self;
 }
 
 -(void)act: (Sprite *)s
 {
-  func(s);
+	func(s);
 }
 
 @end
@@ -74,16 +78,16 @@
 @implementation SequenceAgent
 -(SequenceAgent *)initWith: (id <SpriteAgent>)a1 and: (id <SpriteAgent>)a2
 {
-  self = [super init];
-  agent1 = a1;
-  agent2 = a2;
-  return self;
+	self = [super init];
+	agent1 = a1;
+	agent2 = a2;
+	return self;
 }
 
 -(void)act: (Sprite *)s
 {
-  [agent1 act: s];
-  [agent2 act: s];
+	[agent1 act: s];
+	[agent2 act: s];
 }
 
 @end

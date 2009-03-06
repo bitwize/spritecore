@@ -1,3 +1,5 @@
+/* -*- objc -*- */
+
 /*
  *  Copyright 1995-2008 Jeffrey T. Read
  *
@@ -30,11 +32,11 @@
 #import <SpriteCore/SpriteApp.h>
 
 @interface X11IODelegate : Object <SpriteIODelegate> {
-  SpriteApp *host;
-  SpriteImage back;
-  SpriteImage buf;
-  Display *dpy;
-  Window win;
+	SpriteApp *host;
+	SpriteImage back;
+	SpriteImage buf;
+	Display *dpy;
+	Window win;
 }
 
 - (X11IODelegate *)initForHost: (SpriteApp *)ha

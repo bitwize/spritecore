@@ -1,3 +1,5 @@
+/* -*- objc -*- */
+
 /*!
   @protocol IODelegate
   The IODelegate protocol implements a lower level interface to the underlying

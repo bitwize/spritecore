@@ -1,3 +1,5 @@
+/* -*- objc -*- */
+
 /*
  *  Copyright 1995-2008 Jeffrey T. Read
  *
@@ -109,16 +111,16 @@
 */
 
 @interface SpriteApp : Object {
-    SpriteNode *first;
-    SpriteNode *deleted;
-    char *title;
-    unsigned int width,height;
-    unsigned int clock;
-    unsigned int oldclock;
-    SpriteImage back,buf;
-    id <SpriteIODelegate> io_del;
-    char *res_path;
-    int quitting;
+	SpriteNode *first;
+	SpriteNode *deleted;
+	char *title;
+	unsigned int width,height;
+	unsigned int clock;
+	unsigned int oldclock;
+	SpriteImage back,buf;
+	id <SpriteIODelegate> io_del;
+	char *res_path;
+	int quitting;
 }
 
 /*!
@@ -126,35 +128,35 @@
   Initialises the SpriteApp and creates a display surface for it of size
   (w,h) with window title t. In a window system, creates a window for the
   SpriteApp.
- */
+*/
 
 -(id)initWithTitle: (char *)t width: (unsigned int)w height: (unsigned int)h;
 
 /*!
   @method first
   Returns the SpriteApp's first sprite.
- */
+*/
 
 -(SpriteNode *)first;
 
 /*!
   @method last
   Returns the SpriteApp's last sprite.
- */
+*/
 
 -(SpriteNode *)last;
 
 /*!
   @method add:
   Adds a sprite, newone, to the sprite list, and returns it.
- */
+*/
 
 -(SpriteNode *)add: (SpriteNode *)newone;
 
 /*!
   @method remove:
   Removes a sprite, oldone, from the sprite list, and returns it.
- */
+*/
 
 -(SpriteNode *)remove: (SpriteNode *)oldone;
 
@@ -162,7 +164,7 @@
   @method delete:
   Removes a sprite, oldone, from the sprite list, and adds it to the deleted
   list. Returns the sprite.
- */
+*/
 
 -(SpriteNode *)delete: (SpriteNode *)oldone;
 
@@ -179,64 +181,64 @@
 
 /*!
   @method addDeleted:
- Adds a sprite, newone, to the list of sprites to be deleted. Sprites are
- deleted on every frame update if there are any in the list.
- */
+  Adds a sprite, newone, to the list of sprites to be deleted. Sprites are
+  deleted on every frame update if there are any in the list.
+*/
 
 
 -(SpriteNode *)addDeleted: (SpriteNode *)newone;
 
 /*!
   @method freeDeleted
- Frees all sprites in the deleted list. Called once per frame update.
- */
+  Frees all sprites in the deleted list. Called once per frame update.
+*/
 
 -(void)freeDeleted;
 
 /*!
   @method freeClients
- Frees all sprites in the sprite list.
- */
+  Frees all sprites in the sprite list.
+*/
 
 -(void)freeClients;
 
 /*!
   @method free
- Deallocates memory associated with this SpriteApp.
- */
+  Deallocates memory associated with this SpriteApp.
+*/
 
 -free;
 
 /*!
   @method step
- Frame update function. Draws background, moves and renders sprites onto
- backbuffer, checks for and handles pending events. Should be called in a
- loop.
- */
+  Frame update function. Draws background, moves and renders sprites onto
+  backbuffer, checks for and handles pending events. Should be called in a
+  loop.
+*/
 
 -(void)step;
 
 /*!
- Key press handler. Code of key pressed is aKey (it is an ASCII code, or
- one of the SC_Key values in SpriteApp.h). Subclasses may override to
- customise this behavior.
- */
+  Key press handler. Code of key pressed is aKey (it is an ASCII code, or
+  one of the SC_Key values in SpriteApp.h). Subclasses may override to
+  customise this behavior.
+*/
 
 -(void)keyDown: (int)aKey;
 
 /*!
- Key release handler. Code of key released is aKey (it is an ASCII code, or one
- of the SC_Key values in SpriteApp.h). Subclasses may override to customise
- this behavior.
- */
+  Key release handler. Code of key released is aKey (it is an ASCII code, or one
+  of the SC_Key values in SpriteApp.h). Subclasses may override to customise
+  this behavior.
+*/
 
 -(void)keyUp: (int)aKey;
 
 /*!
- Mouse motion handler. Mouse position is (x,y). Note: Mouse buttons are keys
+  Mouse motion handler. Mouse position is (x,y). Note: Mouse buttons are keys
   and handled by -keyDown: and -keyUp:.  Subclasses may override to customise
   this behavior.
- */
+*/
 
 -(void)mouseMoveX: (int)x Y: (int)y;
 -(SpriteImage *)background;
@@ -245,7 +247,7 @@
   Loads a PPM file for use in this SpriteApp (or sprites associated with it).
   Fills the SpriteImage struct pointed to by si with an image from the
   PPM/PNM file whose name is in fn.
- */
+*/
 
 -(int)loadPPMFile: (char *)fn toImage: (SpriteImage *)si;
 
@@ -253,14 +255,14 @@
   Releases resources associated with the SpriteImage structure si, which
   should have been created with -loadPPMFile:toImage:, or another method which
   creates SpriteImages. Does not release the structure itself.
- */
+*/
 
 -(void)destroyImage: (SpriteImage *)si;
 
 /*!
   Returns the number of milliseconds between the application start and the
   last frame update. This value is updated by -step once per frame update.
- */
+*/
 
 -(unsigned int)clock;
 
@@ -268,7 +270,7 @@
   Returns the number of milliseconds between the last frame update and the
   one before that. It is used internally by Sprite's -step to calculate
   the total distance to move by.
- */
+*/
 
 -(unsigned int)lastFrameTime;
 -(char *)resourcePath;

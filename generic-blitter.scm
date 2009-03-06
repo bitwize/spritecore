@@ -180,3 +180,62 @@
 (define xfer-keyed-rect-16! (make-xfer-keyed-rect 16))
 (define xfer-keyed-rect-8! (make-xfer-keyed-rect 8))
 
+(define n->float (external "TO_FLOAT" (=> (integer)
+					   float)))
+
+
+(define n->integer (external "TO_INTEGER" (=> (float)
+					      integer)))
+
+
+; Rectangle handling procedures
+
+(define-record-type rect rect (make-rect left top right bottom)
+  (left integer rect-left set-rect-left!)
+  (top integer rect-top set-rect-top!)
+  (right integer rect-right set-rect-right!)
+  (bottom integer rect-bottom set-rect-bottom!))
+
+
+(define (rect-intersect! r1 r2 r3)
+  (let ((l (if (< (rect-left r2) (rect-left r1))
+	       (rect-left r1)
+	       (if (> (rect-left r2) (rect-right r1))
+		   (rect-right r1)
+		   (rect-left r2))))
+	(t (if (< (rect-top r2) (rect-top r1))
+	       (rect-top r1)
+	       (if (> (rect-top r2)
+		       (rect-bottom r1))
+		   (rect-bottom r1)
+		   (rect-top r2))))
+	(r (if (> (rect-right r2) (rect-right r1))
+	       (rect-right r1)
+	       (if (< (rect-right r2)
+		       (rect-left r1))
+		   (rect-left r1)
+		   (rect-right r2))))
+	(b (if (> (rect-bottom r2) (rect-bottom r1))
+	       (rect-bottom r1)
+	       (if (< (rect-bottom r2)
+		      (rect-top r1))
+		   (rect-top r1)
+		   (rect-bottom r2)))))
+    (set-rect-left! r3 l)
+    (set-rect-top! r3 t)
+    (set-rect-right! r3 r)
+    (set-rect-bottom! r3 b)))
+
+(define (set-rect-from! r1 r2)
+  (set-rect-left! r1 (rect-left r2))
+  (set-rect-top! r1 (rect-top r2))
+  (set-rect-right! r1 (rect-right r2))
+  (set-rect-bottom! r1 (rect-bottom r2))
+  )
+
+(define (pt-in-rect x y rect)
+  (and (>= x (rect-left rect))
+       (< x (rect-right rect))
+       (>= y (rect-top rect))
+       (< y (rect-bottom rect))))
+
