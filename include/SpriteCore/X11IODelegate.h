@@ -37,6 +37,7 @@
 	SpriteImage buf;
 	Display *dpy;
 	Window win;
+	GC gc;
 }
 
 - (X11IODelegate *)initForHost: (SpriteApp *)ha

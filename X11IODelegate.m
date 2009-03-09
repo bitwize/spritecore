@@ -23,12 +23,12 @@
 
 
 #import <SpriteCore/SpriteApp.h>
-#import <SpriteCore/SDLIODelegate.h>
+#import <SpriteCore/X11IODelegate.h>
 #import <SpriteCore/svppm.h>
 #include <stdlib.h>
 #include <sys/time.h>
 
-#define IMAGE(x) ((SDL_Surface *)x)
+#define IMAGE(x) ((XImage *)x)
 
 
 int SC_SpecialKeyMap[] = {
@@ -55,11 +55,11 @@ int SC_SpecialKeyMap[] = {
 	XK_Insert,SC_Key_Ins,
 	XK_Delete,SC_Key_Del,
 	XK_Shift_L,SC_Key_Shift,
-	XK_Ctrl_L,SC_Key_Ctrl,
+	XK_Control_L,SC_Key_Ctrl,
 	XK_Alt_L,SC_Key_Alt,
 	XK_Meta_L,SC_Key_Meta,
 	XK_Shift_R,SC_Key_Shift,
-	XK_Ctrl_R,SC_Key_Ctrl,
+	XK_Control_R,SC_Key_Ctrl,
 	XK_Alt_R,SC_Key_Alt,
 	XK_Meta_R,SC_Key_Meta,
 	0,0
@@ -69,9 +69,9 @@ int SC_SpecialKeyMap[] = {
 void BuildSI(SpriteImage *si) {
 	si->cx = IMAGE(si->img)->width;
 	si->cy = IMAGE(si->img)->height;
-	si->depth = IMAGE(si->img)->depth;
+	si->depth = IMAGE(si->img)->bits_per_pixel;
 	si->scan_length = IMAGE(si->img)->bytes_per_line;
-	si->endian = (IMAGE(si->image) == LSBFirst ? SIMG_LITTLE_ENDIAN : SIMG_BIG_ENDIAN);
+	si->endian = (IMAGE(si->img) == LSBFirst ? SIMG_LITTLE_ENDIAN : SIMG_BIG_ENDIAN);
 	si->bits = IMAGE(si->img)->data;
 	si->auto_free = 0;
 }
@@ -103,7 +103,14 @@ unsigned int inittime;
 	}
 	
 	dep = DefaultDepth(dpy,DefaultScreen(dpy));
-	win = XCreateSimpleWindow(dpy,DefaultRootWindow(dpy),0,0,w,h,0,black,black);
+	win = XCreateSimpleWindow(dpy,DefaultRootWindow(dpy),0,0,w,h,0,
+				  BlackPixel(dpy,DefaultScreen(dpy)),
+				  BlackPixel(dpy,DefaultScreen(dpy)));
+	XGCValues gcv;
+	gcv.graphics_exposures = 1;
+	gcv.function = GXcopy;
+	gc = XCreateGC(dpy,win,GCGraphicsExposures | 
+		       GCFunction,&gcv);
 	XStoreName(dpy,win,t);
 	XMapRaised(dpy,win);
 	back.img = XCreateImage(dpy,
@@ -126,37 +133,41 @@ unsigned int inittime;
 			       h,
 			       32,
 			       0);
-	back.img->data = malloc(h * bytes_per_line);
-	buf.img->data = malloc(h * bytes_per_line);
+	IMAGE(back.img)->data = malloc(h * IMAGE(back.img)->bytes_per_line);
+	IMAGE(buf.img)->data = malloc(h * IMAGE(buf.img)->bytes_per_line);
 	BuildSI(&back);
 	BuildSI(&buf);
-	SDL_EventState(SDL_KEYDOWN,SDL_ENABLE);
-	SDL_EventState(SDL_KEYUP,SDL_ENABLE);
-	SDL_EventState(SDL_MOUSEBUTTONDOWN,SDL_ENABLE);
-	SDL_EventState(SDL_MOUSEBUTTONUP,SDL_ENABLE);
-	SDL_EventState(SDL_MOUSEMOTION,SDL_ENABLE);
-	SDL_EnableKeyRepeat(0,0);
-  
+	XSelectInput(dpy,win,KeyPressMask | KeyReleaseMask |
+		     ButtonPressMask | ButtonReleaseMask |
+		     PointerMotionMask | ExposureMask);
+	XkbSetDetectableAutoRepeat(dpy,True,NULL);
 	return self;
-	
 }
 
 - (SpriteImage *)backImage {return &back;}
 - (SpriteImage *)bufImage {return &buf;}
-- (void)refreshScreen {SDL_Flip(IMAGE(buf.img));}
+- (void)refreshScreen 
+{
+	XPutImage(dpy,win,gc,IMAGE(buf.img),0,0,0,0,buf.cx,buf.cy);
+	XFlush(dpy);
+}
 - (int)loadPPMFile: (char *)fn toImage: (SpriteImage *)si {
 	int _cx,_cy;
 	unsigned char *ptr;
 	
 	ReadPpmRgbConverted(fn,&_cx,&_cy,&ptr,32);
 	if(ptr == NULL) { return -1;}
-	si->img = (void *)SDL_CreateRGBSurfaceFrom(ptr,_cx,_cy,32,_cx * 4,0xff0000,0x00ff00,0x0000ff,0x0);
-	si->cx = IMAGE(si->img)->w;
-	si->cy = IMAGE(si->img)->h;
-	si->depth = IMAGE(si->img)->format->BitsPerPixel;
-	si->scan_length = IMAGE(si->img)->pitch;
-	si->endian = (SDL_BYTEORDER == SDL_LIL_ENDIAN ? SIMG_LITTLE_ENDIAN : SIMG_BIG_ENDIAN);
-	si->bits = IMAGE(si->img)->pixels;
+	si->img = (void *)XCreateImage(dpy,
+				       DefaultVisual(dpy,DefaultScreen(dpy)),
+				       DefaultDepth(dpy,DefaultScreen(dpy)),
+				       ZPixmap,
+				       0,
+				       (char *)ptr,
+				       _cx,
+				       _cy,
+				       32,
+				       0);
+	BuildSI(si);
 	si->auto_free = 1;
 	return 0;
 	
@@ -168,21 +179,24 @@ unsigned int inittime;
 	
 	ReadPpmRgbFromMemoryConverted(ppm,sz,&_cx,&_cy,&ptr,32);
 	if(ptr == NULL) {return -1;}
-	si->img = (void *)SDL_CreateRGBSurfaceFrom(ptr,_cx,_cy,32,_cx * 4,0xff0000,0x00ff00,0x0000ff,0x0);
-	si->cx = IMAGE(si->img)->w;
-	si->cy = IMAGE(si->img)->h;
-	si->depth = IMAGE(si->img)->format->BitsPerPixel;
-	si->scan_length = IMAGE(si->img)->pitch;
-	si->endian = (SDL_BYTEORDER == SDL_LIL_ENDIAN ? SIMG_LITTLE_ENDIAN : SIMG_BIG_ENDIAN);
-	si->bits = IMAGE(si->img)->pixels;
+	si->img = (void *)XCreateImage(dpy,
+				       DefaultVisual(dpy,DefaultScreen(dpy)),
+				       DefaultDepth(dpy,DefaultScreen(dpy)),
+				       ZPixmap,
+				       0,
+				       (char *)ptr,
+				       _cx,
+				       _cy,
+				       32,
+				       0);
+	BuildSI(si);
 	si->auto_free = 1;
 	return 0;
 	
 }
 
 -(void)destroyImage: (SpriteImage *)si {
-	SDL_FreeSurface(IMAGE(si->img));
-	
+	XDestroyImage(IMAGE(si->img));
 }
 
 -(id)dispatchEvents {
@@ -192,6 +206,9 @@ unsigned int inittime;
 	int i;
 	while(XNextEvent(dpy,&evt)) {
 		switch(evt.type) {
+		case GraphicsExpose:
+			[self refreshScreen];
+			break;
 		case KeyPress:
 		case KeyRelease:
 			ks = XLookupKeysym((XKeyEvent *)&evt,0);
@@ -215,21 +232,29 @@ unsigned int inittime;
 			if ((evt.type) == KeyRelease) {[host keyUp: code];} else
 			{[host keyDown: code];}
 			break;
-		case SDL_MOUSEMOTION:
-			[host mouseMoveX: evt.motion.x Y: evt.motion.y];
+		case MotionNotify:
+		{
+			XMotionEvent *me = ((XMotionEvent *)&evt);
+			[host mouseMoveX: me->x Y: me->y];
+		}
 			break;
-		case SDL_MOUSEBUTTONDOWN:
-			[host keyDown: (evt.button.button - 1 + SC_Key_Button1)];
+		case ButtonPress:
+ 		{
+			XButtonEvent *be = ((XButtonEvent *)&evt);
+			[host keyDown: (be->button - Button1 + SC_Key_Button1)];
+		}
 			break;
-		case SDL_MOUSEBUTTONUP:
-			[host keyUp: (evt.button.button - 1 + SC_Key_Button1)];
+		case ButtonRelease:
+ 		{
+			XButtonEvent *be = ((XButtonEvent *)&evt);
+			[host keyUp: (be->button - Button1 + SC_Key_Button1)];
+		}
 			break;
 		}
 	}
 }
 
 -(void)lockBuf {
-	SDL_LockSurface(IMAGE(buf.img));
 }
 -(void)lockAndClearBuf {
 	[self lockBuf];
@@ -237,7 +262,6 @@ unsigned int inittime;
 }
 
 -(void)unlockBuf {
-	SDL_UnlockSurface(IMAGE(buf.img));
 }
 
 -(unsigned int)getTimeMillis {
@@ -250,6 +274,9 @@ unsigned int inittime;
 	usleep(ms * 1000);
 }
 -free {
+	XDestroyImage(IMAGE(back.img));
+	XDestroyImage(IMAGE(buf.img));
+	XFreeGC(dpy,gc);
 	XCloseDisplay(dpy);
 	return [super free];
 }

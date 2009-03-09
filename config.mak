@@ -18,8 +18,8 @@ INSTALL=install
 # Specify location of your X11 libs and headers
 # For X11 and GLX renderers.
 
-XLIBDIR=/usr/X11R6/lib
-XINCDIR=/usr/X11R6/include
+XLIBDIR=/usr/lib
+XINCDIR=/usr/include
 
 # Specify location of your OpenGL libs and headers
 # For GLX renderer.
@@ -56,4 +56,4 @@ PLATFORM=unix-static
 
 
 # Set to the renderer you want (currently available: sdl)
-RENDERER=sdl
+RENDERER=x11
