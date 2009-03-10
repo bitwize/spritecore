@@ -155,11 +155,11 @@ unsigned int inittime;
 	int _cx,_cy;
 	unsigned char *ptr;
 	
-	ReadPpmRgbConverted(fn,&_cx,&_cy,&ptr,32);
+	ReadPpmRgbConverted(fn,&_cx,&_cy,&ptr,buf.depth);
 	if(ptr == NULL) { return -1;}
 	si->img = (void *)XCreateImage(dpy,
 				       DefaultVisual(dpy,DefaultScreen(dpy)),
-				       DefaultDepth(dpy,DefaultScreen(dpy)),
+				       buf.depth,
 				       ZPixmap,
 				       0,
 				       (char *)ptr,
@@ -177,11 +177,11 @@ unsigned int inittime;
 	int _cx,_cy;
 	unsigned char *ptr;
 	
-	ReadPpmRgbFromMemoryConverted(ppm,sz,&_cx,&_cy,&ptr,32);
+	ReadPpmRgbFromMemoryConverted(ppm,sz,&_cx,&_cy,&ptr,buf.depth);
 	if(ptr == NULL) {return -1;}
 	si->img = (void *)XCreateImage(dpy,
 				       DefaultVisual(dpy,DefaultScreen(dpy)),
-				       DefaultDepth(dpy,DefaultScreen(dpy)),
+				       buf.depth,
 				       ZPixmap,
 				       0,
 				       (char *)ptr,
