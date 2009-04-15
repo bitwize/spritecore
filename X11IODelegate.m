@@ -62,6 +62,8 @@ int SC_SpecialKeyMap[] = {
 	XK_Control_R,SC_Key_Ctrl,
 	XK_Alt_R,SC_Key_Alt,
 	XK_Meta_R,SC_Key_Meta,
+	XK_Escape,SC_Key_Escape,
+	XK_BackSpace,SC_Key_BS,
 	0,0
 };
 
@@ -165,7 +167,7 @@ unsigned int inittime;
 				       (char *)ptr,
 				       _cx,
 				       _cy,
-				       32,
+				       8,
 				       0);
 	BuildSI(si);
 	si->auto_free = 1;
@@ -187,7 +189,7 @@ unsigned int inittime;
 				       (char *)ptr,
 				       _cx,
 				       _cy,
-				       32,
+				       8,
 				       0);
 	BuildSI(si);
 	si->auto_free = 1;
@@ -204,7 +206,8 @@ unsigned int inittime;
 	int code;
 	int ks;
 	int i;
-	while(XNextEvent(dpy,&evt)) {
+	while(XPending(dpy) > 0) {
+		XNextEvent(dpy,&evt);
 		switch(evt.type) {
 		case GraphicsExpose:
 			[self refreshScreen];

@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -I../include
+CFLAGS = -g -I../include
 LIBFLAGS = -L/usr/X11R6/lib -L.. -lX11 -lXext -lm -lSpriteCore -lobjc
 
 objects = res_loader_test.o
