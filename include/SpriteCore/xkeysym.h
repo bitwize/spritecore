@@ -1,27 +1,7 @@
-Copyright notice for SpriteCore excluding xkeysym.h and xkeysymdef.h:
---
- Copyright 1995-2008 Jeffrey T. Read
+/* $Xorg: keysym.h,v 1.4 2001/02/09 02:03:23 xorgcvs Exp $ */
 
-This software is provided 'as-is', without any express or implied
-warranty.  In no event will the authors be held liable for any
-damages arising from the use of this software.
+/***********************************************************
 
-Permission is granted to anyone to use this software for any purpose,
-including commercial applications, and to alter it and redistribute it
-freely, subject to the following restrictions:
-
-1. The origin of this software must not be misrepresented; you must not
-   claim that you wrote the original software. If you use this software
-   in a product, an acknowledgment in the product documentation would be
-   appreciated but is not required.
-2. Altered source versions must be plainly marked as such, and must not be
-   misrepresented as being the original software.
-3. This notice may not be removed or altered from any source distribution.
-
-Jeffrey T. Read <bitwize@gmail.com>
---
-Copyright notice for xkeysym.h and xkeysymdef.h:
---
 Copyright 1987, 1998  The Open Group
 
 Permission to use, copy, modify, distribute, and sell this software and its
@@ -64,4 +44,33 @@ ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
 WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
 ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS
 SOFTWARE.
---
+
+******************************************************************/
+/* $XFree86: xc/include/keysym.h,v 1.3 2001/01/17 17:53:12 dawes Exp $ */
+
+/* default keysyms */
+#define XK_MISCELLANY
+#define XK_XKB_KEYS
+#define XK_LATIN1
+#define XK_LATIN2
+#define XK_LATIN3
+#define XK_LATIN4
+#define XK_LATIN8
+#define XK_LATIN9
+#define XK_CAUCASUS
+#define XK_GREEK
+#define XK_KATAKANA
+#define XK_ARABIC
+#define XK_CYRILLIC
+#define XK_HEBREW
+#define XK_THAI
+#define XK_KOREAN
+#define XK_ARMENIAN
+#define XK_GEORGIAN
+#define XK_VIETNAMESE
+#define XK_CURRENCY
+#define XK_MATHEMATICAL
+#define XK_BRAILLE
+
+#include <SpriteCore/xkeysymdef.h>
+

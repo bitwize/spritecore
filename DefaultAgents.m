@@ -23,6 +23,7 @@
 
 #import <SpriteCore/SpriteAgent.h>
 #import <SpriteCore/Sprite.h>
+#import <SpriteCore/SpriteApp.h>
 #import <SpriteCore/DefaultAgents.h>
 
 @implementation DefaultRendererAgent
@@ -89,5 +90,26 @@
 	[agent1 act: s];
 	[agent2 act: s];
 }
+
+@end
+
+@implementation DefaultEventAgent
+-(void)handleEvent: (SpriteEvent *)e forApp: (SpriteApp *) a
+{
+
+}
+@end
+@implementation WrapperEventAgent
+-(WrapperEventAgent *)initWrappingHandler: (void (*)(SpriteEvent *,SpriteApp *))h
+{
+	self = [super init];
+	handler = h;
+	return self;
+}
+-(void)handleEvent: (SpriteEvent *)e forApp: (SpriteApp *) a
+{
+	handler(e,a);
+}
+
 
 @end

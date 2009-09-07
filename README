@@ -5,9 +5,7 @@ an extensible graphical back end architecture (with SDL back end included),
 key-color-based sprite blitters, one of which does affine matrix
 transformations, and small size.
 
-It is released under the terms of the GNU GPL (not LGPL). If you wish to write
-a proprietary game using SpriteCore, contact me and we can make licensing
-arrangements.
+It is released under the Zlib license.
 
 It is the successor to the Sprite32 library which since its inception until
 version 0.6 was written in C++. Remember: C++ is to C as lung cancer is to

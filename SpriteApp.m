@@ -24,6 +24,11 @@
 #import <SpriteCore/SpriteApp.h>
 #import <SpriteCore/SpriteNode.h>
 #import <SpriteCore/SpriteResLoader.h>
+#import <SpriteCore/DefaultAgents.h>
+#include <malloc.h>
+
+DefaultEventAgent *dea;
+
 @implementation SpriteApp
 -(id)initWithTitle: (char *)t width: (unsigned int)w height: (unsigned int)h {
 	self = [super init];
@@ -34,6 +39,7 @@
 	oldclock = [io_del getTimeMillis];
 	clock = [io_del getTimeMillis];
 	quitting = 0;
+	eagent = dea;
 }
 
 -(SpriteNode *)first {
@@ -163,10 +169,17 @@
 	[io_del refreshScreen];
 }
 
--(void)keyDown: (int)aKey {}
--(void)keyUp: (int)aKey {}
--(void)mouseMoveX: (int)x Y: (int)y {}
+-(void)handleEvent: (SpriteEvent *)evt {
+	[eagent handleEvent: evt forApp: self];
+}
 
+-(id <EventAgent>) eventAgent {
+	return eagent;
+}
+
+-(void) setEventAgent: (id <EventAgent>) ea {
+	eagent = ea;
+}
 
 -free {
 	[self freeClients];
@@ -228,4 +241,15 @@
 -(void)quit {
 	quitting = 1;
 }
+
++(void)initialize
+{
+	static int initialized = 0;
+	if(!initialized)
+	{
+		dea = [[DefaultEventAgent alloc] init];
+		initialized = 1;
+	}
+}
+
 @end

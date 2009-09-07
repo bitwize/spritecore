@@ -24,7 +24,7 @@
  */
 
 #include <stdlib.h>
-
+#import <SpriteCore/spriteevent.h>
 #import <SpriteCore/SpriteApp.h>
 #import <SpriteCore/Sprite.h>
 #import <SpriteCore/DefaultAgents.h>

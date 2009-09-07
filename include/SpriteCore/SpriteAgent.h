@@ -23,11 +23,19 @@
 #ifndef __SPRITEAGENT_H
 #define __SPRITEAGENT_H
 
-@class Sprite;
+#include <SpriteCore/spriteevent.h>
 
+@class Sprite;
+@class SpriteApp;
 @protocol SpriteAgent
 
 -(void)act: (Sprite *)s;
+
+@end
+
+@protocol EventAgent
+
+-(void)handleEvent: (SpriteEvent *)evt forApp: (SpriteApp *)app;
 
 @end
 

@@ -32,70 +32,9 @@
 
 #import <objc/Object.h>
 #import <SpriteCore/spriteimage.h>
-
-#define SC_Key_F1 0x101
-#define SC_Key_F2 0x102
-#define SC_Key_F3 0x103
-#define SC_Key_F4 0x104
-#define SC_Key_F5 0x105
-#define SC_Key_F6 0x106
-#define SC_Key_F7 0x107
-#define SC_Key_F8 0x108
-#define SC_Key_F9 0x109
-#define SC_Key_F10 0x10a
-#define SC_Key_F11 0x10b
-#define SC_Key_F12 0x10c
-#define SC_Key_Up 0x120
-#define SC_Key_Down 0x121
-#define SC_Key_Left 0x122
-#define SC_Key_Right 0x123
-#define SC_Key_Home 0x124
-#define SC_Key_End 0x125
-#define SC_Key_PgUp 0x126
-#define SC_Key_PgDn 0x127
-#define SC_Key_Ins 0x128
-#define SC_Key_Del 0x129
-
-#define SC_Key_BS 0x08
-#define SC_Key_Tab 0x09
-#define SC_Key_Enter 0x0d
-#define SC_Key_Newline 0x0a
-#define SC_Key_Escape 0x1b
-
-#define SC_Key_Button1 0x1000
-#define SC_Key_Button2 0x1001
-#define SC_Key_Button3 0x1002
-#define SC_Key_Button4 0x1003
-#define SC_Key_WheelUp 0x1003
-#define SC_Key_Button5 0x1004
-#define SC_Key_WheelDown 0x1004
-#define SC_Key_Button6 0x1005
-#define SC_Key_Button7 0x1006
-#define SC_Key_Button8 0x1007
-
-#define SC_Key_GameBtn1 0x3000
-#define SC_Key_GameBtn2 0x3001
-#define SC_Key_GameBtn3 0x3002
-#define SC_Key_GameBtn4 0x3003
-#define SC_Key_GameBtn5 0x3004
-#define SC_Key_GameBtn6 0x3005
-#define SC_Key_GameBtn7 0x3006
-#define SC_Key_GameBtn8 0x3007
-#define SC_Key_GameBtn9 0x3008
-#define SC_Key_GameBtn10 0x3009
-#define SC_Key_GameBtn11 0x300a
-#define SC_Key_GameBtn12 0x300b
-#define SC_Key_GameBtn13 0x300c
-#define SC_Key_GameBtn14 0x300d
-#define SC_Key_GameBtn15 0x300e
-#define SC_Key_GameBtn16 0x300f
-
-#define SC_Key_Shift 0x2000
-#define SC_Key_Ctrl  0x2001
-#define SC_Key_Alt   0x2002
-#define SC_Key_Meta  0x2003
-#define SC_Key_Feature 0x2003
-
+#import <SpriteCore/spriteevent.h>
+#import <SpriteCore/SpriteAgent.h>
+#import <SpriteCore/DefaultAgents.h>
 @class SpriteNode;
 @class SpriteResLoader;
 #import <SpriteCore/SpriteIODelegate.h>
@@ -119,8 +58,10 @@
 	unsigned int oldclock;
 	SpriteImage back,buf;
 	id <SpriteIODelegate> io_del;
+	id <EventAgent> eagent;
 	char *res_path;
 	int quitting;
+	
 }
 
 /*!
@@ -218,29 +159,13 @@
 
 -(void)step;
 
-/*!
-  Key press handler. Code of key pressed is aKey (it is an ASCII code, or
-  one of the SC_Key values in SpriteApp.h). Subclasses may override to
-  customise this behavior.
-*/
 
--(void)keyDown: (int)aKey;
+-(void)handleEvent: (SpriteEvent *)evt;
 
-/*!
-  Key release handler. Code of key released is aKey (it is an ASCII code, or one
-  of the SC_Key values in SpriteApp.h). Subclasses may override to customise
-  this behavior.
-*/
+-(id <EventAgent>) eventAgent;
 
--(void)keyUp: (int)aKey;
+-(void) setEventAgent: (id <EventAgent>) ea;
 
-/*!
-  Mouse motion handler. Mouse position is (x,y). Note: Mouse buttons are keys
-  and handled by -keyDown: and -keyUp:.  Subclasses may override to customise
-  this behavior.
-*/
-
--(void)mouseMoveX: (int)x Y: (int)y;
 -(SpriteImage *)background;
 -(SpriteImage *)surface;
 /*!

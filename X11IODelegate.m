@@ -25,47 +25,12 @@
 #import <SpriteCore/SpriteApp.h>
 #import <SpriteCore/X11IODelegate.h>
 #import <SpriteCore/svppm.h>
+#import <SpriteCore/spriteevent.h>
 #include <stdlib.h>
 #include <sys/time.h>
 
 #define IMAGE(x) ((XImage *)x)
 
-
-int SC_SpecialKeyMap[] = {
-	XK_F1,SC_Key_F1,
-	XK_F2,SC_Key_F2,
-	XK_F3,SC_Key_F3,
-	XK_F4,SC_Key_F4,
-	XK_F5,SC_Key_F5,
-	XK_F6,SC_Key_F6,
-	XK_F7,SC_Key_F7,
-	XK_F8,SC_Key_F8,
-	XK_F9,SC_Key_F9,
-	XK_F10,SC_Key_F10,
-	XK_F11,SC_Key_F11,
-	XK_F12,SC_Key_F12,
-	XK_Up,SC_Key_Up,
-	XK_Down,SC_Key_Down,
-	XK_Left,SC_Key_Left,
-	XK_Right,SC_Key_Right,
-	XK_Page_Up,SC_Key_PgUp,
-	XK_Page_Down,SC_Key_PgDn,
-	XK_Home,SC_Key_Home,
-	XK_End,SC_Key_End,
-	XK_Insert,SC_Key_Ins,
-	XK_Delete,SC_Key_Del,
-	XK_Shift_L,SC_Key_Shift,
-	XK_Control_L,SC_Key_Ctrl,
-	XK_Alt_L,SC_Key_Alt,
-	XK_Meta_L,SC_Key_Meta,
-	XK_Shift_R,SC_Key_Shift,
-	XK_Control_R,SC_Key_Ctrl,
-	XK_Alt_R,SC_Key_Alt,
-	XK_Meta_R,SC_Key_Meta,
-	XK_Escape,SC_Key_Escape,
-	XK_BackSpace,SC_Key_BS,
-	0,0
-};
 
 
 void BuildSI(SpriteImage *si) {
@@ -105,6 +70,7 @@ unsigned int inittime;
 	}
 	
 	dep = DefaultDepth(dpy,DefaultScreen(dpy));
+	fprintf(stderr,"depth: %d",dep);
 	win = XCreateSimpleWindow(dpy,DefaultRootWindow(dpy),0,0,w,h,0,
 				  BlackPixel(dpy,DefaultScreen(dpy)),
 				  BlackPixel(dpy,DefaultScreen(dpy)));
@@ -203,9 +169,11 @@ unsigned int inittime;
 
 -(id)dispatchEvents {
 	XEvent evt;
+	SpriteEvent se;
 	int code;
 	int ks;
 	int i;
+	se.time = [host clock];
 	while(XPending(dpy) > 0) {
 		XNextEvent(dpy,&evt);
 		switch(evt.type) {
@@ -214,43 +182,51 @@ unsigned int inittime;
 			break;
 		case KeyPress:
 		case KeyRelease:
-			ks = XLookupKeysym((XKeyEvent *)&evt,0);
-			/* Handle basic ASCII keys. */
-			if(ks >= 0x20 && ks <= 0x7f) {
-				code = ks;
+		{
+			se.source_type = SPRITEEVENT_SOURCE_KEYBOARD;
+			se.source_selector = 0;
+			se.code = XLookupKeysym((XKeyEvent *)&evt,0);
+			if ((evt.type) == KeyRelease) {
+				se.value = 0;
 			}
-			/* Handle control characters whose keysyms
-			   X11 put in the 0xffnn range. */
-			else if(ks >= 0xff01 && ks < 0xff10) {
-				code = ks & 0xff;
-			}
-			/* Look up other special keys. */
 			else {
-				for(i=0;SC_SpecialKeyMap[i] != 0;i += 2) {
-					if(ks == SC_SpecialKeyMap[i]) {
-						code = SC_SpecialKeyMap[i + 1];
-					}
-				}
+				se.value = 1;
 			}
-			if ((evt.type) == KeyRelease) {[host keyUp: code];} else
-			{[host keyDown: code];}
-			break;
+			[host handleEvent: &se];
+		}
+		break;
 		case MotionNotify:
 		{
 			XMotionEvent *me = ((XMotionEvent *)&evt);
-			[host mouseMoveX: me->x Y: me->y];
+			se.source_type = SPRITEEVENT_SOURCE_MOUSE |
+				SPRITEEVENT_SOURCE_VALUATOR;
+			se.source_selector = 0;
+			se.code = 0;
+			se.value = me->x;
+			[host handleEvent: &se];
+			se.code = 1;
+			se.value = me->y;
+			[host handleEvent: &se];
 		}
 			break;
 		case ButtonPress:
  		{
 			XButtonEvent *be = ((XButtonEvent *)&evt);
-			[host keyDown: (be->button - Button1 + SC_Key_Button1)];
+			se.source_type = SPRITEEVENT_SOURCE_MOUSE;
+			se.source_selector = 0;
+			se.code = be->button;
+			se.value = 1;
+			[host handleEvent: &se];
 		}
 			break;
 		case ButtonRelease:
  		{
 			XButtonEvent *be = ((XButtonEvent *)&evt);
-			[host keyUp: (be->button - Button1 + SC_Key_Button1)];
+			se.source_type = SPRITEEVENT_SOURCE_MOUSE;
+			se.source_selector = 0;
+			se.code = be->button;
+			se.value = 1;
+			[host handleEvent: &se];
 		}
 			break;
 		}

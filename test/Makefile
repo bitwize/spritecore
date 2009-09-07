@@ -12,3 +12,7 @@ $(objects): %.o: %.m
 
 $(targets): %: %.o
 	$(CC) $< $(LIBFLAGS) -o $@
+
+clean:
+	-rm -f *.o
+	-rm -f $(targets)

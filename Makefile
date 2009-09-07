@@ -55,3 +55,4 @@ doc:
 	-rm -fr docs/*
 	headerdoc2html -o docs SpriteApp.h Sprite.h spriteimage.h SpriteCore.hdoc matfunc.h svec.h
 	gatherheaderdoc docs
+# DO NOT DELETE

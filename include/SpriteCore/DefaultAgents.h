@@ -24,7 +24,10 @@
  */
 #ifndef __DEFAULTAGENTS_H
 #define __DEFAULTAGENTS_H
-
+#include <SpriteCore/spriteevent.h>
+#include <SpriteCore/spriteimage.h>
+@class SpriteApp;
+@class Sprite;
 @interface DefaultRendererAgent : Object <SpriteAgent>
 {
   
@@ -55,5 +58,21 @@
 }
 -(SequenceAgent *)initWith: (id <SpriteAgent>)a1 and: (id <SpriteAgent>)a2;
 -(void)act: (Sprite *)s;
+@end
+
+@interface DefaultEventAgent : Object <EventAgent>
+{
+
+}
+-(void)handleEvent: (SpriteEvent *)e forApp: (SpriteApp *) a;
+@end
+
+@interface WrapperEventAgent : Object <EventAgent>
+{
+  void (*handler)(SpriteEvent *,SpriteApp *);
+}
+-(WrapperEventAgent *)initWrappingHandler: (void (*)(SpriteEvent *,SpriteApp *))h;
+-(void)handleEvent: (SpriteEvent *)e forApp: (SpriteApp *) a;
+
 @end
 #endif
