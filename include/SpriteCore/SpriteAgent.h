@@ -23,17 +23,22 @@
 #ifndef __SPRITEAGENT_H
 #define __SPRITEAGENT_H
 
+#include <SpriteCore/spriteimage.h>
 #include <SpriteCore/spriteevent.h>
 
 @class Sprite;
 @class SpriteApp;
-@protocol SpriteAgent
+@protocol SpriteBehaviorAgent
 
 -(void)act: (Sprite *)s;
 
 @end
 
-@protocol EventAgent
+@protocol SpriteRendererAgent
+-(void)renderSprite: (Sprite *)s on: (SpriteImage *)si;
+@end
+
+@protocol SpriteEventAgent
 
 -(void)handleEvent: (SpriteEvent *)evt forApp: (SpriteApp *)app;
 

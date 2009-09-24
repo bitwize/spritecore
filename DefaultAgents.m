@@ -47,8 +47,17 @@
 	}
 }
 
--(void)act: (Sprite *)s {
-	[self renderSprite: s on: [[s host] surface]];
+@end
+
+@implementation WrapperRendererAgent
+-(WrapperRendererAgent *)initWrappingRenderer: (void (*)(Sprite *,SpriteImage *))f
+{
+	func = f;
+}
+
+-(void)renderSprite: (Sprite *)s on: (SpriteImage *)si
+{
+	func(s,si);
 }
 
 @end
@@ -61,8 +70,8 @@
 
 @end
 
-@implementation WrapperAgent
--(WrapperAgent *)initWrapping: (void (*)(Sprite *)) f
+@implementation WrapperBehaviorAgent
+-(WrapperBehaviorAgent *)initWrappingBehavior: (void (*)(Sprite *)) f
 {
 	self = [super init];
 	func = f;
@@ -76,8 +85,9 @@
 
 @end
 
-@implementation SequenceAgent
--(SequenceAgent *)initWith: (id <SpriteAgent>)a1 and: (id <SpriteAgent>)a2
+@implementation SequenceBehaviorAgent
+-(SequenceBehaviorAgent *)initSequencingBehaviors: (id <SpriteBehaviorAgent>)a1 
+				      and: (id <SpriteBehaviorAgent>)a2
 {
 	self = [super init];
 	agent1 = a1;

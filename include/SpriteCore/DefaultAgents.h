@@ -28,46 +28,54 @@
 #include <SpriteCore/spriteimage.h>
 @class SpriteApp;
 @class Sprite;
-@interface DefaultRendererAgent : Object <SpriteAgent>
+@interface DefaultRendererAgent : Object <SpriteRendererAgent>
 {
   
 }
 -(void)renderSprite: (Sprite *)s on: (SpriteImage *)si;
--(void)act: (Sprite *)s;
 @end
 
-@interface DefaultBehaviorAgent : Object <SpriteAgent>
+@interface WrapperRendererAgent : Object <SpriteRendererAgent>
+{
+  void (*func)(Sprite *,SpriteImage *);
+}
+-(WrapperRendererAgent *)initWrappingRenderer: (void (*)(Sprite *,SpriteImage *)) f;
+-(void)renderSprite: (Sprite *)s on: (SpriteImage *)si;
+@end
+
+@interface DefaultBehaviorAgent : Object <SpriteBehaviorAgent>
 {
 
 }
 -(void)act: (Sprite *)s;
 @end
 
-@interface WrapperAgent : Object <SpriteAgent>
+@interface WrapperBehaviorAgent : Object <SpriteBehaviorAgent>
 {
   void (*func)(Sprite *);
 }
--(WrapperAgent *)initWrapping: (void (*)(Sprite *)) f;
+-(WrapperBehaviorAgent *)initWrappingBehavior: (void (*)(Sprite *)) f;
 -(void)act: (Sprite *)s;
 @end
 
-@interface SequenceAgent : Object <SpriteAgent>
+@interface SequenceBehaviorAgent : Object <SpriteBehaviorAgent>
 {
-  id <SpriteAgent> agent1;
-  id <SpriteAgent> agent2;
+  id <SpriteBehaviorAgent> agent1;
+  id <SpriteBehaviorAgent> agent2;
 }
--(SequenceAgent *)initWith: (id <SpriteAgent>)a1 and: (id <SpriteAgent>)a2;
+-(SequenceBehaviorAgent *)initSequencingBehaviors: (id <SpriteBehaviorAgent>)a1
+					      and: (id <SpriteBehaviorAgent>)a2;
 -(void)act: (Sprite *)s;
 @end
 
-@interface DefaultEventAgent : Object <EventAgent>
+@interface DefaultEventAgent : Object <SpriteEventAgent>
 {
 
 }
 -(void)handleEvent: (SpriteEvent *)e forApp: (SpriteApp *) a;
 @end
 
-@interface WrapperEventAgent : Object <EventAgent>
+@interface WrapperEventAgent : Object <SpriteEventAgent>
 {
   void (*handler)(SpriteEvent *,SpriteApp *);
 }

@@ -58,7 +58,7 @@
 	unsigned int oldclock;
 	SpriteImage back,buf;
 	id <SpriteIODelegate> io_del;
-	id <EventAgent> eagent;
+	id <SpriteEventAgent> eagent;
 	char *res_path;
 	int quitting;
 	
@@ -162,9 +162,9 @@
 
 -(void)handleEvent: (SpriteEvent *)evt;
 
--(id <EventAgent>) eventAgent;
+-(id <SpriteEventAgent>) eventAgent;
 
--(void) setEventAgent: (id <EventAgent>) ea;
+-(void) setEventAgent: (id <SpriteEventAgent>) ea;
 
 -(SpriteImage *)background;
 -(SpriteImage *)surface;

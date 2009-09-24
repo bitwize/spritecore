@@ -65,8 +65,8 @@ struct sprite_render_data {
 	svec2 hotspot;
 	unsigned int width,height;
 	char key[MAX_PIXEL_WIDTH];
-	id <SpriteAgent> aagent;
-	id <SpriteAgent> bagent;
+	id <SpriteRendererAgent> aagent;
+	id <SpriteBehaviorAgent> bagent;
 }
 
 /*!
@@ -200,10 +200,10 @@ struct sprite_render_data {
 
 -(int)isTouching: (Sprite *)s;
 			  
--(void)setAppearanceAgent: (id<SpriteAgent>) a;
--(id<SpriteAgent>)appearanceAgent;
--(void)setBehaviorAgent: (id<SpriteAgent>) a;
--(id<SpriteAgent>)behaviorAgent;
+-(void)setAppearanceAgent: (id<SpriteRendererAgent>) a;
+-(id<SpriteRendererAgent>)appearanceAgent;
+-(void)setBehaviorAgent: (id<SpriteBehaviorAgent>) a;
+-(id<SpriteBehaviorAgent>)behaviorAgent;
 -(void)fillRenderData: (struct sprite_render_data *)d;
 +(void)initialize;
 @end

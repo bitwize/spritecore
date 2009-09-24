@@ -95,7 +95,7 @@ svec2 make_svec2(float x,float y) {
 }
 
 -(void)render {
-	[aagent act: self];
+	[aagent renderSprite: self on: [host surface]];
 }
 
 -(void)moveTo: (svec2)p {
@@ -159,22 +159,22 @@ svec2 make_svec2(float x,float y) {
 	return(step1 && step2);
 }
 
--(void)setAppearanceAgent: (id<SpriteAgent>) a
+-(void)setAppearanceAgent: (id<SpriteRendererAgent>) a
 {
 	aagent = a;
 }
 
--(id<SpriteAgent>)appearanceAgent
+-(id<SpriteRendererAgent>)appearanceAgent
 {
 	return aagent;
 }
 
--(void)setBehaviorAgent: (id<SpriteAgent>) a
+-(void)setBehaviorAgent: (id<SpriteBehaviorAgent>) a
 {
 	bagent = a;
 }
 
--(id<SpriteAgent>)behaviorAgent
+-(id<SpriteBehaviorAgent>)behaviorAgent
 {
 	return bagent;
 }
