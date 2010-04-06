@@ -39,8 +39,8 @@
 #import <SpriteCore/SpriteAgent.h>
 struct sprite_render_data {
 	SpriteImage *simg;
-	svec2 pos;
-	svec2 hotspot;
+	sc_vec2 pos;
+	sc_vec2 hotspot;
 	char *key;
 	unsigned int frame;
 	unsigned int maxframes;
@@ -60,9 +60,9 @@ struct sprite_render_data {
 	SpriteImage *simg;
 	unsigned int frame;
 	unsigned int maxframes;
-	svec2 pos;
-	svec2 vel;
-	svec2 hotspot;
+	sc_vec2 pos;
+	sc_vec2 vel;
+	sc_vec2 hotspot;
 	unsigned int width,height;
 	char key[MAX_PIXEL_WIDTH];
 	id <SpriteRendererAgent> aagent;
@@ -124,18 +124,18 @@ struct sprite_render_data {
 
 
 /*!
-  Moves the sprite to the coordinates specified in the svec2 struct given as
+  Moves the sprite to the coordinates specified in the sc_vec2 struct given as
   p. The sprite's hotspot will be centered over the point p.
 */
 
--(void)moveTo: (svec2)p;
+-(void)moveTo: (sc_vec2)p;
 
 /*!
   Sets the sprite's velocity to the x and y values given by v. Velocity values
   are in pixels per fiftieth of a second.
 */
 
--(void)setVel: (svec2)v;
+-(void)setVel: (sc_vec2)v;
 
 /*!
   Sets the sprite's hotspot to the x and y values given by p. The hotspot is
@@ -145,30 +145,30 @@ struct sprite_render_data {
 */
 
 
--(void)setHotspot: (svec2)p;
+-(void)setHotspot: (sc_vec2)p;
 
 /*!
-  Returns the sprite's position as an svec2.
+  Returns the sprite's position as an sc_vec2.
 */
 
--(svec2)pos;
+-(sc_vec2)pos;
 
 /*!
   Returns the sprite's velocity (in pixels per fiftieth of a second) as an
-  svec2.
+  sc_vec2.
 */
 
 
--(svec2)vel;
+-(sc_vec2)vel;
 
 /*!
-  Returns the sprite's hotspot as an svec2. The hotspot is
+  Returns the sprite's hotspot as an sc_vec2. The hotspot is
   a point relative to the upper-left corner of the sprite
   (default is (0,0)). Calls to -moveTo: will center the hotspot over the
   location passed to that method.
 */
 
--(svec2)hotspot;
+-(sc_vec2)hotspot;
 
 /*!
   Returns the sprite's width as an integer.
@@ -183,14 +183,14 @@ struct sprite_render_data {
 -(unsigned int)height;
 
 /*!
-  Returns the sprite's size as an svec2.
+  Returns the sprite's size as an sc_vec2.
 */
 
--(svec2)size;
+-(sc_vec2)size;
 
 -(char *)keyPtr;
 
--(srect2)boundingBox;
+-(sc_rect2)boundingBox;
 
 /*!
   Returns a Boolean value corresponding to whether the sprite's bounding

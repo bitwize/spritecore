@@ -98,14 +98,14 @@ void mat_rotate(s_matp mat,float rads,s_matp mdest) {
 	mat_mul(mat,m2,mdest);
 }
 
-void mat_xlate(s_matp mat,svec2 disp,s_matp mdest) {
+void mat_xlate(s_matp mat,float disp_x,float disp_y,s_matp mdest) {
 	s_mat3  m2;
 	m2[0] = 1;
 	m2[1] = 0;
-	m2[2] = disp.x;
+	m2[2] = disp_x;
 	m2[3] = 0;
 	m2[4] = 1;
-	m2[5] = disp.y;
+	m2[5] = disp_y;
 	m2[6] = 0;
 	m2[7] = 0;
 	m2[8] = 1;
@@ -113,12 +113,12 @@ void mat_xlate(s_matp mat,svec2 disp,s_matp mdest) {
 }
 
 
-void mat_shear(s_matp mat,svec2 disp,s_matp mdest) {
+void mat_shear(s_matp mat,float disp_x,float disp_y,s_matp mdest) {
 	s_mat3  m2;
 	m2[0] = 1;
-	m2[1] = disp.x;
+	m2[1] = disp_x;
 	m2[2] = 0;
-	m2[3] = disp.y;
+	m2[3] = disp_y;
 	m2[4] = 1;
 	m2[5] = 0;
 	m2[6] = 0;

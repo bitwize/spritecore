@@ -173,11 +173,11 @@ DefaultEventAgent *dea;
 	[eagent handleEvent: evt forApp: self];
 }
 
--(id <EventAgent>) eventAgent {
+-(id <SpriteEventAgent>) eventAgent {
 	return eagent;
 }
 
--(void) setEventAgent: (id <EventAgent>) ea {
+-(void) setEventAgent: (id <SpriteEventAgent>) ea {
 	eagent = ea;
 }
 

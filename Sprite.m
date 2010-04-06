@@ -29,13 +29,6 @@
 DefaultRendererAgent *dra;
 DefaultBehaviorAgent *dba;
 
-svec2 make_svec2(float x,float y) {
-	svec2 v;
-	v.x = x;
-	v.y = y;
-	return v;
-}
-
 @implementation Sprite
 -(id)initOn: (SpriteApp *)h
       shape: (SpriteImage *)si
@@ -88,7 +81,7 @@ svec2 make_svec2(float x,float y) {
 
 -(void)step {
 	unsigned int t = [host lastFrameTime];
-	float nj = (float)t / 20.0;
+	unsigned int nj = t / 20;
 	pos.x += vel.x * nj;
 	pos.y += vel.y * nj;
 	[bagent act: self];
@@ -98,45 +91,45 @@ svec2 make_svec2(float x,float y) {
 	[aagent renderSprite: self on: [host surface]];
 }
 
--(void)moveTo: (svec2)p {
+-(void)moveTo: (sc_vec2)p {
 	pos = p;
 }
 
--(void)setVel: (svec2)v {
+-(void)setVel: (sc_vec2)v {
 	vel = v;
 }
--(void)setHotspot: (svec2)h {
+-(void)setHotspot: (sc_vec2)h {
 	hotspot = h;
 }
 
--(svec2)pos {
+-(sc_vec2)pos {
 	return pos;
 }
 
--(svec2)vel {
+-(sc_vec2)vel {
 	return vel;
 }
 
--(svec2)hotspot {
+-(sc_vec2)hotspot {
 	return hotspot;
 }
 
 -(unsigned int)width {return width;}
 -(unsigned int)height {return height;}
--(svec2)size {return make_svec2(width,height);}
--(srect2)boundingBox
+-(sc_vec2)size {return make_sc_vec2_fl(width,height);}
+-(sc_rect2)boundingBox
 {
-	srect2 bb;
+	sc_rect2 bb;
 	bb.pos = pos;
-	bb.size = make_svec2(width,height);
+	bb.size = make_sc_vec2_fl(width,height);
 	return bb;
 }
 -(char *)keyPtr {return key;}
 
 -(int)isTouching: (Sprite *)s {
 	int step1,step2; //Intermediate x and y proximity values.
-	svec2 pos2 = [s pos];
-	svec2 hotspot2 = [s hotspot];
+	sc_vec2 pos2 = [s pos];
+	sc_vec2 hotspot2 = [s hotspot];
 	int x1 = pos.x - hotspot.x;
 	int y1 = pos.y - hotspot.y;
 	int x2 = pos2.x - hotspot2.x;

@@ -25,6 +25,7 @@
 #import <SpriteCore/Sprite.h>
 #import <SpriteCore/SpriteApp.h>
 #import <SpriteCore/DefaultAgents.h>
+#include <SpriteCore/svec.h>
 
 @implementation DefaultRendererAgent
 -(void)renderSprite: (Sprite *)s on: (SpriteImage *)si
@@ -34,14 +35,14 @@
 	if(d.simg != NULL) {
 		if(d.maxframes < 2) {
 			ImageCopy(d.simg,si,0,0,
-				  d.pos.x-d.hotspot.x,
-				  d.pos.y-d.hotspot.y,
+				  (d.pos.x-d.hotspot.x) >> SC_FXP_FRACBITS,
+				  (d.pos.y-d.hotspot.y) >> SC_FXP_FRACBITS,
 				  d.width,d.height,SIMG_USE_KEY,d.key);
 		}
 		else {
 			ImageCopy(d.simg,si,0,d.height * d.frame,
-				  d.pos.x-d.hotspot.x,
-				  d.pos.y-d.hotspot.y,
+				  (d.pos.x-d.hotspot.x) >> SC_FXP_FRACBITS,
+				  (d.pos.y-d.hotspot.y) >> SC_FXP_FRACBITS,
 				  d.width,d.height,SIMG_USE_KEY,d.key);
 		}
 	}

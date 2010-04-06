@@ -88,7 +88,7 @@ void mat_rotate(s_matp mat,float rads,s_matp mdest);
   @param mdest Matrix where result will be stored
 */
 
-void mat_xlate(s_matp mat,svec2 disp,s_matp mdest);
+void mat_xlate(s_matp mat,float disp_x,float disp_y,s_matp mdest);
 
 /*!
   @function mat_shear
@@ -97,6 +97,6 @@ void mat_xlate(s_matp mat,svec2 disp,s_matp mdest);
   @param mdest Matrix where result will be stored
 */
 
-void mat_shear(s_matp mat,svec2 disp,s_matp mdest);
+void mat_shear(s_matp mat,float disp_x,float disp_y,s_matp mdest);
 
 #endif
