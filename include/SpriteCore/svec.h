@@ -46,10 +46,10 @@ typedef int sc_fixedpoint;
 #define SC_FXP_FRACBITS 10
 #define SC_FXP_SCALE (1 << SC_FXP_FRACBITS)
 #define MAKE_SC_FXP(_units,_fracs) ((sc_fixedpoint)((_units << SC_FXP_FRACBITS) | \
-						    (_fracs && (SC_FXP_SCALE - 1))))
+						    (_fracs & (SC_FXP_SCALE - 1))))
 
 #define SC_FXP_TO_FLOAT(x) ((float)x/(float)SC_FXP_SCALE)
-#define SC_FLOAT_TO_FXP(x) MAKE_SC_FXP((int)x,(int)(x * SC_FXP_SCALE))
+#define SC_FLOAT_TO_FXP(x) MAKE_SC_FXP((int)x,(int)(x * (float)SC_FXP_SCALE))
 /*
 
   The sc_vec2 struct constitutes a vector in two-dimensional space, in
