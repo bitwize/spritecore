@@ -18,8 +18,8 @@ INSTALL=install
 # Specify location of your X11 libs and headers
 # For X11 and GLX renderers.
 
-XLIBDIR=/usr/lib
-XINCDIR=/usr/include
+XLIBDIR=/usr/X11R7/lib
+XINCDIR=/usr/X11R7/include
 
 # Specify location of your OpenGL libs and headers
 # For GLX renderer.

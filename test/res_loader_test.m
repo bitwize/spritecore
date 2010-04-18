@@ -11,6 +11,7 @@ int main(void) {
 			(resl_test_handler)];
 	SpriteApp *a = [[SpriteApp alloc] initWithTitle: "test" width: 512 height: 384];
 	[a setEventAgent: wa];
+	[[a logger] logCategory: "Test" message: "foo"];
 	SpriteResLoader *loader = [[SpriteResLoader alloc] initOn: a named: "foo"];
 	SpriteImage shp;
 	Sprite *s;

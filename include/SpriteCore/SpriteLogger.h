@@ -24,7 +24,7 @@
 
   or summat.
  */
--(void)logCategory: (char *)cat message: (char*)msg;
+-(void)logCategory: (char *)cat message: (char*)msg,...;
 @end
 
 
