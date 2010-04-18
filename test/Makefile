@@ -1,6 +1,7 @@
 CC = gcc
 CFLAGS = -g -I../include
-LIBFLAGS = -L/usr/X11R6/lib -L.. -lX11 -lXext -lm -lSpriteCore -lobjc
+LIBPATH = -L/usr/X11R7/lib -Wl,-R/usr/X11R7/lib -L.. -Wl,-R..
+LIBS = -lX11 -lXext -lm -lSpriteCore -lobjc
 
 objects = res_loader_test.o
 targets = res_loader_test
@@ -11,7 +12,7 @@ $(objects): %.o: %.m
 	$(CC) -c $(CFLAGS) $< -o $@
 
 $(targets): %: %.o
-	$(CC) $< $(LIBFLAGS) -o $@
+	$(CC)  $(LIBPATH) -o $@ $< $(LIBS)
 
 clean:
 	-rm -f *.o

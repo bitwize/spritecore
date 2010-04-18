@@ -35,6 +35,7 @@
 #import <SpriteCore/spriteevent.h>
 #import <SpriteCore/SpriteAgent.h>
 #import <SpriteCore/DefaultAgents.h>
+#import <SpriteCore/SpriteLogger.h>
 @class SpriteNode;
 @class SpriteResLoader;
 #import <SpriteCore/SpriteIODelegate.h>
@@ -59,6 +60,7 @@
 	SpriteImage back,buf;
 	id <SpriteIODelegate> io_del;
 	id <SpriteEventAgent> eagent;
+	Object <SpriteLogger> *logger;
 	char *res_path;
 	int quitting;
 	
@@ -205,6 +207,13 @@
 
 -(void)quit;
 -(void)run;
+
+/*
+  Returns the logger associated with this SpriteApp.
+*/
+
+-(Object <SpriteLogger> *)logger;
+
 @end
 
 /*!

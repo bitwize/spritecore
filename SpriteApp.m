@@ -25,6 +25,7 @@
 #import <SpriteCore/SpriteNode.h>
 #import <SpriteCore/SpriteResLoader.h>
 #import <SpriteCore/DefaultAgents.h>
+#import <SpriteCore/StderrLogger.h>
 #include <malloc.h>
 
 DefaultEventAgent *dea;
@@ -35,11 +36,12 @@ DefaultEventAgent *dea;
 	first = nil; deleted = nil;
 	title = t; width = w; height = h;
 	io_del = createIODelegate(self,w,h,t);
-	return self;
 	oldclock = [io_del getTimeMillis];
 	clock = [io_del getTimeMillis];
+	logger = [[StderrLogger alloc] init];
 	quitting = 0;
 	eagent = dea;
+	return self;
 }
 
 -(SpriteNode *)first {
@@ -240,6 +242,10 @@ DefaultEventAgent *dea;
 
 -(void)quit {
 	quitting = 1;
+}
+-(Object <SpriteLogger> *)logger
+{
+	return logger;
 }
 
 +(void)initialize
