@@ -43,7 +43,7 @@ DESTINCDIR=/usr/local/include
 LIBBASENAME=libSpriteCore
 VERMAJOR=0
 VERMINOR=7
-CFLAGS=-g
+CFLAGS=-g -fPIC
 OBJCFLAGS=$(CFLAGS) -Wno-import
 
 # Set to your current platform (currently available: linux, darwin)
@@ -52,7 +52,7 @@ OBJCFLAGS=$(CFLAGS) -Wno-import
 # systems). Alternatively, add your platform by making up an appropriate 
 # mklib.* file and updating the Makefile.
 
-PLATFORM=unix-static
+PLATFORM=linux
 
 
 # Set to the renderer you want (currently available: sdl)
