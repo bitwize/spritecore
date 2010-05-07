@@ -80,10 +80,8 @@ DefaultBehaviorAgent *dba;
 }
 
 -(void)step {
-	unsigned int t = [host lastFrameTime];
-	unsigned int nj = t / 20;
-	pos.x += vel.x * nj;
-	pos.y += vel.y * nj;
+	pos.x += (vel.x);
+	pos.y += (vel.y);
 	[bagent act: self];
 }
 

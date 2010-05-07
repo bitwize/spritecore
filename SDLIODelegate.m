@@ -32,36 +32,36 @@ int sdl_inited = 0;
 
 
 int SC_SpecialKeyMap[] = {
-	SDLK_F1,SC_Key_F1,
-	SDLK_F2,SC_Key_F2,
-	SDLK_F3,SC_Key_F3,
-	SDLK_F4,SC_Key_F4,
-	SDLK_F5,SC_Key_F5,
-	SDLK_F6,SC_Key_F6,
-	SDLK_F7,SC_Key_F7,
-	SDLK_F8,SC_Key_F8,
-	SDLK_F9,SC_Key_F9,
-	SDLK_F10,SC_Key_F10,
-	SDLK_F11,SC_Key_F11,
-	SDLK_F12,SC_Key_F12,
-	SDLK_UP,SC_Key_Up,
-	SDLK_DOWN,SC_Key_Down,
-	SDLK_LEFT,SC_Key_Left,
-	SDLK_RIGHT,SC_Key_Right,
-	SDLK_PAGEUP,SC_Key_PgUp,
-	SDLK_PAGEDOWN,SC_Key_PgDn,
-	SDLK_HOME,SC_Key_Home,
-	SDLK_END,SC_Key_End,
-	SDLK_INSERT,SC_Key_Ins,
-	SDLK_DELETE,SC_Key_Del,
-	SDLK_LSHIFT,SC_Key_Shift,
-	SDLK_LCTRL,SC_Key_Ctrl,
-	SDLK_LALT,SC_Key_Alt,
-	SDLK_LMETA,SC_Key_Meta,
-	SDLK_RSHIFT,SC_Key_Shift,
-	SDLK_RCTRL,SC_Key_Ctrl,
-	SDLK_RALT,SC_Key_Alt,
-	SDLK_RMETA,SC_Key_Meta,
+	SDLK_F1,XK_F1,
+	SDLK_F2,XK_F2,
+	SDLK_F3,XK_F3,
+	SDLK_F4,XK_F4,
+	SDLK_F5,XK_F5,
+	SDLK_F6,XK_F6,
+	SDLK_F7,XK_F7,
+	SDLK_F8,XK_F8,
+	SDLK_F9,XK_F9,
+	SDLK_F10,XK_F10,
+	SDLK_F11,XK_F11,
+	SDLK_F12,XK_F12,
+	SDLK_UP,XK_Up,
+	SDLK_DOWN,XK_Down,
+	SDLK_LEFT,XK_Left,
+	SDLK_RIGHT,XK_Right,
+	SDLK_PAGEUP,XK_Page_Up,
+	SDLK_PAGEDOWN,XK_Page_Down,
+	SDLK_HOME,XK_Home,
+	SDLK_END,XK_End,
+	SDLK_INSERT,XK_Insert,
+	SDLK_DELETE,XK_Delete,
+	SDLK_LSHIFT,XK_Shift_L,
+	SDLK_LCTRL,XK_Control_L,
+	SDLK_LALT,XK_Alt_L,
+	SDLK_LMETA,XK_Meta_L,
+	SDLK_RSHIFT,XK_Shift_R,
+	SDLK_RCTRL,XK_Control_R,
+	SDLK_RALT,XK_Alt_R,
+	SDLK_RMETA,XK_Meta_R,
 	0,0
 };
 
@@ -156,7 +156,7 @@ void BuildSI(SpriteImage *si) {
 	si->scan_length = IMAGE(si->img)->pitch;
 	si->endian = (SDL_BYTEORDER == SDL_LIL_ENDIAN ? 
 		      SIMG_LITTLE_ENDIAN : 
-		      SIMG_BIG_ENDIAN);
+		      SIMG_LITTLE_ENDIAN);
 	si->bits = IMAGE(si->img)->pixels;
 	si->auto_free = 1;
 	return 0;
@@ -173,36 +173,59 @@ void BuildSI(SpriteImage *si) {
 	int code;
 	int ks;
 	int i;
+	SpriteEvent se;
 	while(SDL_PollEvent(&evt)) {
 		switch(evt.type) {
 		case SDL_KEYDOWN:
 		case SDL_KEYUP:
+			se.source_type = SPRITEEVENT_SOURCE_KEYBOARD;
+			se.source_selector = 0;
 			ks = (evt.key.keysym).sym;
-			if(ks >= 0x01 && ks <= 0x7f) {
-				code = ks;
+			if(ks >= 0x01 && ks <= 0x7e) {
+				se.code = ks;
+				if(ks <= 0x20) {
+					se.code |= 0xff00;
+				}
 			}
 			else {
 				for(i=0;SC_SpecialKeyMap[i] != 0;i += 2) {
 					if(ks == SC_SpecialKeyMap[i]) {
-						code = SC_SpecialKeyMap[i + 1];
+						se.code = SC_SpecialKeyMap[i + 1];
 					}
 				}
 			}
 			if ((evt.type) == SDL_KEYUP) {
-				[host keyUp: code];
+				se.value = 0;
 			} else
 			{
-				[host keyDown: code];
+				se.value = 1;
 			}
+			[host handleEvent: &se];
 			break;
 		case SDL_MOUSEMOTION:
-			[host mouseMoveX: evt.motion.x Y: evt.motion.y];
+			se.source_type = SPRITEEVENT_SOURCE_MOUSE |
+				SPRITEEVENT_SOURCE_VALUATOR;
+			se.source_selector = 0;
+			se.code = 0;
+			se.value = evt.motion.x;
+			[host handleEvent: &se];
+			se.code = 1;
+			se.value = evt.motion.y;
+			[host handleEvent: &se];
 			break;
 		case SDL_MOUSEBUTTONDOWN:
-			[host keyDown: (evt.button.button - 1 + SC_Key_Button1)];
+			se.source_type = SPRITEEVENT_SOURCE_MOUSE;
+			se.source_selector = 0;
+			se.code = evt.button.button;
+			se.value = 1;
+			[host handleEvent: &se];
 			break;
 		case SDL_MOUSEBUTTONUP:
-			[host keyUp: (evt.button.button - 1 + SC_Key_Button1)];
+			se.source_type = SPRITEEVENT_SOURCE_MOUSE;
+			se.source_selector = 0;
+			se.code = evt.button.button;
+			se.value = 0;
+			[host handleEvent: &se];
 			break;
 		}
 	}

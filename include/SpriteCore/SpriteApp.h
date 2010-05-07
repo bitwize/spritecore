@@ -161,6 +161,7 @@
 
 -(void)step;
 
+-(void)updateDisplay;
 
 -(void)handleEvent: (SpriteEvent *)evt;
 
@@ -204,15 +205,11 @@
 -(void)setResourcePath: (char *)aPath;
 -(int)loader: (SpriteResLoader *)aLoader loadResPPM: (char *)aResName 
      toImage: (SpriteImage *)si;
+-(void)logCategory: (char *)cat message: (char *) msg,...;
 
 -(void)quit;
 -(void)run;
 
-/*
-  Returns the logger associated with this SpriteApp.
-*/
-
--(Object <SpriteLogger> *)logger;
 
 @end
 

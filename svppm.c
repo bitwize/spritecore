@@ -220,7 +220,7 @@ unsigned char *ConvertBpp(unsigned char *rgb,int cx,int cy,int bpp)
 {
 	unsigned char *image;
 	unsigned short *image2;
-	unsigned long *image4;
+	unsigned int *image4;
 	int i;
 	if(bpp!=8 && bpp!=15 && bpp!=16 && bpp!=24 && bpp!=32) {
 		return NULL;
@@ -248,9 +248,10 @@ unsigned char *ConvertBpp(unsigned char *rgb,int cx,int cy,int bpp)
 			image[3*i+2] = rgb[3*i+2];
 			break;
 		case 32:
-			image[4*i]=rgb[3*i]; image[4*i+1] = rgb[3*i+1];
-			image[4*i+2] = rgb[3*i+2]; image[4*i+3] = 0;
+			image4[i]=RED32(rgb[3*i]) | GRN32(rgb[3*i+1]) |
+				BLU32(rgb[3*i+2]);
 			break;
+		  
 		}
 	}
 	return image;

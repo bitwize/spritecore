@@ -155,20 +155,31 @@ DefaultEventAgent *dea;
 	SpriteNode *i,*j;
 	i = first;
 	[io_del dispatchEvents];
-	[io_del lockAndClearBuf];
-	oldclock = clock;
-	clock = [io_del getTimeMillis];
-  
+	oldclock += 20;
 	while(i != nil) {
 		j=[i next];
 		[i step];
-		[i render];
 		i=j;
 	}
 	[self freeDeleted];
 	[io_del unlockBuf];
 
 	[io_del refreshScreen];
+}
+
+-(void)updateDisplay
+{
+	SpriteNode *i;
+	i = first;
+	[io_del lockAndClearBuf];
+	while(i != nil) {
+		[i render];
+		i = [i next];
+	}
+	[io_del unlockBuf];
+
+	[io_del refreshScreen];
+	
 }
 
 -(void)handleEvent: (SpriteEvent *)evt {
@@ -235,7 +246,11 @@ DefaultEventAgent *dea;
 
 -(void)run {
 	while(!quitting) {
-		[self step];
+		while((clock - oldclock) >= 20) {
+			[self step];
+		}
+		[self updateDisplay];
+		clock = [io_del getTimeMillis];
 		[io_del sleepMillis: 10];
 	}
 }
@@ -243,9 +258,16 @@ DefaultEventAgent *dea;
 -(void)quit {
 	quitting = 1;
 }
--(Object <SpriteLogger> *)logger
+
+-(void)logCategory: (char *)cat message: (char *) msg,...
 {
-	return logger;
+	va_list l;
+	if(logger != nil) {
+		va_start(l,msg);
+		[logger varargsLogCategory: cat message: msg rest: l];
+		va_end(l);
+	}
+
 }
 
 +(void)initialize

@@ -56,4 +56,5 @@ PLATFORM=linux
 
 
 # Set to the renderer you want (currently available: sdl)
-RENDERER=x11
+RENDERER=sdl
+
