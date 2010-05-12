@@ -251,7 +251,7 @@ DefaultEventAgent *dea;
 		}
 		[self updateDisplay];
 		clock = [io_del getTimeMillis];
-		[io_del sleepMillis: 10];
+		[io_del sleepMillis: 5];
 	}
 }
 

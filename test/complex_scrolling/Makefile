@@ -3,7 +3,7 @@ CFLAGS = -g -I../../include
 LIBPATH = -L/usr/X11R7/lib -Wl,-R/usr/X11R7/lib -L../.. -Wl,-R../..
 LIBS = -lX11 -lXext -lm -lSpriteCore -lobjc
 
-objcobjects = ComplexScrollApp.o main.o
+objcobjects = ComplexScrollApp.o main.o ScrollLayerAgent.o
 targets = complex_scrolling
 
 all: $(targets)

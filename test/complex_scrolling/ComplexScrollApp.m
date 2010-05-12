@@ -1,5 +1,6 @@
 #import <SpriteCore/SpriteCore.h>
 #import "ComplexScrollApp.h"
+#import "ScrollLayerAgent.h"
 
 WrapperEventAgent *a;
 int initialized = 0;
@@ -15,6 +16,8 @@ void resl_test_handler(SpriteEvent *e,SpriteApp *a);
 	rl = [[SpriteResLoader alloc] initOn: self named: "complex_scrolling"];
 	bg = [self createScrollLayerLoading: "scroll1.pnm" image: &bgsi];
 	fg = [self createScrollLayerLoading: "scroll2.pnm" image: &fgsi];
+	[bg setVel: make_sc_vec2_fl(1.5,0)];
+	[fg setVel: make_sc_vec2_fl(3.0,0)];
 	return self;
 }
 
@@ -22,6 +25,7 @@ void resl_test_handler(SpriteEvent *e,SpriteApp *a);
 {
 	[self loader: rl loadResPPM: resName toImage: i];
 	Sprite *s = [[Sprite alloc] initOn: self shape: i frames: 1];
+	[s setAppearanceAgent: (ScrollLayerAgent *)[ScrollLayerAgent instance]];
 	return s;
 }
 
