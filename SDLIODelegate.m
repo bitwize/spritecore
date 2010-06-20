@@ -235,8 +235,9 @@ void BuildSI(SpriteImage *si) {
 	SDL_LockSurface(IMAGE(buf.img));
 }
 -(void)lockAndClearBuf {
+//	ImageCopy(&back,&buf,0,0,0,0,back.cx,back.cy,0,0);
+	SDL_BlitSurface(IMAGE(back.img),NULL,IMAGE(buf.img),NULL);
 	[self lockBuf];
-	ImageCopy(&back,&buf,0,0,0,0,back.cx,back.cy,0,0);
 }
 
 -(void)unlockBuf {
