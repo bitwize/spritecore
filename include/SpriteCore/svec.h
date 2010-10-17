@@ -27,43 +27,18 @@
 
 /*
 
-  The sc_fixedpoint data type represents a fixed-point scalar value
-  that can be used as a pixel coordinate for sprite positions and
-  velocities, permitting resolutions as fine as 1/1024 of a pixel.
-
-  The MAKE_SC_FXP constructor is a macro that can be thought of as having type:
-
-  MAKE_SC_FXP : (int,unsigned int) -> sc_fixedpoint
-
-  MAKE_SC_FXP(units,fracs) returns a new sc_fixedpoint with integer
-  part `units' and fractional part `fracs', where 0 <= fracs < 1024.
-
-  The SC_FXP_TO_FLOAT and SC_FLOAT_TO_FXP macros do what they say on the tin.
-
-*/
-typedef int sc_fixedpoint;
-
-#define SC_FXP_FRACBITS 10
-#define SC_FXP_SCALE (1 << SC_FXP_FRACBITS)
-#define MAKE_SC_FXP(_units,_fracs) ((sc_fixedpoint)((_units << SC_FXP_FRACBITS) | \
-						    (_fracs & (SC_FXP_SCALE - 1))))
-
-#define SC_FXP_TO_FLOAT(x) ((float)x/(float)SC_FXP_SCALE)
-#define SC_FLOAT_TO_FXP(x) MAKE_SC_FXP((int)x,(int)(x * (float)SC_FXP_SCALE))
-/*
-
   The sc_vec2 struct constitutes a vector in two-dimensional space, in
   pixel coordinates. Its fields are as follows:
 
-    x : sc_fixedpoint -- The X coordinate
-    y : sc_fixedpoint -- The Y coordinate
+    x : float -- The X coordinate
+    y : float -- The Y coordinate
 
 */
 
 
 typedef struct __sc_vec2 {
-	sc_fixedpoint x;
-	sc_fixedpoint y;
+	float x;
+	float y;
 } sc_vec2;
 
 /*
@@ -85,14 +60,8 @@ typedef struct __sc_rect2 {
 
   make_sc_vec2_fl : (float,float) -> sc_vec2
 
-  make_sc_vec2_fx : (sc_fixedpoint,sc_fixedpoint) -> sc_vec2
-
-  These two routines construct an sc_vec2 from floating-point or raw
-  fixed-point components, respectively.
-
 */
 
 extern sc_vec2 make_sc_vec2_fl(float x,float y);
-extern sc_vec2 make_sc_vec2_fx(sc_fixedpoint x,sc_fixedpoint y);
 
 #endif

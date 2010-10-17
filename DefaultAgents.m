@@ -35,14 +35,14 @@
 	if(d.simg != NULL) {
 		if(d.maxframes < 2) {
 			ImageCopy(d.simg,si,0,0,
-				  (d.pos.x-d.hotspot.x) >> SC_FXP_FRACBITS,
-				  (d.pos.y-d.hotspot.y) >> SC_FXP_FRACBITS,
+				  (d.pos.x-d.hotspot.x),
+				  (d.pos.y-d.hotspot.y),
 				  d.width,d.height,SIMG_USE_KEY,d.key);
 		}
 		else {
 			ImageCopy(d.simg,si,0,d.height * d.frame,
-				  (d.pos.x-d.hotspot.x) >> SC_FXP_FRACBITS,
-				  (d.pos.y-d.hotspot.y) >> SC_FXP_FRACBITS,
+				  (d.pos.x-d.hotspot.x),
+				  (d.pos.y-d.hotspot.y),
 				  d.width,d.height,SIMG_USE_KEY,d.key);
 		}
 	}
