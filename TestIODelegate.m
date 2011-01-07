@@ -26,9 +26,9 @@
 #import <SpriteCore/TestIODelegate.h>
 #import <SpriteCore/svppm.h>
 #include <stdlib.h>
-@implementation SDLIODelegate
+@implementation TestIODelegate
 
-- (SDLIODelegate *)initForHost: (SpriteApp *)ha
+- (TestIODelegate *)initForHost: (SpriteApp *)ha
 			 width: (unsigned int)w
 			height: (unsigned int)h 
 			 title: (char *)t {
@@ -77,15 +77,13 @@
 
 	ReadPpmRgbConverted(fn,&_cx,&_cy,&ptr,32);
 	if(ptr == NULL) { return -1;}
-	si->img = (void *)SDL_CreateRGBSurfaceFrom(ptr,_cx,_cy,32,_cx * 4,
-						   0xff0000,0x00ff00,0x0000ff,
-						   0x0);
+	si->img = NULL;
 	si->cx = _cx;
 	si->cy = _cy;
 	si->depth = 32;
 	si->scan_length = _cx * 4;
 	si->endian = buf.endian;
-	si->bits = IMAGE(si->img)->pixels;
+	si->bits = ptr;
 	si->auto_free = 1;
 	si->img = NULL;
 	return 0;
@@ -115,8 +113,13 @@
 }
 
 -(id)dispatchEvents {
-	SpriteEvent se;
-	[host handleEvent: &se];
+	while(q_start != q_end)
+	{
+		SpriteEvent se = eq[q_start];
+		q_start++;
+		q_start %= MAX_QUEUE_DEPTH;
+		[host handleEvent: &se];
+	}
 }
 
 -(void)lockBuf {
@@ -153,3 +156,8 @@
 	return [super free];
 }
 @end
+
+id createIODelegate(SpriteApp *ha,unsigned int w,unsigned int h,char *t) {
+	return [[TestIODelegate alloc] initForHost: ha 
+				      width: w height: h title: t];
+}

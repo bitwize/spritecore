@@ -11,8 +11,8 @@ ScrollLayerAgent *instance = NULL;
 	[s fillRenderData: &d];
 	if(d.simg != NULL)
 	{
-		offset.x = (d.pos.x) % d.simg->cx;
-		offset.y = (d.pos.y) % d.simg->cy;
+		offset.x = ((int)d.pos.x) % d.simg->cx;
+		offset.y = ((int)d.pos.y) % d.simg->cy;
 		unsigned int blit_width = si->cx;
 		if(offset.x > d.simg->cx - si->cx)
 		{
