@@ -67,13 +67,41 @@
 }
 
 /*!
+
   @method initWithTitle:width:height:
-  Initialises the SpriteApp and creates a display surface for it of size
+
+  Initializes the SpriteApp and creates a display surface for it of
+  size (w,h) with window title t and IO delegate del. In a window
+  system, creates a window for the SpriteApp.
+
+*/
+
+
+-(id)initWithTitle: (char *)t
+	     width: (unsigned int)w
+	    height: (unsigned int)h
+	ioDelegate: (id <SpriteIODelegate>) del;
+
+
+/*!
+  @method initWithTitle:width:height:
+  Initializes the SpriteApp and creates a display surface for it of size
   (w,h) with window title t. In a window system, creates a window for the
   SpriteApp.
 */
 
 -(id)initWithTitle: (char *)t width: (unsigned int)w height: (unsigned int)h;
+
+/*!
+  @method testInitWithTitle:width:height:
+  Initializes the SpriteApp for testing and creates a display surface for it
+  of size (w,h) with window title t. Does not actually create a window,
+  as this is a testing app.
+*/
+
+-(id)testInitWithTitle: (char *)t
+		 width: (unsigned int)w
+		height: (unsigned int)h;
 
 /*!
   @method first
@@ -208,6 +236,7 @@
 -(void)logCategory: (char *)cat message: (char *) msg,...;
 
 -(void)quit;
+-(void)runOneFrame;
 -(void)run;
 
 

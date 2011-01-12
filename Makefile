@@ -2,8 +2,8 @@ include ./config.mak
 include ./rend-$(RENDERER).mak
 
 
-SOURCES=SpriteApp.m SpriteNode.m Sprite.m DefaultAgents.m SpriteResLoader.m SpriteCollisionList.m $(IODEL_CLASS).m spriteimage.c svec.c svppm.c matfunc.c StderrLogger.c
-OBJECTS=SpriteApp.o SpriteNode.o Sprite.o DefaultAgents.o SpriteResLoader.o SpriteCollisionList.o $(IODEL_CLASS).o spriteimage.o svec.o svppm.o matfunc.o StderrLogger.o
+SOURCES=SpriteApp.m SpriteNode.m Sprite.m DefaultAgents.m SpriteResLoader.m SpriteCollisionList.m TestIODelegate.m SCUnitTest.m $(IODEL_CLASS).m spriteimage.c svec.c svppm.c matfunc.c StderrLogger.c
+OBJECTS=SpriteApp.o SpriteNode.o Sprite.o DefaultAgents.o SpriteResLoader.o SpriteCollisionList.o TestIODelegate.o SCUnitTest.o $(IODEL_CLASS).o spriteimage.o svec.o svppm.o matfunc.o StderrLogger.o
 TOOLDIR=.
 
 .SUFFIXES: .m

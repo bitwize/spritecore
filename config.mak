@@ -55,5 +55,5 @@ OBJCFLAGS=$(CFLAGS) -Wno-import
 PLATFORM=linux
 
 
-# Set to the renderer you want (currently available: sdl,x11,test)
+# Set to the renderer you want (currently available: sdl,x11)
 RENDERER=x11

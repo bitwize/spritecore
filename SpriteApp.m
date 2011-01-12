@@ -26,16 +26,21 @@
 #import <SpriteCore/SpriteResLoader.h>
 #import <SpriteCore/DefaultAgents.h>
 #import <SpriteCore/StderrLogger.h>
+#import <SpriteCore/TestIODelegate.h>
 #include <malloc.h>
 
 DefaultEventAgent *dea;
 
 @implementation SpriteApp
--(id)initWithTitle: (char *)t width: (unsigned int)w height: (unsigned int)h {
+-(id)initWithTitle: (char *)t
+	     width: (unsigned int)w
+	    height: (unsigned int)h
+	ioDelegate: (id <SpriteIODelegate>)del
+{
 	self = [super init];
 	first = nil; deleted = nil;
 	title = t; width = w; height = h;
-	io_del = createIODelegate(self,w,h,t);
+	io_del = del;
 	oldclock = [io_del getTimeMillis];
 	clock = [io_del getTimeMillis];
 	logger = [[StderrLogger alloc] init];
@@ -43,6 +48,31 @@ DefaultEventAgent *dea;
 	eagent = dea;
 	return self;
 }
+
+-(id)initWithTitle: (char *)t
+	     width: (unsigned int)w
+	    height: (unsigned int)h
+{
+	return [self initWithTitle: t
+			     width: w
+			    height: h
+			ioDelegate: createIODelegate(self,w,h,t)];
+}
+
+-(id)testInitWithTitle: (char *)t
+	     width: (unsigned int)w
+	    height: (unsigned int)h
+{
+	return [self initWithTitle: t
+			     width: w
+			    height: h
+			ioDelegate: [[TestIODelegate alloc]
+					    initForHost: self
+						  width: w
+						 height: h
+						  title: t]];
+}
+
 
 -(SpriteNode *)first {
 	return first;
@@ -162,9 +192,6 @@ DefaultEventAgent *dea;
 		i=j;
 	}
 	[self freeDeleted];
-	[io_del unlockBuf];
-
-	[io_del refreshScreen];
 }
 
 -(void)updateDisplay
@@ -244,14 +271,21 @@ DefaultEventAgent *dea;
 	return i;
 }
 
--(void)run {
+-(void)runOneFrame
+{
+	while((clock - oldclock) >= 20) {
+		[self step];
+	}
+	[self updateDisplay];
+	clock = [io_del getTimeMillis];
+	[io_del sleepMillis: 5];
+
+}
+
+-(void)run
+{
 	while(!quitting) {
-		while((clock - oldclock) >= 20) {
-			[self step];
-		}
-		[self updateDisplay];
-		clock = [io_del getTimeMillis];
-		[io_del sleepMillis: 5];
+		[self runOneFrame];
 	}
 }
 

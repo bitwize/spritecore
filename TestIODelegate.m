@@ -157,7 +157,9 @@
 }
 @end
 
+#ifdef __TESTIODEL_PRIMARY 
 id createIODelegate(SpriteApp *ha,unsigned int w,unsigned int h,char *t) {
 	return [[TestIODelegate alloc] initForHost: ha 
 				      width: w height: h title: t];
 }
+#endif

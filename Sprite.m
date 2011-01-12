@@ -53,9 +53,9 @@ DefaultBehaviorAgent *dba;
 	if(simg != NULL) {
 		width = simg->cx;
 		height = simg->cy / f;
+		get_key(sh,key);
 	}
 	else {width=0; height=0;}
-	get_key(sh,key);
 	return sh;
 }
 
