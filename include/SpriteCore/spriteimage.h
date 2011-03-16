@@ -34,10 +34,16 @@
 
 #define SIMG_FLIP_HORZ 1
 #define SIMG_FLIP_VERT 2
-#define SIMG_LITTLE_ENDIAN 0
-#define SIMG_BIG_ENDIAN 1
 #define SIMG_USE_KEY 4
 #define SIMG_USE_ALPHA 8
+
+#define SIMG_LITTLE_ENDIAN 0
+#define SIMG_BIG_ENDIAN 1
+
+#define SIMG_ARGB 0
+#define SIMG_ABGR 1
+#define SIMG_RGBA 2
+#define SIMG_BGRA 3
 
 #define MAX_PIXEL_WIDTH 4
 
@@ -49,6 +55,7 @@
   @field depth Depth in bits per pixel
   @field scan_length Length of one scan line
   @field endian Byte order of pixels
+  @field color_order Order of colors in a pixel
   @field bits Pointer to actual image pixels
   @field img Pointer to window-system-dependent representation of image
   @field auto_free Reserved for future use.
@@ -61,6 +68,7 @@ typedef struct tagSpriteImage {
 	unsigned int depth;
 	unsigned int scan_length;
 	unsigned int endian;
+	unsigned int color_order;
 	void *bits;
 	void *img;
 	int auto_free;

@@ -38,7 +38,7 @@ void BuildSI(SpriteImage *si) {
 	si->cy = IMAGE(si->img)->height;
 	si->depth = IMAGE(si->img)->bits_per_pixel;
 	si->scan_length = IMAGE(si->img)->bytes_per_line;
-	si->endian = (IMAGE(si->img) == LSBFirst ? SIMG_LITTLE_ENDIAN : SIMG_BIG_ENDIAN);
+	si->endian = (IMAGE(si->img)->byte_order == LSBFirst ? SIMG_LITTLE_ENDIAN : SIMG_BIG_ENDIAN);
 	si->bits = IMAGE(si->img)->data;
 	si->auto_free = 0;
 }
@@ -70,7 +70,6 @@ unsigned int inittime;
 	}
 	
 	dep = DefaultDepth(dpy,DefaultScreen(dpy));
-	fprintf(stderr,"depth: %d",dep);
 	win = XCreateSimpleWindow(dpy,DefaultRootWindow(dpy),0,0,w,h,0,
 				  BlackPixel(dpy,DefaultScreen(dpy)),
 				  BlackPixel(dpy,DefaultScreen(dpy)));
@@ -162,9 +161,50 @@ unsigned int inittime;
 	return 0;
 	
 }
+-(void *)createHWSurfWidth: (unsigned int) w
+		    height: (unsigned int) h
+		     depth: (unsigned int) d
+{
+	unsigned int dep = DefaultDepth(dpy,DefaultScreen(dpy));
+	XImage *img = XCreateImage(dpy,
+				   DefaultVisual(dpy,DefaultScreen(dpy)),
+				   dep,
+				   ZPixmap,
+				   0,
+				   NULL,
+				   w,
+				   h,
+				   32,
+				   0);
+	
+	if(img != NULL) {
+		img->data = calloc(h,img->bytes_per_line);
+		if(img->data == NULL) {
+			XDestroyImage(img);
+			return NULL;
+		}
+	}
+	return (void *)img;
+}
+
+-(int)buildImage: (SpriteImage *)si
+      fromHWSurf: (void *)surf
+{
+	if(surf == NULL) {
+		return 1;
+	}
+	else {
+		si->img = surf;
+		BuildSI(si);
+		return 0;
+	}
+}
 
 -(void)destroyImage: (SpriteImage *)si {
-	XDestroyImage(IMAGE(si->img));
+	if(si->img != NULL)
+	{
+		XDestroyImage(IMAGE(si->img));
+	}
 }
 
 -(id)dispatchEvents {

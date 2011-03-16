@@ -28,18 +28,18 @@
 #include <SpriteCore/spriteimage.h>
 @class SpriteApp;
 @class Sprite;
-@interface DefaultRendererAgent : Object <SpriteRendererAgent>
+@interface DefaultAppearanceAgent : Object <SpriteAppearanceAgent>
 {
   
 }
 -(void)renderSprite: (Sprite *)s on: (SpriteImage *)si;
 @end
 
-@interface WrapperRendererAgent : Object <SpriteRendererAgent>
+@interface WrapperAppearanceAgent : Object <SpriteAppearanceAgent>
 {
   void (*func)(Sprite *,SpriteImage *);
 }
--(WrapperRendererAgent *)initWrappingRenderer: (void (*)(Sprite *,SpriteImage *)) f;
+-(WrapperAppearanceAgent *)initWrappingRenderer: (void (*)(Sprite *,SpriteImage *)) f;
 -(void)renderSprite: (Sprite *)s on: (SpriteImage *)si;
 @end
 

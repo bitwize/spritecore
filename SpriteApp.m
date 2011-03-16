@@ -231,12 +231,75 @@ DefaultEventAgent *dea;
 	return [io_del loadPPMFile: fn toImage: si];
 }
 
+-(SpriteImage *)createImageWidth: (unsigned int) w
+			  height: (unsigned int) h
+			   depth: (unsigned int) d
+		       useHWSurf: (BOOL) s
+{
+	void *img;
+	void *bits;
+	size_t stride;
+	SpriteImage *si = (SpriteImage *)malloc(sizeof(SpriteImage));
+	if(!si) {
+		[self logCategory: "createimage" message: "whoops"];
+		return NULL;
+	}
+	if(s && d == 0) {
+		img = [io_del createHWSurfWidth: w
+					 height: h
+					  depth: d];
+		if(img == NULL) {
+			return [self createImageWidth: w
+					       height: h
+						depth: d
+					    useHWSurf: 0];
+		}
+		if([io_del buildImage: si fromHWSurf: img])
+		{
+			free(si);
+			return NULL;
+		}
+		
+	}
+	else {
+		size_t intsz = sizeof(int);
+		size_t plen = (d + 7)/8;
+		stride = ((width * plen) + (intsz - 1)) / intsz;
+		stride *= intsz;
+		img = NULL;
+		bits = calloc(h,stride);
+		if(bits == NULL) {
+			free(si);
+			return NULL;
+		}
+		si->cx = w;
+		si->cy = h;
+		si->depth = d;
+		si->scan_length = stride;
+		si->endian = [self surface]->endian;
+		si->bits = bits;
+		si->img = img;
+		si->auto_free = 0;
+		si->use_alpha = 0;
+	}	
+	return si;
+}
+
 -(void)destroyImage: (SpriteImage *)si {
 	[io_del destroyImage: si];
 }
 
+-(void)freeImage: (SpriteImage *)si {
+	[self destroyImage: si];
+	free(si);
+}
+
 -(unsigned int)clock {
 	return clock;
+}
+
+-(void)clockSync {
+	oldclock = clock;
 }
 
 -(unsigned int)lastFrameTime {

@@ -34,7 +34,7 @@
 
 @end
 
-@protocol SpriteRendererAgent
+@protocol SpriteAppearanceAgent
 -(void)renderSprite: (Sprite *)s on: (SpriteImage *)si;
 @end
 

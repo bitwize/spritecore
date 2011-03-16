@@ -1,6 +1,6 @@
 #import <SpriteCore/SpriteCore.h>
 
-@interface ScrollLayerAgent : Object <SpriteRendererAgent> {
+@interface ScrollLayerAgent : Object <SpriteAppearanceAgent> {
 
 }
 

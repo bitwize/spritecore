@@ -82,7 +82,19 @@
 
 -testResLoader
 {
+	SpriteResLoader *loader = [[SpriteResLoader alloc] initOn: sa named:
+								   "foo"];
+	si = malloc(sizeof(SpriteImage));
+	[sa loader: loader loadResPPM: "spritecore.ppm" toImage: si];
+	[loader free];
+	SC_CHECK(si->cx == 45);
+	SC_CHECK(si->cy == 5);
 	return (id)1;
+}
+
+-testCreateImage
+{
+	si = 
 }
 
 -(void)test

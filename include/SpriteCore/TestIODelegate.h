@@ -24,7 +24,11 @@
 - (int)loadPPMFile: (char *)fn toImage: (SpriteImage *)si;
 - (int)convertMemPPM: (unsigned char *)ppm size: (unsigned int) sz
 	     toImage: (SpriteImage *)si;
-- (void)destroyImage: (SpriteImage *)si;
+-(void *)createHWSurfWidth: (unsigned int) w
+		    height: (unsigned int) h
+		     depth: (unsigned int) d;
+-(int)buildImage: (SpriteImage *)si fromHWSurf: (void *)surf;
+-(void)destroyImage: (SpriteImage *)si;
 -(void)lockBuf;
 -(void)lockAndClearBuf;
 -(void)unlockBuf;

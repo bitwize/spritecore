@@ -27,7 +27,7 @@
 #import <SpriteCore/DefaultAgents.h>
 #include <SpriteCore/svec.h>
 
-@implementation DefaultRendererAgent
+@implementation DefaultAppearanceAgent
 -(void)renderSprite: (Sprite *)s on: (SpriteImage *)si
 {
 	struct sprite_render_data d;
@@ -50,8 +50,8 @@
 
 @end
 
-@implementation WrapperRendererAgent
--(WrapperRendererAgent *)initWrappingRenderer: (void (*)(Sprite *,SpriteImage *))f
+@implementation WrapperAppearanceAgent
+-(WrapperAppearanceAgent *)initWrappingRenderer: (void (*)(Sprite *,SpriteImage *))f
 {
 	func = f;
 }

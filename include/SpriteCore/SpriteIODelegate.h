@@ -38,9 +38,14 @@
 */
 
 -(int)loadPPMFile: (char *)fn toImage: (SpriteImage *)si;
-- (int)convertMemPPM: (unsigned char *)ppm size: (unsigned int) sz
+-(int)convertMemPPM: (unsigned char *)ppm size: (unsigned int) sz
 	     toImage: (SpriteImage *)si;
 
+-(void *)createHWSurfWidth: (unsigned int) w
+		    height: (unsigned int) h
+		     depth: (unsigned int) d;
+
+-(int)buildImage: (SpriteImage *)si fromHWSurf: (void *)surf;
 /*!
   Destroys the data associated with the SpriteImage si. Does not free the
   structure itself.

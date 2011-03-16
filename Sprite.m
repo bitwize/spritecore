@@ -26,7 +26,7 @@
 #import <SpriteCore/Sprite.h>
 #import <SpriteCore/DefaultAgents.h>
 
-DefaultRendererAgent *dra;
+DefaultAppearanceAgent *dra;
 DefaultBehaviorAgent *dba;
 
 @implementation Sprite
@@ -150,12 +150,12 @@ DefaultBehaviorAgent *dba;
 	return(step1 && step2);
 }
 
--(void)setAppearanceAgent: (id<SpriteRendererAgent>) a
+-(void)setAppearanceAgent: (id<SpriteAppearanceAgent>) a
 {
 	aagent = a;
 }
 
--(id<SpriteRendererAgent>)appearanceAgent
+-(id<SpriteAppearanceAgent>)appearanceAgent
 {
 	return aagent;
 }
@@ -187,9 +187,19 @@ DefaultBehaviorAgent *dba;
 	if(!initialized)
 	{
 		dba = [[DefaultBehaviorAgent alloc] init];
-		dra = [[DefaultRendererAgent alloc] init];
+		dra = [[DefaultAppearanceAgent alloc] init];
 		initialized = 1;
 	}
 }
- 
+
++(id <SpriteAppearanceAgent>)defaultAppearanceAgent
+{
+	return dra;
+}
+
++(id <SpriteBehaviorAgent>)defaultBehaviorAgent
+{
+	return dba;
+}
+
 @end

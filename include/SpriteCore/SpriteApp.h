@@ -207,6 +207,11 @@
 
 -(int)loadPPMFile: (char *)fn toImage: (SpriteImage *)si;
 
+-(SpriteImage *)createImageWidth: (unsigned int) w
+			  height: (unsigned int) h
+			   depth: (unsigned int) d
+		       useHWSurf: (BOOL) s;
+
 /*!
   Releases resources associated with the SpriteImage structure si, which
   should have been created with -loadPPMFile:toImage:, or another method which
@@ -214,6 +219,7 @@
 */
 
 -(void)destroyImage: (SpriteImage *)si;
+-(void)freeImage: (SpriteImage *)si;
 
 /*!
   Returns the number of milliseconds between the application start and the
@@ -221,6 +227,8 @@
 */
 
 -(unsigned int)clock;
+
+-(void)clockSync;
 
 /*!
   Returns the number of milliseconds between the last frame update and the

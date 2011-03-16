@@ -106,6 +106,16 @@
 	return 0;
 
 }
+-(void *)createHWSurfWidth: (unsigned int) w
+		    height: (unsigned int) h
+		     depth: (unsigned int) d
+{
+	return (void *)NULL;
+}
+-(int)buildImage: (SpriteImage *)si fromHWSurf: (void *)surf
+{
+	return 1;
+}
 
 -(void)destroyImage: (SpriteImage *)si {
 	free(si->bits);

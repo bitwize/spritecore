@@ -30,8 +30,8 @@ GLINCDIR=/usr/X11R6/include
 # Specify location of your SDL libs and headers
 # For SDL renderer.
 
-SDLLIBDIR=/usr/lib
-SDLINCDIR=/usr/include
+SDLLIBDIR=/usr/pkg/lib
+SDLINCDIR=/usr/pkg/include
 
 # Specify where the SpriteCore libraries and headers will be installed.
 # Headers will be placed in a SpriteCore/ subdir.
