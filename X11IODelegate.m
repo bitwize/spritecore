@@ -165,10 +165,9 @@ unsigned int inittime;
 		    height: (unsigned int) h
 		     depth: (unsigned int) d
 {
-	unsigned int dep = DefaultDepth(dpy,DefaultScreen(dpy));
 	XImage *img = XCreateImage(dpy,
 				   DefaultVisual(dpy,DefaultScreen(dpy)),
-				   dep,
+				   d,
 				   ZPixmap,
 				   0,
 				   NULL,

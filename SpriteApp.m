@@ -347,6 +347,7 @@ DefaultEventAgent *dea;
 
 -(void)run
 {
+	quitting = 0;
 	while(!quitting) {
 		[self runOneFrame];
 	}

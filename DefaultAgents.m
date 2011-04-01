@@ -86,6 +86,21 @@
 
 @end
 
+@implementation SelectorBehaviorAgent
+-(SelectorBehaviorAgent *)initWrappingSelector: (SEL) s
+{
+	self = [super init];
+	_sel = s;
+	return self;
+}
+
+-(void)act: (Sprite *)s
+{
+	[s perform: _sel];
+}
+
+@end
+
 @implementation SequenceBehaviorAgent
 -(SequenceBehaviorAgent *)initSequencingBehaviors: (id <SpriteBehaviorAgent>)a1 
 				      and: (id <SpriteBehaviorAgent>)a2

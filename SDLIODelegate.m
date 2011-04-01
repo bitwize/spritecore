@@ -163,6 +163,28 @@ void BuildSI(SpriteImage *si) {
 
 }
 
+-(int)buildImage: (SpriteImage *)si
+      fromHWSurf: (void *)surf
+{
+	if(surf == NULL) {
+		return 1;
+	}
+	else {
+		si->img = surf;
+		BuildSI(si);
+		return 0;
+	}
+}
+-(void *)createHWSurfWidth: (unsigned int) w
+		    height: (unsigned int) h
+		     depth: (unsigned int) d
+{
+	return (void *)SDL_CreateRGBSurface(SDL_SWSURFACE,w,h,d,
+					    screen->format->Rmask,
+					    screen->format->Gmask,
+					    screen->format->Bmask,
+					    screen->format->Amask);
+}
 -(void)destroyImage: (SpriteImage *)si {
 	SDL_FreeSurface(IMAGE(si->img));
 

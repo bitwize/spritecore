@@ -57,6 +57,13 @@
 -(WrapperBehaviorAgent *)initWrappingBehavior: (void (*)(Sprite *)) f;
 -(void)act: (Sprite *)s;
 @end
+@interface SelectorBehaviorAgent : Object <SpriteBehaviorAgent>
+{
+	SEL _sel;
+}
+-(SelectorBehaviorAgent *)initWrappingSelector: (SEL)s;
+-(void)act: (Sprite *)s;
+@end
 
 @interface SequenceBehaviorAgent : Object <SpriteBehaviorAgent>
 {
