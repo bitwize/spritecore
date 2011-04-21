@@ -11,10 +11,10 @@ TOOLDIR=.
 default: $(PLATFORM)
 
 .c.o:
-	$(CC) -c $(CPPFLAGS) $(CFLAGS) -I./ $(ALLINCLUDES) $< -o $@
+	$(CC) -c $(CPPFLAGS) $(CFLAGS) -I./include $(ALLINCLUDES) $< -o $@
 
 .m.o:
-	$(OBJCC) -c $(CPPFLAGS) $(OBJCFLAGS) -I./ $(ALLINCLUDES) $< -o $@
+	$(OBJCC) -c $(CPPFLAGS) $(OBJCFLAGS) -I./include $(ALLINCLUDES) $< -o $@
 
 blitter.psc: blitter.scm
 	sh ./compile-blitter.sh

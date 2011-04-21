@@ -31,14 +31,14 @@
 #define __SPRITEAPP_H
 
 #import <objc/Object.h>
-#import <spriteimage.h>
-#import <spriteevent.h>
-#import <SpriteAgent.h>
-#import <DefaultAgents.h>
-#import <SpriteLogger.h>
+#import <SpriteCore/spriteimage.h>
+#import <SpriteCore/spriteevent.h>
+#import <SpriteCore/SpriteAgent.h>
+#import <SpriteCore/DefaultAgents.h>
+#import <SpriteCore/SpriteLogger.h>
 @class SpriteNode;
 @class SpriteResLoader;
-#import <SpriteIODelegate.h>
+#import <SpriteCore/SpriteIODelegate.h>
 
 /*!
   @class SpriteApp

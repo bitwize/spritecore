@@ -2,7 +2,7 @@
 
 #ifndef __SPRITECOLLISIONNODE_H
 #define __SPRITECOLLISIONNODE_H
-#import <SpriteNode.h>
+#import <SpriteCore/SpriteNode.h>
 
 /*
  * The SpriteCollisionList class represents a list of sprites which

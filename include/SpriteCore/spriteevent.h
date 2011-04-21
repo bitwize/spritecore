@@ -10,7 +10,7 @@
 #define SPRITEEVENT_VAL_KEY_PRESS   1
 
 #ifndef _XLIB_H
-#include <xkeysym.h>
+#include <SpriteCore/xkeysym.h>
 #endif
 
 struct tagSpriteEvent {

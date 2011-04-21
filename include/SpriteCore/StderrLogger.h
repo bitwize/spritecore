@@ -1,5 +1,3 @@
-/* -*- objc -*- */
-
 /*
  *  Copyright 1995-2008 Jeffrey T. Read
  *
@@ -23,10 +21,19 @@
  *
  */
 
-#include <stdlib.h>
-#import <spriteevent.h>
-#import <SpriteApp.h>
-#import <Sprite.h>
-#import <DefaultAgents.h>
-#import <SpriteResLoader.h>
-#import <SpriteCollisionList.h>
+#import <SpriteCore/SpriteLogger.h>
+#import <objc/Object.h>
+#include <stdio.h>
+#include <stdarg.h>
+
+
+@interface StderrLogger  : Object <SpriteLogger>
+{
+
+}
+
+-(id)init;
+-(void)logCategory: (char *)cat message: (char*)msg,...;
+-(void)varargsLogCategory: (char *)cat message: (char *)msg rest: (va_list)rest;
+
+@end

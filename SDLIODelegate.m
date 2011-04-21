@@ -22,9 +22,9 @@
  */
 
 
-#import <SpriteApp.h>
-#import <SDLIODelegate.h>
-#import <svppm.h>
+#import <SpriteCore/SpriteApp.h>
+#import <SpriteCore/SDLIODelegate.h>
+#import <SpriteCore/svppm.h>
 #include <stdlib.h>
 
 #define IMAGE(x) ((SDL_Surface *)x)

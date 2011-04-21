@@ -21,12 +21,12 @@
  *
  */
 
-#import <SpriteApp.h>
-#import <SpriteNode.h>
-#import <SpriteResLoader.h>
-#import <DefaultAgents.h>
-#import <StderrLogger.h>
-#import <TestIODelegate.h>
+#import <SpriteCore/SpriteApp.h>
+#import <SpriteCore/SpriteNode.h>
+#import <SpriteCore/SpriteResLoader.h>
+#import <SpriteCore/DefaultAgents.h>
+#import <SpriteCore/StderrLogger.h>
+#import <SpriteCore/TestIODelegate.h>
 #include <malloc.h>
 
 DefaultEventAgent *dea;

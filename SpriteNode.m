@@ -21,7 +21,7 @@
  *
  */
 
-#import <SpriteNode.h>
+#import <SpriteCore/SpriteNode.h>
 
 @implementation SpriteNode
 -(id)initOn: (SpriteApp *)h {

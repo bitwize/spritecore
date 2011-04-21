@@ -33,10 +33,10 @@
 
 #import <objc/Object.h>
 
-#import <SpriteApp.h>
-#include <svec.h>
-#import <SpriteNode.h>
-#import <SpriteAgent.h>
+#import <SpriteCore/SpriteApp.h>
+#include <SpriteCore/svec.h>
+#import <SpriteCore/SpriteNode.h>
+#import <SpriteCore/SpriteAgent.h>
 struct sprite_render_data {
 	SpriteImage *simg;
 	sc_vec2 pos;

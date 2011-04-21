@@ -21,7 +21,7 @@
  *
  */
 
-#import <SpriteResLoader.h>
+#import <SpriteCore/SpriteResLoader.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>

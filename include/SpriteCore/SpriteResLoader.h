@@ -22,33 +22,17 @@
  * 3. This notice may not be removed or altered from any source distribution.
  *
  */
-
-#include <SDL/SDL.h>
-#import <SpriteApp.h>
-
-@interface SDLIODelegate : Object <SpriteIODelegate> {
-	SpriteApp *host;
-	SpriteImage back;
-	SpriteImage buf;
-	SDL_Surface *screen;
+#ifndef __SPRITERESLOADER_H
+#define __SPRITERESLOADER_H
+#import <SpriteCore/SpriteApp.h>
+@interface SpriteResLoader : Object
+{
+	char *name;
+	SpriteApp *parent;
 }
 
-- (SDLIODelegate *)initForHost: (SpriteApp *)ha
-			 width: (unsigned int)w 
-			height: (unsigned int)h
-			 title: (char *)t;
-- (SpriteImage *)backImage;
-- (SpriteImage *)bufImage;
-- (void)refreshScreen;
-- (int)loadPPMFile: (char *)fn toImage: (SpriteImage *)si;
-- (int)convertMemPPM: (unsigned char *)ppm size: (unsigned int) sz
-	     toImage: (SpriteImage *)si;
-- (void)destroyImage: (SpriteImage *)si;
--(void)lockBuf;
--(void)lockAndClearBuf;
--(void)unlockBuf;
--(id)dispatchEvents;
--(unsigned int)getTimeMillis;
--(void)sleepMillis: (unsigned int) ms;
+-initOn: (SpriteApp *)anApp named: (char *)aName;
 -free;
+-(unsigned int)fetchResource: (char *)aResName to: (void **)aPtr;
 @end
+#endif

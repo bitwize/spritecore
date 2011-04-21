@@ -22,17 +22,11 @@
  * 3. This notice may not be removed or altered from any source distribution.
  *
  */
-#ifndef __SPRITERESLOADER_H
-#define __SPRITERESLOADER_H
-#import <SpriteApp.h>
-@interface SpriteResLoader : Object
-{
-	char *name;
-	SpriteApp *parent;
-}
 
--initOn: (SpriteApp *)anApp named: (char *)aName;
--free;
--(unsigned int)fetchResource: (char *)aResName to: (void **)aPtr;
-@end
-#endif
+#include <stdlib.h>
+#import <SpriteCore/spriteevent.h>
+#import <SpriteCore/SpriteApp.h>
+#import <SpriteCore/Sprite.h>
+#import <SpriteCore/DefaultAgents.h>
+#import <SpriteCore/SpriteResLoader.h>
+#import <SpriteCore/SpriteCollisionList.h>

@@ -20,7 +20,7 @@
  * 3. This notice may not be removed or altered from any source distribution.
  *
  */
-#include <matfunc.h>
+#include <SpriteCore/matfunc.h>
 
 void mat_zero(s_matp mat)
 {
