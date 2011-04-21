@@ -21,11 +21,11 @@
  *
  */
 
-#import <SpriteCore/SpriteAgent.h>
-#import <SpriteCore/Sprite.h>
-#import <SpriteCore/SpriteApp.h>
-#import <SpriteCore/DefaultAgents.h>
-#include <SpriteCore/svec.h>
+#import <SpriteAgent.h>
+#import <Sprite.h>
+#import <SpriteApp.h>
+#import <DefaultAgents.h>
+#include <svec.h>
 
 @implementation DefaultAppearanceAgent
 -(void)renderSprite: (Sprite *)s on: (SpriteImage *)si

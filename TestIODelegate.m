@@ -22,9 +22,9 @@
  */
 
 
-#import <SpriteCore/SpriteApp.h>
-#import <SpriteCore/TestIODelegate.h>
-#import <SpriteCore/svppm.h>
+#import <SpriteApp.h>
+#import <TestIODelegate.h>
+#import <svppm.h>
 #include <stdlib.h>
 @implementation TestIODelegate
 

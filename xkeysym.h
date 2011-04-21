@@ -72,5 +72,5 @@ SOFTWARE.
 #define XK_MATHEMATICAL
 #define XK_BRAILLE
 
-#include <SpriteCore/xkeysymdef.h>
+#include <xkeysymdef.h>
 

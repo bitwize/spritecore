@@ -1,6 +1,6 @@
 /* -*- objc -*- */
 
-#import <SpriteCore/SpriteApp.h>
+#import <SpriteApp.h>
 
 #define MAX_QUEUE_DEPTH 256
 

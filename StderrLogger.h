@@ -1,5 +1,3 @@
-/* -*- objc -*- */
-
 /*
  *  Copyright 1995-2008 Jeffrey T. Read
  *
@@ -23,32 +21,19 @@
  *
  */
 
-#include <SDL/SDL.h>
-#import <SpriteCore/SpriteApp.h>
+#import <SpriteLogger.h>
+#import <objc/Object.h>
+#include <stdio.h>
+#include <stdarg.h>
 
-@interface SDLIODelegate : Object <SpriteIODelegate> {
-	SpriteApp *host;
-	SpriteImage back;
-	SpriteImage buf;
-	SDL_Surface *screen;
+
+@interface StderrLogger  : Object <SpriteLogger>
+{
+
 }
 
-- (SDLIODelegate *)initForHost: (SpriteApp *)ha
-			 width: (unsigned int)w 
-			height: (unsigned int)h
-			 title: (char *)t;
-- (SpriteImage *)backImage;
-- (SpriteImage *)bufImage;
-- (void)refreshScreen;
-- (int)loadPPMFile: (char *)fn toImage: (SpriteImage *)si;
-- (int)convertMemPPM: (unsigned char *)ppm size: (unsigned int) sz
-	     toImage: (SpriteImage *)si;
-- (void)destroyImage: (SpriteImage *)si;
--(void)lockBuf;
--(void)lockAndClearBuf;
--(void)unlockBuf;
--(id)dispatchEvents;
--(unsigned int)getTimeMillis;
--(void)sleepMillis: (unsigned int) ms;
--free;
+-(id)init;
+-(void)logCategory: (char *)cat message: (char*)msg,...;
+-(void)varargsLogCategory: (char *)cat message: (char *)msg rest: (va_list)rest;
+
 @end

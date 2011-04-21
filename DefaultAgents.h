@@ -24,8 +24,8 @@
  */
 #ifndef __DEFAULTAGENTS_H
 #define __DEFAULTAGENTS_H
-#include <SpriteCore/spriteevent.h>
-#include <SpriteCore/spriteimage.h>
+#include <spriteevent.h>
+#include <spriteimage.h>
 @class SpriteApp;
 @class Sprite;
 @interface DefaultAppearanceAgent : Object <SpriteAppearanceAgent>

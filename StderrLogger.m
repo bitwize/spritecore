@@ -21,7 +21,7 @@
  *
  */
 
-#import <SpriteCore/StderrLogger.h>
+#import <StderrLogger.h>
 #include <stdio.h>
 
 @implementation StderrLogger 

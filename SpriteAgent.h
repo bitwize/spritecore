@@ -23,8 +23,8 @@
 #ifndef __SPRITEAGENT_H
 #define __SPRITEAGENT_H
 
-#include <SpriteCore/spriteimage.h>
-#include <SpriteCore/spriteevent.h>
+#include <spriteimage.h>
+#include <spriteevent.h>
 
 @class Sprite;
 @class SpriteApp;

@@ -28,7 +28,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <SpriteCore/svppm.h>
+#include <svppm.h>
 
 #define RED8(x) ((x >> 5) << 5)
 #define GRN8(x) ((x >> 5) << 2)

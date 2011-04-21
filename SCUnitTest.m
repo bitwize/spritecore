@@ -1,4 +1,4 @@
-#include <SpriteCore/SCUnitTest.h>
+#include <SCUnitTest.h>
 #include <objc/objc-api.h>
 
 @implementation SCUnitTest

@@ -28,7 +28,7 @@
 
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
-#import <SpriteCore/SpriteApp.h>
+#import <SpriteApp.h>
 
 @interface X11IODelegate : Object <SpriteIODelegate> {
 	SpriteApp *host;

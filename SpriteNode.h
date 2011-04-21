@@ -25,7 +25,7 @@
 #ifndef __SPRITENODE_H
 #define __SPRITENODE_H
 
-#import <SpriteCore/SpriteApp.h>
+#import <SpriteApp.h>
 
 @interface SpriteNode : Object {
 	SpriteNode *next;

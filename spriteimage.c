@@ -21,7 +21,7 @@
  *
  */
 
-#include <SpriteCore/spriteimage.h>
+#include <spriteimage.h>
 #include "blitter.psc"
 #include <stdio.h>
 #include <stdlib.h>

@@ -22,10 +22,10 @@
  */
 
 
-#import <SpriteCore/SpriteApp.h>
-#import <SpriteCore/X11IODelegate.h>
-#import <SpriteCore/svppm.h>
-#import <SpriteCore/spriteevent.h>
+#import <SpriteApp.h>
+#import <X11IODelegate.h>
+#import <svppm.h>
+#import <spriteevent.h>
 #include <stdlib.h>
 #include <sys/time.h>
 

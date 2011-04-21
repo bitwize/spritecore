@@ -1,4 +1,4 @@
-#include <SpriteCore/SpriteCore.h>
+#include <SpriteCore.h>
 
 struct SpriteCollisionNode
 {

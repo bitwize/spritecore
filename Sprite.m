@@ -22,9 +22,9 @@
  */
 
 #include <stdlib.h>
-#import <SpriteCore/SpriteNode.h>
-#import <SpriteCore/Sprite.h>
-#import <SpriteCore/DefaultAgents.h>
+#import <SpriteNode.h>
+#import <Sprite.h>
+#import <DefaultAgents.h>
 
 DefaultAppearanceAgent *dra;
 DefaultBehaviorAgent *dba;
