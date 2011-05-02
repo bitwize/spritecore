@@ -51,10 +51,10 @@ typedef struct __sc_vec2 {
 */
 
 
-typedef struct __sc_rect2 {
+typedef struct __sc_rect {
 	sc_vec2 pos;
 	sc_vec2 size;
-} sc_rect2;
+} sc_rect;
 
 /*
 
@@ -63,5 +63,7 @@ typedef struct __sc_rect2 {
 */
 
 extern sc_vec2 make_sc_vec2_fl(float x,float y);
+extern int rects_intersect(sc_rect r1,sc_rect r2);
+
 
 #endif

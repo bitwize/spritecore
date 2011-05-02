@@ -37,6 +37,7 @@
 	Display *dpy;
 	Window win;
 	GC gc;
+	id <SpriteRandomSource> rs;
 }
 
 - (X11IODelegate *)initForHost: (SpriteApp *)ha
@@ -60,6 +61,7 @@
 -(id)dispatchEvents;
 -(unsigned int)getTimeMillis;
 -(void)sleepMillis: (unsigned int) ms;
+-(id <SpriteRandomSource>)randomSource;
 -free;
 @end
 

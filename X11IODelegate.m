@@ -26,6 +26,7 @@
 #import <SpriteCore/X11IODelegate.h>
 #import <SpriteCore/svppm.h>
 #import <SpriteCore/spriteevent.h>
+#import <SpriteCore/StdlibRandomSource.h>
 #include <stdlib.h>
 #include <sys/time.h>
 
@@ -108,6 +109,9 @@ unsigned int inittime;
 		     ButtonPressMask | ButtonReleaseMask |
 		     PointerMotionMask | ExposureMask);
 	XkbSetDetectableAutoRepeat(dpy,True,NULL);
+	rs = [[StdlibRandomSource alloc] init];
+	[rs seed: (long)time(0)];
+	
 	return self;
 }
 
@@ -297,6 +301,10 @@ unsigned int inittime;
 	XFreeGC(dpy,gc);
 	XCloseDisplay(dpy);
 	return [super free];
+}
+-(id <SpriteRandomSource>)randomSource
+{
+	return rs;
 }
 @end
 

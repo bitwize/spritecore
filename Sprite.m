@@ -115,39 +115,19 @@ DefaultBehaviorAgent *dba;
 -(unsigned int)width {return width;}
 -(unsigned int)height {return height;}
 -(sc_vec2)size {return make_sc_vec2_fl(width,height);}
--(sc_rect2)boundingBox
+-(sc_rect)boundingBox
 {
-	sc_rect2 bb;
+	sc_rect bb;
 	bb.pos = pos;
+	bb.pos.x -= hotspot.x;
+	bb.pos.y -= hotspot.y;
 	bb.size = make_sc_vec2_fl(width,height);
 	return bb;
 }
 -(char *)keyPtr {return key;}
 
 -(int)isTouching: (Sprite *)s {
-	int step1,step2; //Intermediate x and y proximity values.
-	sc_vec2 pos2 = [s pos];
-	sc_vec2 hotspot2 = [s hotspot];
-	int x1 = pos.x - hotspot.x;
-	int y1 = pos.y - hotspot.y;
-	int x2 = pos2.x - hotspot2.x;
-	int y2 = pos2.y - hotspot2.y;
-	//Step 1: Check for horizontal proximity.
-	if(x1 <= x2) {
-		if(x2 - x1 < width) step1 = 1; else step1 = 0;
-	}
-	else {
-		if(x2 + [s width] > x1) step1 = 1; else step1 = 0;
-	}
-	//Step 2: Check for vertical proximity.
-	if(y1 <= y2) {
-		if(y2 - y1 < height) step2 = 1; else step2 = 0;
-	}
-	else {
-		if(y2 + [s height] > y1) step2 = 1; else step2 = 0;
-	}
-	//Return true if we are overlapping horizontally AND vertically.
-	return(step1 && step2);
+	return rects_intersect([self boundingBox],[s boundingBox]);
 }
 
 -(void)setAppearanceAgent: (id<SpriteAppearanceAgent>) a

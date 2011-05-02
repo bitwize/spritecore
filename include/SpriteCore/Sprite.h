@@ -190,7 +190,7 @@ struct sprite_render_data {
 
 -(char *)keyPtr;
 
--(sc_rect2)boundingBox;
+-(sc_rect)boundingBox;
 
 /*!
   Returns a Boolean value corresponding to whether the sprite's bounding

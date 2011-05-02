@@ -1,5 +1,7 @@
 /* -*- objc -*- */
-
+#ifndef __SPRITEIODELEGATE_H
+#define __SPRITEIODELEGATE_H
+#import <SpriteCore/SpriteRandomSource.h>
 /*!
   @protocol IODelegate
   The IODelegate protocol implements a lower level interface to the underlying
@@ -88,10 +90,15 @@
 
 -(void)sleepMillis: (unsigned int) ms;
 
+-(id <SpriteRandomSource>)randomSource;
+
 /*!
   Releases the SpriteIODelegate object.
 */
 
+
 -free;
 @end
 
+
+#endif
