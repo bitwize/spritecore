@@ -34,12 +34,13 @@
 - (void)refreshScreen;
 
 /*!
-  Loads a PPM file given by filename fn; converts it into a SpriteImage
-  suitable for rendering on the back buffer, and stores the data in the
-  structure pointed to by si.
+
+  Converts a memory buffer with an image in PPM format into a
+  SpriteImage suitable for rendering on the back buffer, and stores
+  the data in the structure pointed to by si.
+
 */
 
--(int)loadPPMFile: (char *)fn toImage: (SpriteImage *)si;
 -(int)convertMemPPM: (unsigned char *)ppm size: (unsigned int) sz
 	     toImage: (SpriteImage *)si;
 
@@ -91,6 +92,12 @@
 -(void)sleepMillis: (unsigned int) ms;
 
 -(id <SpriteRandomSource>)randomSource;
+
+-(BOOL)goFullScreen: (BOOL)fs;
+
+-(BOOL)isFullScreen;
+
+-(BOOL)changeScreenSizeX: (unsigned int)x Y: (unsigned int) y;
 
 /*!
   Releases the SpriteIODelegate object.

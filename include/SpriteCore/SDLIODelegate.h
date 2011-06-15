@@ -50,5 +50,8 @@
 -(id)dispatchEvents;
 -(unsigned int)getTimeMillis;
 -(void)sleepMillis: (unsigned int) ms;
+-(BOOL)goFullScreen: (BOOL)fs;
+-(BOOL)isFullScreen;
+-(BOOL)changeScreenSizeX: (unsigned int)x Y: (unsigned int)y;
 -free;
 @end

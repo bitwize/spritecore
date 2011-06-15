@@ -62,6 +62,9 @@
 -(unsigned int)getTimeMillis;
 -(void)sleepMillis: (unsigned int) ms;
 -(id <SpriteRandomSource>)randomSource;
+-(BOOL)goFullScreen: (BOOL)fs;
+-(BOOL)isFullScreen;
+-(BOOL)changeScreenSizeX: (unsigned int)x Y: (unsigned int)y;
 -free;
 @end
 

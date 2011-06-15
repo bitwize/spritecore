@@ -306,6 +306,22 @@ unsigned int inittime;
 {
 	return rs;
 }
+
+-(BOOL)goFullScreen: (BOOL)fs
+{
+	return FALSE;
+}
+
+-(BOOL)isFullScreen
+{
+	return FALSE;
+}
+
+-(BOOL)changeScreenSizeX: (int)x Y: (int) y
+{
+	return FALSE;
+}
+
 @end
 
 id createIODelegate(SpriteApp *ha,unsigned int w,unsigned int h,char *t) {
