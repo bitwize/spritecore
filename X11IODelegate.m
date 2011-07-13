@@ -309,17 +309,17 @@ unsigned int inittime;
 
 -(BOOL)goFullScreen: (BOOL)fs
 {
-	return FALSE;
+	return 0;
 }
 
 -(BOOL)isFullScreen
 {
-	return FALSE;
+	return 0;
 }
 
--(BOOL)changeScreenSizeX: (int)x Y: (int) y
+-(BOOL)changeScreenSizeX: (unsigned int)x Y: (unsigned int) y
 {
-	return FALSE;
+	return 0;
 }
 
 @end

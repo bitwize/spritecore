@@ -24,8 +24,11 @@ XINCDIR=/usr/X11R7/include
 # Specify location of your OpenGL libs and headers
 # For GLX renderer.
 
-GLLIBDIR=/usr/X11R6/lib
-GLINCDIR=/usr/X11R6/include
+GLLIBDIR=/usr/X11R7/lib
+GLINCDIR=/usr/X11R7/include
+
+GLFWLIBDIR=/home/bitwize/glfw-2.7/lib/x11
+GLFWINCDIR=/home/bitwize/glfw-2.7/include
 
 # Specify location of your SDL libs and headers
 # For SDL renderer.
@@ -56,5 +59,5 @@ PLATFORM=linux
 
 
 # Set to the renderer you want (currently available: sdl,x11)
-RENDERER=x11
+RENDERER=glfw
 

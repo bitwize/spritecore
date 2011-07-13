@@ -7,7 +7,11 @@
 
 @interface GLFWIODelegate : Object <SpriteIODelegate>
 {
-	
+	SpriteApp *host;
+	SpriteImage back;
+	SpriteImage buf;
+	id <SpriteRandomSource> rs;
+	GLuint tex;
 }
 - (GLFWIODelegate *)initForHost: (SpriteApp *)ha
 			 width: (unsigned int)w 
