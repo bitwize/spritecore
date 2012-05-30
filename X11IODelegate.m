@@ -300,6 +300,7 @@ unsigned int inittime;
 	XDestroyImage(IMAGE(buf.img));
 	XFreeGC(dpy,gc);
 	XCloseDisplay(dpy);
+	[rs free];
 	return [super free];
 }
 -(id <SpriteRandomSource>)randomSource

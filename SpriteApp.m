@@ -27,6 +27,9 @@
 #import <SpriteCore/DefaultAgents.h>
 #import <SpriteCore/StderrLogger.h>
 #import <SpriteCore/TestIODelegate.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 #include <malloc.h>
 
 DefaultEventAgent *dea;
@@ -228,7 +231,20 @@ DefaultEventAgent *dea;
 }
 
 -(int)loadPPMFile: (char *)fn toImage: (SpriteImage *)si {
-	return [io_del loadPPMFile: fn toImage: si];
+	FILE *fp;
+	unsigned char *ppmbuf;
+	struct stat st;
+	int i;
+	stat(fn,&st);
+	fp = fopen(fn,"r");
+	if(!fp) {
+		return -1;
+	}
+	ppmbuf = (unsigned char *)malloc(st.st_size);
+	fgets(ppmbuf,st.st_size,fp);	
+	i = [io_del convertMemPPM: ppmbuf size: st.st_size toImage: si];
+	free(ppmbuf);
+	return i;
 }
 
 -(SpriteImage *)createImageWidth: (unsigned int) w

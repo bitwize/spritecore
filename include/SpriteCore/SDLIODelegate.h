@@ -26,7 +26,7 @@
 #include <SDL/SDL.h>
 #import <SpriteCore/SpriteApp.h>
 
-@interface SDLIODelegate : Object <SpriteIODelegate> {
+@interface SDLIODelegate : SCObject <SpriteIODelegate> {
 	SpriteApp *host;
 	SpriteImage back;
 	SpriteImage buf;

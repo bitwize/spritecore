@@ -26,6 +26,7 @@
 #import <SpriteCore/SpriteApp.h>
 #import <SpriteCore/DefaultAgents.h>
 #include <SpriteCore/svec.h>
+#include <objc/runtime.h>
 
 @implementation DefaultAppearanceAgent
 -(void)renderSprite: (Sprite *)s on: (SpriteImage *)si
@@ -96,7 +97,8 @@
 
 -(void)act: (Sprite *)s
 {
-	[s perform: _sel];
+	void (*impl)() = (void (*)())(class_getMethodImplementation([s class],_sel));
+	impl();
 }
 
 @end

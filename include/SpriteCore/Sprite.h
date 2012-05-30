@@ -31,7 +31,7 @@
 #ifndef __SPRITE_H
 #define __SPRITE_H
 
-#import <objc/Object.h>
+#import <SpriteCore/SCObject.h>
 
 #import <SpriteCore/SpriteApp.h>
 #include <SpriteCore/svec.h>

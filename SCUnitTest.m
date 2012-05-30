@@ -1,5 +1,6 @@
 #include <SpriteCore/SCUnitTest.h>
-#include <objc/objc-api.h>
+#include <objc/runtime.h>
+#include <stdio.h>
 
 @implementation SCUnitTest
 
@@ -16,9 +17,10 @@
 -(BOOL)runTest: (SEL)aSel
 {
 	BOOL b;
+	BOOL (*impl)() = (BOOL (*)())(class_getMethodImplementation([self class],aSel));
 
 	[self setUp];
-	b = ([self perform: aSel] != 0);
+	b = (impl() != 0);
 	[self tearDown];
 
 	if(b)
@@ -31,12 +33,12 @@
 
 -(void)pass: (SEL)aSel
 {
-	printf("%s passed\n",sel_get_name(aSel));
+	printf("%s passed\n",sel_getName(aSel));
 }
 
 -(void)fail: (SEL)aSel
 {
-	printf("%s failed\n",sel_get_name(aSel));
+	printf("%s failed\n",sel_getName(aSel));
 }
 
 -(void)test

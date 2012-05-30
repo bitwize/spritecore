@@ -30,14 +30,14 @@
 #include <X11/Xutil.h>
 #import <SpriteCore/SpriteApp.h>
 
-@interface X11IODelegate : Object <SpriteIODelegate> {
+@interface X11IODelegate : SCObject <SpriteIODelegate> {
 	SpriteApp *host;
 	SpriteImage back;
 	SpriteImage buf;
 	Display *dpy;
 	Window win;
 	GC gc;
-	id <SpriteRandomSource> rs;
+	SCObject <SpriteRandomSource> *rs;
 }
 
 - (X11IODelegate *)initForHost: (SpriteApp *)ha

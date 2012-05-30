@@ -1,6 +1,7 @@
 #import <SpriteCore/DevUrandomSource.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <stdio.h>
 
 @implementation DevUrandomSource
 

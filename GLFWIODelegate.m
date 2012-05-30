@@ -4,6 +4,8 @@
 #import <SpriteCore/svppm.h>
 
 #include <stdlib.h>
+#include <stdio.h>
+
 static int glfw_inited;
 static SpriteApp *globalHost;
 

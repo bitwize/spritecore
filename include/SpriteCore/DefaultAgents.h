@@ -28,14 +28,14 @@
 #include <SpriteCore/spriteimage.h>
 @class SpriteApp;
 @class Sprite;
-@interface DefaultAppearanceAgent : Object <SpriteAppearanceAgent>
+@interface DefaultAppearanceAgent : SCObject <SpriteAppearanceAgent>
 {
   
 }
 -(void)renderSprite: (Sprite *)s on: (SpriteImage *)si;
 @end
 
-@interface WrapperAppearanceAgent : Object <SpriteAppearanceAgent>
+@interface WrapperAppearanceAgent : SCObject <SpriteAppearanceAgent>
 {
   void (*func)(Sprite *,SpriteImage *);
 }
@@ -43,21 +43,21 @@
 -(void)renderSprite: (Sprite *)s on: (SpriteImage *)si;
 @end
 
-@interface DefaultBehaviorAgent : Object <SpriteBehaviorAgent>
+@interface DefaultBehaviorAgent : SCObject <SpriteBehaviorAgent>
 {
 
 }
 -(void)act: (Sprite *)s;
 @end
 
-@interface WrapperBehaviorAgent : Object <SpriteBehaviorAgent>
+@interface WrapperBehaviorAgent : SCObject <SpriteBehaviorAgent>
 {
   void (*func)(Sprite *);
 }
 -(WrapperBehaviorAgent *)initWrappingBehavior: (void (*)(Sprite *)) f;
 -(void)act: (Sprite *)s;
 @end
-@interface SelectorBehaviorAgent : Object <SpriteBehaviorAgent>
+@interface SelectorBehaviorAgent : SCObject <SpriteBehaviorAgent>
 {
 	SEL _sel;
 }
@@ -65,7 +65,7 @@
 -(void)act: (Sprite *)s;
 @end
 
-@interface SequenceBehaviorAgent : Object <SpriteBehaviorAgent>
+@interface SequenceBehaviorAgent : SCObject <SpriteBehaviorAgent>
 {
   id <SpriteBehaviorAgent> agent1;
   id <SpriteBehaviorAgent> agent2;
@@ -75,14 +75,14 @@
 -(void)act: (Sprite *)s;
 @end
 
-@interface DefaultEventAgent : Object <SpriteEventAgent>
+@interface DefaultEventAgent : SCObject <SpriteEventAgent>
 {
 
 }
 -(void)handleEvent: (SpriteEvent *)e forApp: (SpriteApp *) a;
 @end
 
-@interface WrapperEventAgent : Object <SpriteEventAgent>
+@interface WrapperEventAgent : SCObject <SpriteEventAgent>
 {
   void (*handler)(SpriteEvent *,SpriteApp *);
 }

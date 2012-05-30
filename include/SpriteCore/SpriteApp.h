@@ -30,7 +30,7 @@
 #ifndef __SPRITEAPP_H
 #define __SPRITEAPP_H
 
-#import <objc/Object.h>
+#import <SpriteCore/SCObject.h>
 #import <SpriteCore/spriteimage.h>
 #import <SpriteCore/spriteevent.h>
 #import <SpriteCore/SpriteAgent.h>
@@ -50,7 +50,7 @@
   written to the screen in a conventional double-buffer setup.
 */
 
-@interface SpriteApp : Object {
+@interface SpriteApp : SCObject {
 	SpriteNode *first;
 	SpriteNode *deleted;
 	char *title;

@@ -2,9 +2,9 @@
 #ifndef __XKCDRANDOMSOURCE_H
 #define __XKCDRANDOMSOURCE_H
 #import <SpriteCore/SpriteRandomSource.h>
-#import <objc/Object.h>
+#import <SpriteCore/SCObject.h>
 
-@interface XKCDRandomSource : Object <SpriteRandomSource>
+@interface XKCDRandomSource : SCObject <SpriteRandomSource>
 {
 	
 }

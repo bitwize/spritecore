@@ -5,7 +5,7 @@
 #import <GL/glfw.h>
 #import <SpriteCore/SpriteApp.h>
 
-@interface GLFWIODelegate : Object <SpriteIODelegate>
+@interface GLFWIODelegate : SCObject <SpriteIODelegate>
 {
 	SpriteApp *host;
 	SpriteImage back;

@@ -15,7 +15,7 @@ struct SpriteCollisionNode;
 -(void)collideWith: (SpriteNode *)s;
 @end
 
-@interface SpriteCollisionList : Object
+@interface SpriteCollisionList : SCObject
 {
 	struct SpriteCollisionNode *head;
 	int (*collision_check)(SpriteNode *,SpriteNode *);

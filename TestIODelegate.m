@@ -25,6 +25,8 @@
 #import <SpriteCore/SpriteApp.h>
 #import <SpriteCore/TestIODelegate.h>
 #import <SpriteCore/svppm.h>
+#import <SpriteCore/StdlibRandomSource.h>
+#include <stdio.h>
 #include <stdlib.h>
 @implementation TestIODelegate
 
@@ -64,6 +66,10 @@
 	}
 	q_start = 0;
 	q_end = 0;
+	rs = [[StdlibRandomSource alloc] init];
+	[rs seed: (long)0];
+
+
 	return self;
 
 }
@@ -163,8 +169,30 @@
 -free {
 	[self destroyImage: &back];
 	[self destroyImage: &buf];
+	[rs free];
 	return [super free];
 }
+
+-(BOOL)goFullScreen: (BOOL)fs
+{
+	return 0;
+}
+
+-(BOOL)isFullScreen
+{
+	return 0;
+}
+
+-(BOOL)changeScreenSizeX: (unsigned int)x Y: (unsigned int) y
+{
+	return 0;
+}
+
+-(id <SpriteRandomSource>)randomSource
+{
+	return rs;
+}
+
 @end
 
 #ifdef __TESTIODEL_PRIMARY 

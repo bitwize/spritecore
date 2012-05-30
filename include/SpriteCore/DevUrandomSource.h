@@ -1,9 +1,9 @@
 #ifndef __DEVURANDOMSOURCE_H
 #define __DEVURANDOMSOURCE_H
 #import <SpriteCore/SpriteRandomSource.h>
-#import <objc/Object.h>
+#import <SpriteCore/SCObject.h>
 
-@interface DevUrandomSource : Object <SpriteRandomSource>
+@interface DevUrandomSource : SCObject <SpriteRandomSource>
 {
 	int _durFd;
 }

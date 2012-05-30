@@ -22,12 +22,12 @@
  */
 
 #import <SpriteCore/SpriteLogger.h>
-#import <objc/Object.h>
+#import <SpriteCore/SCObject.h>
 #include <stdio.h>
 #include <stdarg.h>
 
 
-@interface StderrLogger  : Object <SpriteLogger>
+@interface StderrLogger  : SCObject <SpriteLogger>
 {
 
 }

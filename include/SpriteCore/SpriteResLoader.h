@@ -25,7 +25,7 @@
 #ifndef __SPRITERESLOADER_H
 #define __SPRITERESLOADER_H
 #import <SpriteCore/SpriteApp.h>
-@interface SpriteResLoader : Object
+@interface SpriteResLoader : SCObject
 {
 	char *name;
 	SpriteApp *parent;

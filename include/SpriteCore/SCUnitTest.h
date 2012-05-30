@@ -1,5 +1,5 @@
 /* -*- objc -*- */
-#include <objc/Object.h>
+#include <SpriteCore/SCObject.h>
 
 #define SC_FLOAT_EQ(f1,f2) ((f2 - f1) < 0.001 && (f2 - f1) > -0.001)
 

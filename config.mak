@@ -27,8 +27,8 @@ XINCDIR=/usr/X11R7/include
 GLLIBDIR=/usr/X11R7/lib
 GLINCDIR=/usr/X11R7/include
 
-GLFWLIBDIR=/home/bitwize/glfw-2.7/lib/x11
-GLFWINCDIR=/home/bitwize/glfw-2.7/include
+GLFWLIBDIR=/usr/lib
+GLFWINCDIR=/usr/include
 
 # Specify location of your SDL libs and headers
 # For SDL renderer.

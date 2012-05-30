@@ -27,7 +27,7 @@
 
 #import <SpriteCore/SpriteApp.h>
 
-@interface SpriteNode : Object {
+@interface SpriteNode : SCObject {
 	SpriteNode *next;
 	SpriteNode *prev;
 	SpriteApp *host;

@@ -2,9 +2,9 @@
 #define __STDLIBRANDOMSOURCE_H
 
 #import <SpriteCore/SpriteRandomSource.h>
-#import <objc/Object.h>
+#import <SpriteCore/SCObject.h>
 
-@interface StdlibRandomSource : Object <SpriteRandomSource>
+@interface StdlibRandomSource : SCObject <SpriteRandomSource>
 {
 
 }
