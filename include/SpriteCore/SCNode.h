@@ -27,9 +27,9 @@
 
 #import <SpriteCore/SpriteApp.h>
 
-@interface SpriteNode : SCObject {
-	SpriteNode *next;
-	SpriteNode *prev;
+@interface SCNode : SCObject {
+	SCNode *next;
+	SCNode *prev;
 	SpriteApp *host;
 }
 -(id)initOn: (SpriteApp *)h;
@@ -37,13 +37,13 @@
   Returns the next node after this one in the node list.
 */
 
--(SpriteNode *)next;
+-(SCNode *)next;
 
 /*!
   Returns the previous node in the node list.
 */
 
--(SpriteNode *)prev;
+-(SCNode *)prev;
 
 /*!
   Returns the host SpriteApp of which this node is a client.
@@ -54,12 +54,12 @@
 /*! Sets the next node in the list to the node t. Used only by SpriteApp
   methods to maintain the list. Don't use it yourself! */
 
--(SpriteNode *)setNext:(SpriteNode *)t;
+-(SCNode *)setNext:(SCNode *)t;
 
 /*! Sets the previous node in the list to the node t. Used only by
   SpriteApp methods to maintain the list. Don't use it yourself! */
 
--(SpriteNode *)setPrev:(SpriteNode *)t;
+-(SCNode *)setPrev:(SCNode *)t;
 
 /*! Sets the host SpriteApp for this node to t. Used only by SpriteApp.
   Don't use it! */
@@ -70,7 +70,7 @@
 /*! Instructs the node to move behind the node s. Of course it only sends
   -place:behind: to the node's host SpriteApp. */
 
--(void)goBehind: (SpriteNode *)s;
+-(void)goBehind: (SCNode *)s;
 
 -(void)render;
 

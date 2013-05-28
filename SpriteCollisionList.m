@@ -2,7 +2,7 @@
 
 struct SpriteCollisionNode
 {
-	SpriteNode<HandlesCollisions> *spr;
+	SCNode<HandlesCollisions> *spr;
 	struct SpriteCollisionNode *next;
 };
 
@@ -13,7 +13,7 @@ struct SpriteCollisionNode
 	head = NULL;
 	return self;
 }
--(void)add: (SpriteNode <HandlesCollisions> *)s
+-(void)add: (SCNode <HandlesCollisions> *)s
 {
 	struct SpriteCollisionNode *n = head;
 	head = (struct SpriteCollisionNode *)
@@ -25,7 +25,7 @@ struct SpriteCollisionNode
 	head->spr = s;
 	head->next = n;
 }
--(void)remove: (SpriteNode <HandlesCollisions> *)s
+-(void)remove: (SCNode <HandlesCollisions> *)s
 {
 	struct SpriteCollisionNode *n;
 	struct SpriteCollisionNode *n2;
@@ -77,7 +77,7 @@ struct SpriteCollisionNode
 	}
 }
 
--(void)setCollisionChecker: (int (*)(SpriteNode *,SpriteNode *)) f
+-(void)setCollisionChecker: (int (*)(SCNode *,SCNode *)) f
 {
 	collision_check = f;
 }

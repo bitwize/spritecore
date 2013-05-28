@@ -35,7 +35,7 @@
 
 #import <SpriteCore/SpriteApp.h>
 #include <SpriteCore/svec.h>
-#import <SpriteCore/SpriteNode.h>
+#import <SpriteCore/SCNode.h>
 #import <SpriteCore/SpriteAgent.h>
 struct sprite_render_data {
 	SpriteImage *simg;
@@ -56,7 +56,7 @@ struct sprite_render_data {
   processing.
 */
 
-@interface Sprite : SpriteNode {
+@interface Sprite : SCNode {
 	SpriteImage *simg;
 	unsigned int frame;
 	unsigned int maxframes;

@@ -2,7 +2,7 @@
 
 #ifndef __SPRITECOLLISIONNODE_H
 #define __SPRITECOLLISIONNODE_H
-#import <SpriteCore/SpriteNode.h>
+#import <SpriteCore/SCNode.h>
 
 /*
  * The SpriteCollisionList class represents a list of sprites which
@@ -12,20 +12,20 @@
 struct SpriteCollisionNode;
 
 @protocol HandlesCollisions
--(void)collideWith: (SpriteNode *)s;
+-(void)collideWith: (SCNode *)s;
 @end
 
 @interface SpriteCollisionList : SCObject
 {
 	struct SpriteCollisionNode *head;
-	int (*collision_check)(SpriteNode *,SpriteNode *);
+	int (*collision_check)(SCNode *,SCNode *);
 }
 
--(void)add: (SpriteNode <HandlesCollisions> *)s;
--(void)remove: (SpriteNode <HandlesCollisions> *)s;
+-(void)add: (SCNode <HandlesCollisions> *)s;
+-(void)remove: (SCNode <HandlesCollisions> *)s;
 -(void)removeAll;
 -(void)handleCollisions;
--(void)setCollisionChecker: (int (*)(SpriteNode *,SpriteNode *)) f;
+-(void)setCollisionChecker: (int (*)(SCNode *,SCNode *)) f;
 
 @end
 

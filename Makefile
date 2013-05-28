@@ -2,8 +2,8 @@ include ./config.mak
 include ./rend-$(RENDERER).mak
 
 
-SOURCES=SCObject.m SpriteApp.m SpriteNode.m Sprite.m DefaultAgents.m SpriteResLoader.m SpriteCollisionList.m TestIODelegate.m SCUnitTest.m XKCDRandomSource.m DevUrandomSource.m StdlibRandomSource.m $(IODEL_CLASS).m spriteimage.c svec.c svppm.c matfunc.c StderrLogger.c
-OBJECTS=SCObject.o SpriteApp.o SpriteNode.o Sprite.o DefaultAgents.o SpriteResLoader.o SpriteCollisionList.o TestIODelegate.o SCUnitTest.o XKCDRandomSource.o DevUrandomSource.o StdlibRandomSource.o $(IODEL_CLASS).o spriteimage.o svec.o svppm.o matfunc.o StderrLogger.o
+SOURCES=SCObject.m SpriteApp.m SCNode.m Sprite.m DefaultAgents.m SpriteResLoader.m SpriteCollisionList.m TestIODelegate.m SCUnitTest.m XKCDRandomSource.m DevUrandomSource.m StdlibRandomSource.m $(IODEL_CLASS).m spriteimage.c svec.c svppm.c matfunc.c StderrLogger.c
+OBJECTS=SCObject.o SpriteApp.o SCNode.o Sprite.o DefaultAgents.o SpriteResLoader.o SpriteCollisionList.o TestIODelegate.o SCUnitTest.o XKCDRandomSource.o DevUrandomSource.o StdlibRandomSource.o $(IODEL_CLASS).o spriteimage.o svec.o svppm.o matfunc.o StderrLogger.o
 TOOLDIR=.
 
 .SUFFIXES: .m

@@ -36,7 +36,7 @@
 #import <SpriteCore/SpriteAgent.h>
 #import <SpriteCore/DefaultAgents.h>
 #import <SpriteCore/SpriteLogger.h>
-@class SpriteNode;
+@class SCNode;
 @class SpriteResLoader;
 #import <SpriteCore/SpriteIODelegate.h>
 
@@ -51,8 +51,8 @@
 */
 
 @interface SpriteApp : SCObject {
-	SpriteNode *first;
-	SpriteNode *deleted;
+	SCNode *first;
+	SCNode *deleted;
 	char *title;
 	unsigned int width,height;
 	unsigned int clock;
@@ -108,28 +108,28 @@
   Returns the SpriteApp's first sprite.
 */
 
--(SpriteNode *)first;
+-(SCNode *)first;
 
 /*!
   @method last
   Returns the SpriteApp's last sprite.
 */
 
--(SpriteNode *)last;
+-(SCNode *)last;
 
 /*!
   @method add:
   Adds a sprite, newone, to the sprite list, and returns it.
 */
 
--(SpriteNode *)add: (SpriteNode *)newone;
+-(SCNode *)add: (SCNode *)newone;
 
 /*!
   @method remove:
   Removes a sprite, oldone, from the sprite list, and returns it.
 */
 
--(SpriteNode *)remove: (SpriteNode *)oldone;
+-(SCNode *)remove: (SCNode *)oldone;
 
 /*!
   @method delete:
@@ -137,7 +137,7 @@
   list. Returns the sprite.
 */
 
--(SpriteNode *)delete: (SpriteNode *)oldone;
+-(SCNode *)delete: (SCNode *)oldone;
 
 /*!
   @method place:behind:
@@ -148,7 +148,7 @@
   Returns aSprite.
 */
 
--(SpriteNode *)place: (SpriteNode *)aSprite behind: (SpriteNode *)anotherSprite;
+-(SCNode *)place: (SCNode *)aSprite behind: (SCNode *)anotherSprite;
 
 /*!
   @method addDeleted:
@@ -157,7 +157,7 @@
 */
 
 
--(SpriteNode *)addDeleted: (SpriteNode *)newone;
+-(SCNode *)addDeleted: (SCNode *)newone;
 
 /*!
   @method freeDeleted

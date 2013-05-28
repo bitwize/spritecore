@@ -22,7 +22,7 @@
  */
 
 #import <SpriteCore/SpriteApp.h>
-#import <SpriteCore/SpriteNode.h>
+#import <SpriteCore/SCNode.h>
 #import <SpriteCore/SpriteResLoader.h>
 #import <SpriteCore/DefaultAgents.h>
 #import <SpriteCore/StderrLogger.h>
@@ -77,12 +77,12 @@ DefaultEventAgent *dea;
 }
 
 
--(SpriteNode *)first {
+-(SCNode *)first {
 	return first;
 }
 
--(SpriteNode *)last {
-	SpriteNode *i,*j;
+-(SCNode *)last {
+	SCNode *i,*j;
 	i = first;
 	if(i == nil) {return i;}
 	while((j=[i next]) != nil) {
@@ -92,8 +92,8 @@ DefaultEventAgent *dea;
 
 }
 
--(SpriteNode *)add: (SpriteNode *)newone {
-	SpriteNode *r = [self last];
+-(SCNode *)add: (SCNode *)newone {
+	SCNode *r = [self last];
 	if(r == nil) {
 		first = newone;
 		[newone setPrev: nil];
@@ -111,8 +111,8 @@ DefaultEventAgent *dea;
 
 }
 
--(SpriteNode *)remove: (SpriteNode *)oldone {
-	SpriteNode *n,*p;
+-(SCNode *)remove: (SCNode *)oldone {
+	SCNode *n,*p;
 	if([oldone host] != self) {
 		return nil;
 	}
@@ -130,12 +130,12 @@ DefaultEventAgent *dea;
 
 }
 
--(SpriteNode *)delete: (SpriteNode *)oldone {
+-(SCNode *)delete: (SCNode *)oldone {
 	[self remove: oldone]; [self addDeleted: oldone]; return oldone;
 }
 
--(SpriteNode *)place: (SpriteNode *) aSprite behind: (SpriteNode *)anotherSprite {
-	SpriteNode *b;
+-(SCNode *)place: (SCNode *) aSprite behind: (SCNode *)anotherSprite {
+	SCNode *b;
 	[self remove: aSprite];
 	if(anotherSprite == nil) {
 		[self add: aSprite];
@@ -155,12 +155,12 @@ DefaultEventAgent *dea;
 	return aSprite;
 }
 
--(SpriteNode *)addDeleted: (SpriteNode *)newone {
+-(SCNode *)addDeleted: (SCNode *)newone {
 	[newone setPrev: nil]; [newone setNext: deleted]; deleted=newone; return newone;
 }
 
 -(void)freeClients {
-	SpriteNode *i,*j;
+	SCNode *i,*j;
 	i = first;
 	while(i != nil) {
 		j=[i next];
@@ -173,7 +173,7 @@ DefaultEventAgent *dea;
 
 
 -(void)freeDeleted {
-	SpriteNode *i,*j;
+	SCNode *i,*j;
 	i = deleted;
 	while(i != nil) {
 		j=[i next];
@@ -185,7 +185,7 @@ DefaultEventAgent *dea;
 }
 
 -(void)step {
-	SpriteNode *i,*j;
+	SCNode *i,*j;
 	i = first;
 	[io_del dispatchEvents];
 	oldclock += 20;
@@ -199,7 +199,7 @@ DefaultEventAgent *dea;
 
 -(void)updateDisplay
 {
-	SpriteNode *i;
+	SCNode *i;
 	i = first;
 	[io_del lockAndClearBuf];
 	while(i != nil) {

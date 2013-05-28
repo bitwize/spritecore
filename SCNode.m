@@ -21,19 +21,19 @@
  *
  */
 
-#import <SpriteCore/SpriteNode.h>
+#import <SpriteCore/SCNode.h>
 
-@implementation SpriteNode
+@implementation SCNode
 -(id)initOn: (SpriteApp *)h {
 	self = [super init];
 	[h add: self];
 	return self;
 }
--(SpriteNode *)next {
+-(SCNode *)next {
 	return next;
 }
 
--(SpriteNode *)prev {
+-(SCNode *)prev {
 	return prev;
 }
 
@@ -41,11 +41,11 @@
 	return host;
 }
 
--(SpriteNode *)setNext:(SpriteNode *)t {
+-(SCNode *)setNext:(SCNode *)t {
 	next=t; return t;
 }
 
--(SpriteNode *)setPrev:(SpriteNode *)t {
+-(SCNode *)setPrev:(SCNode *)t {
 	prev=t; return t;
 }
 
@@ -53,7 +53,7 @@
 	host=t; return t;
 }
 
--(void)goBehind: (SpriteNode *)s {
+-(void)goBehind: (SCNode *)s {
 	[host place: self behind: s];
 }
 

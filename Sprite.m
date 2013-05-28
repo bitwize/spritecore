@@ -22,7 +22,7 @@
  */
 
 #include <stdlib.h>
-#import <SpriteCore/SpriteNode.h>
+#import <SpriteCore/SCNode.h>
 #import <SpriteCore/Sprite.h>
 #import <SpriteCore/DefaultAgents.h>
 
