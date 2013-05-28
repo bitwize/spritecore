@@ -46,9 +46,9 @@
 #define GRN32(x) (x << 8)
 #define BLU32(x) (x)
 
-unsigned char *ppm_next_line(unsigned char *p,size_t s)
+uint8_t *ppm_next_line(uint8_t *p,size_t s)
 {
-	unsigned char *ep = p + s - 1;
+	uint8_t *ep = p + s - 1;
 	while(*p != '\n' || *(p+1) == '#') {
 		p++;
 		if(p >= ep) {return NULL;}
@@ -56,7 +56,7 @@ unsigned char *ppm_next_line(unsigned char *p,size_t s)
 	return (p+1);
 }
 
-void ReadPpmAsRgba(char *ppmname,int *wret,int *hret,unsigned char **rgbret)
+void ReadPpmAsRgba(char *ppmname,int *wret,int *hret,uint8_t **rgbret)
 {
 	FILE *fp;
 	char *ppmbuf,*p,*r;
@@ -90,7 +90,7 @@ void ReadPpmAsRgba(char *ppmname,int *wret,int *hret,unsigned char **rgbret)
 	fread(ppmbuf,3,cx*cy,fp);
 	p = ppmbuf;
 	r = (char *)malloc(cx * cy * 4);
-	*rgbret = (unsigned char *)r;
+	*rgbret = (uint8_t *)r;
 	for(i=0;i < cx * cy;i++) {
 		*r = *p;
 		r++; p++;
@@ -106,7 +106,7 @@ void ReadPpmAsRgba(char *ppmname,int *wret,int *hret,unsigned char **rgbret)
 }
 
 
-void ReadPpmAsRgb(char *ppmname,int *wret,int *hret,unsigned char **rgbret)
+void ReadPpmAsRgb(char *ppmname,int *wret,int *hret,uint8_t **rgbret)
 {
 	FILE *fp;
 	char *ppmbuf,*p,*r;
@@ -140,7 +140,7 @@ void ReadPpmAsRgb(char *ppmname,int *wret,int *hret,unsigned char **rgbret)
 	fread(ppmbuf,3,cx*cy,fp);
 	p = ppmbuf;
 	r = (char *)malloc(cx * cy * 3);
-	*rgbret = (unsigned char *)r;
+	*rgbret = (uint8_t *)r;
 	for(i=0;i < cx * cy;i++) {
 		*r = *p;
 		r++; p++;
@@ -153,10 +153,10 @@ void ReadPpmAsRgb(char *ppmname,int *wret,int *hret,unsigned char **rgbret)
 	free(ppmbuf);
 }
 
-void ReadPpmRgbFromMemory(unsigned char *data,size_t sz,int *wret,int *hret,
-			  unsigned char **imgret)
+void ReadPpmRgbFromMemory(uint8_t *data,size_t sz,int *wret,int *hret,
+			  uint8_t **imgret)
 {
-	unsigned char *data2,*r,*p;
+	uint8_t *data2,*r,*p;
 	int clr,cx,cy,i,t;
 	if(!data) {
 	error:
@@ -183,8 +183,8 @@ void ReadPpmRgbFromMemory(unsigned char *data,size_t sz,int *wret,int *hret,
 	if(data2 == NULL) goto error;
 	sz -= (data2 - data);
 	p = data2;
-	r = (unsigned char *)malloc(cx * cy * 3);
-	*imgret = (unsigned char *)r;
+	r = (uint8_t *)malloc(cx * cy * 3);
+	*imgret = (uint8_t *)r;
 	for(i=0;i < sz;i++) {
 		*r = *p;
 		r++; p++;
@@ -192,9 +192,9 @@ void ReadPpmRgbFromMemory(unsigned char *data,size_t sz,int *wret,int *hret,
 }
 
 void ReadPpmRgbConverted(char *ppmname,int *wret,int *hret,
-			 unsigned char **imgret,int bpp)
+			 uint8_t **imgret,int bpp)
 {
-	unsigned char *rgb;
+	uint8_t *rgb;
 	int cx,cy;
 	ReadPpmAsRgb(ppmname,wret,hret,&rgb);
 	cx = *wret;
@@ -203,11 +203,11 @@ void ReadPpmRgbConverted(char *ppmname,int *wret,int *hret,
 	free(rgb);
 }
 
-void ReadPpmRgbFromMemoryConverted(unsigned char *data,size_t sz,
+void ReadPpmRgbFromMemoryConverted(uint8_t *data,size_t sz,
 				   int *wret,int *hret,
-				   unsigned char **imgret,int bpp)
+				   uint8_t **imgret,int bpp)
 {
-	unsigned char *rgb;
+	uint8_t *rgb;
 	int cx,cy;
 	ReadPpmRgbFromMemory(data,sz,wret,hret,&rgb);
 	cx = *wret;
@@ -216,19 +216,19 @@ void ReadPpmRgbFromMemoryConverted(unsigned char *data,size_t sz,
 	free(rgb);
 }
 
-unsigned char *ConvertBpp(unsigned char *rgb,int cx,int cy,int bpp)
+uint8_t *ConvertBpp(uint8_t *rgb,int cx,int cy,int bpp)
 {
-	unsigned char *image;
-	unsigned short *image2;
-	unsigned int *image4;
+	uint8_t *image;
+	uint16_t *image2;
+	uint32_t *image4;
 	int i;
 	if(bpp!=8 && bpp!=15 && bpp!=16 && bpp!=24 && bpp!=32) {
 		return NULL;
 	}
-	image = (unsigned char *)malloc(cx * cy * ((bpp+7)/8));
+	image = (uint8_t *)malloc(cx * cy * ((bpp+7)/8));
 	if(!image) return image;
-	image2 = (unsigned short *)image;
-	image4 = (unsigned long *)image;
+	image2 = (uint16_t *)image;
+	image4 = (uint32_t *)image;
 	for(i=0;i<cx*cy;i++) {
 		switch(bpp) {
 		case 8:

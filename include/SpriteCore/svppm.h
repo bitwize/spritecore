@@ -1,3 +1,5 @@
+#ifndef __SVPPM_H
+#define __SVPPM_H
 /*
  *  Copyright 1995-2008 Jeffrey T. Read
  *
@@ -21,11 +23,14 @@
  *
  */
 
+#include <stdint.h>
 
-void ReadPpmAsRgba(char *,int *,int *,unsigned char **);
-void ReadPpmAsRgb(char *,int *,int *,unsigned char **);
-void ReadPpmRgbConverted(char *ppmname,int *wret,int *hret,unsigned char **imgret,int bpp);
-void ReadPpmRgbFromMemory(unsigned char *data,size_t sz,int *wret,int *hret,unsigned char **imgret);
-void ReadPpmRgbFromMemoryConverted(unsigned char *data,size_t sz,int *wret,int *hret,unsigned char **imgret,int bpp);
-unsigned char *
-ConvertBpp(unsigned char *rgb,int cx,int cy,int bpp);
+void ReadPpmAsRgba(char *,int *,int *,uint8_t **);
+void ReadPpmAsRgb(char *,int *,int *,uint8_t **);
+void ReadPpmRgbConverted(char *ppmname,int *wret,int *hret,uint8_t **imgret,int bpp);
+void ReadPpmRgbFromMemory(uint8_t *data,size_t sz,int *wret,int *hret,uint8_t **imgret);
+void ReadPpmRgbFromMemoryConverted(uint8_t *data,size_t sz,int *wret,int *hret,uint8_t **imgret,int bpp);
+uint8_t *
+ConvertBpp(uint8_t *rgb,int cx,int cy,int bpp);
+#endif
+
