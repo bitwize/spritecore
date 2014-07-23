@@ -37,6 +37,8 @@
 #include <SpriteCore/svec.h>
 #import <SpriteCore/SCNode.h>
 #import <SpriteCore/SpriteAgent.h>
+#import <SpriteCore/SCEntity.h>
+
 struct sprite_render_data {
 	SpriteImage *simg;
 	sc_vec2 pos;
@@ -56,7 +58,7 @@ struct sprite_render_data {
   processing.
 */
 
-@interface Sprite : SCNode {
+@interface Sprite : SCNode <SCEntity> {
 	SpriteImage *simg;
 	unsigned int frame;
 	unsigned int maxframes;

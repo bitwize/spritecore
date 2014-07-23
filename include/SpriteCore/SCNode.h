@@ -72,10 +72,7 @@
 
 -(void)goBehind: (SCNode *)s;
 
--(void)render;
-
 -free;
--(void)step;
 
 @end
 

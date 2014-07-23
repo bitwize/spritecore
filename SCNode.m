@@ -57,11 +57,6 @@
 	[host place: self behind: s];
 }
 
--(void)step {
-}
--(void)render {
-}
-
 -free {
 	return [super free];
 }
