@@ -1,13 +1,10 @@
 
-#ifndef __SPRITEELEMENT_H
-#define __SPRITEELEMENT_H
+#ifndef __SCENTITY_H
+#define __SCENTITY_H
 
 @class SpriteNode;
-@protocol SpriteElement
+@protocol SCEntity
 -(void)step;
--(void)renderToApp: (SpriteApp *)a;
--(SpriteNode *)node;
--(SpriteApp *)host;
 @end
 
 #endif
